@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 和我约会嘛？🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink-50: #FFF0F3;
+  --pink-100: #FFE4E8;
+  --pink-200: #FFCDD5;
+  --pink-300: #FFB7C5;
+  --pink-400: #FF9DB0;
+  --pink-500: #FF7B94;
+  --pink-600: #FF5C7A;
+  --pink-700: #E91E63;
+  --rose-gold: #E8B4B8;
+  --warm-white: #FFF9FA;
+  --text-dark: #4A3B40;
+  --text-medium: #7A6B70;
+  --shadow-pink: rgba(255, 183, 197, 0.35);
+  --shadow-soft: rgba(0, 0, 0, 0.06);
+  --gradient-bg: linear-gradient(135deg, #FFE4E8 0%, #FFF5F7 50%, #FCE4EC 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow-x: hidden; }
+body {
+  font-family: 'Noto Sans SC', 'Comfortaa', sans-serif;
+  background: var(--gradient-bg);
+  color: var(--text-dark);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 20px; position: relative;
+}
+
+.bg-decoration {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.petal {
+  position: absolute; font-size: 20px; opacity: 0.25;
+  animation: petalFloat 15s infinite linear;
+}
+.petal:nth-child(1) { left: 5%; animation-delay: 0s; font-size: 24px; }
+.petal:nth-child(2) { left: 15%; animation-delay: 2s; font-size: 18px; }
+.petal:nth-child(3) { left: 30%; animation-delay: 4s; font-size: 22px; }
+.petal:nth-child(4) { left: 45%; animation-delay: 1s; font-size: 16px; }
+.petal:nth-child(5) { left: 60%; animation-delay: 3s; font-size: 20px; }
+.petal:nth-child(6) { left: 75%; animation-delay: 5s; font-size: 26px; }
+.petal:nth-child(7) { left: 85%; animation-delay: 2.5s; font-size: 18px; }
+.petal:nth-child(8) { left: 92%; animation-delay: 4.5s; font-size: 22px; }
+
+@keyframes petalFloat {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.25; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.app-container {
+  width: 100%; max-width: 420px; position: relative; z-index: 1;
+}
+
+.stage {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 28px;
+  box-shadow: 0 8px 40px var(--shadow-pink), 0 2px 8px var(--shadow-soft);
+  padding: 36px 28px 32px; display: none;
+  animation: stageEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.stage.active { display: block; }
+
+@keyframes stageEnter {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.flower-deco {
+  text-align: center; font-size: 16px; letter-spacing: 8px;
+  margin-bottom: 12px; color: var(--pink-400);
+  animation: gentleSway 3s ease-in-out infinite;
+}
+@keyframes gentleSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.avatar {
+  width: 120px; height: 120px; border-radius: 50%;
+  margin: 0 auto 16px; display: block; object-fit: cover;
+  border: 4px solid #fff; box-shadow: 0 4px 20px var(--shadow-pink);
+  animation: avatarFloat 3s ease-in-out infinite;
+}
+@keyframes avatarFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.stage h1 {
+  font-family: 'Comfortaa', 'Noto Sans SC', sans-serif;
+  font-size: 1.55rem; font-weight: 700; text-align: center;
+  color: var(--text-dark); margin-bottom: 8px; line-height: 1.4;
+}
+.stage h2 {
+  font-family: 'Comfortaa', 'Noto Sans SC', sans-serif;
+  font-size: 1.35rem; font-weight: 600; text-align: center;
+  color: var(--text-dark); margin-bottom: 8px; line-height: 1.4;
+}
+.subtitle {
+  text-align: center; font-size: 0.9rem; color: var(--text-medium);
+  margin-bottom: 24px; line-height: 1.6;
+}
+.system-hint {
+  text-align: center; font-size: 0.82rem; color: var(--pink-500);
+  background: var(--pink-50); border-radius: 12px; padding: 8px 16px;
+  margin-bottom: 20px; display: inline-block; width: 100%;
+  border: 1px dashed var(--pink-200);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px; border: none; border-radius: 50px; padding: 14px 36px;
+  font-family: inherit; font-size: 1rem; font-weight: 500;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+  color: #fff; box-shadow: 0 4px 16px rgba(255, 92, 122, 0.35);
+}
+.btn-primary:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 92, 122, 0.45);
+}
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.5; transform: none; cursor: not-allowed; box-shadow: none; }
+
+.btn-secondary {
+  background: #fff; color: var(--text-medium); border: 2px solid var(--pink-200);
+}
+.btn-secondary:hover { border-color: var(--pink-400); color: var(--pink-600); transform: scale(1.03); }
+
+.btn-group { display: flex; gap: 14px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+.btn-full { width: 100%; margin-top: 20px; }
+
+.heart-beat { display: inline-block; animation: heartbeat 1.2s ease-in-out infinite; }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+
+.peanut { text-align: center; font-size: 28px; margin: 16px 0; animation: peanutBounce 2s ease-in-out infinite; }
+@keyframes peanutBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-4px) rotate(-5deg); }
+  75% { transform: translateY(-4px) rotate(5deg); }
+}
+
+.input-group { margin-bottom: 16px; }
+.input-label { font-size: 0.85rem; color: var(--text-medium); margin-bottom: 6px; display: block; padding-left: 4px; }
+.custom-input {
+  width: 100%; padding: 14px 18px; border: 2px solid var(--pink-200);
+  border-radius: 16px; font-family: inherit; font-size: 1rem;
+  color: var(--text-dark); background: var(--warm-white);
+  transition: all 0.3s ease; outline: none; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+}
+.custom-input:focus, .custom-input:hover {
+  border-color: var(--pink-400); box-shadow: 0 2px 12px var(--shadow-pink);
+}
+.custom-input::-webkit-calendar-picker-indicator { cursor: pointer; filter: hue-rotate(300deg) saturate(2); }
+
+/* Activity & Food Type Grid */
+.activity-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin: 16px 0 8px;
+}
+.activity-card {
+  background: var(--warm-white); border: 2px solid var(--pink-100);
+  border-radius: 18px; padding: 18px 6px 14px; text-align: center;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.activity-card:hover {
+  border-color: var(--pink-400); transform: translateY(-4px);
+  box-shadow: 0 6px 20px var(--shadow-pink); background: #fff;
+}
+.activity-card:active { transform: scale(0.96); }
+.activity-card.selected {
+  border-color: var(--pink-600); background: linear-gradient(135deg, var(--pink-50), #fff);
+  box-shadow: 0 4px 16px rgba(255, 92, 122, 0.25);
+}
+.activity-icon { font-size: 2rem; display: block; margin-bottom: 6px; transition: transform 0.3s ease; }
+.activity-card:hover .activity-icon { transform: scale(1.15); }
+.activity-name { font-size: 0.78rem; font-weight: 500; color: var(--text-dark); }
+
+/* Recommend List */
+.recommend-list {
+  display: flex; flex-direction: column; gap: 12px;
+  margin: 16px 0; max-height: 420px; overflow-y: auto; padding-right: 4px;
+}
+.recommend-list::-webkit-scrollbar { width: 4px; }
+.recommend-list::-webkit-scrollbar-track { background: var(--pink-50); border-radius: 2px; }
+.recommend-list::-webkit-scrollbar-thumb { background: var(--pink-300); border-radius: 2px; }
+
+.recommend-card {
+  background: var(--warm-white); border: 2px solid var(--pink-100);
+  border-radius: 18px; padding: 14px; cursor: pointer;
+  transition: all 0.3s ease; text-decoration: none; color: inherit;
+  display: block; -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.recommend-card:hover {
+  border-color: var(--pink-400); transform: translateY(-3px);
+  box-shadow: 0 6px 20px var(--shadow-pink); background: #fff;
+}
+.recommend-card:active { transform: scale(0.98); }
+.recommend-card.selected {
+  border-color: var(--pink-600);
+  background: linear-gradient(135deg, var(--pink-50), #fff);
+  box-shadow: 0 4px 16px rgba(255, 92, 122, 0.25);
+}
+.recommend-card.selected .recommend-title { color: var(--pink-700); }
+
+.recommend-header { display: flex; gap: 12px; align-items: flex-start; }
+.recommend-img {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; background: var(--pink-50);
+}
+.recommend-body { flex: 1; min-width: 0; }
+.recommend-title { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+.recommend-desc { font-size: 0.78rem; color: var(--text-medium); line-height: 1.45; margin-bottom: 6px; }
+.recommend-detail {
+  font-size: 0.75rem; color: var(--pink-500); line-height: 1.6;
+  margin-top: 10px; padding: 8px 12px; background: var(--pink-50);
+  border-radius: 10px; border-left: 3px solid var(--pink-300);
+  display: none;
+}
+.recommend-card.selected .recommend-detail { display: block; }
+.recommend-card.always-detail .recommend-detail { display: block; }
+
+.recommend-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.tag { font-size: 0.68rem; padding: 3px 8px; border-radius: 8px; background: var(--pink-50); color: var(--pink-600); white-space: nowrap; }
+
+.link-btn {
+  font-size: 0.68rem; padding: 3px 8px; border-radius: 8px;
+  background: linear-gradient(135deg, #FF6B6B, #FF5C7A);
+  color: #fff; text-decoration: none; display: inline-flex;
+  align-items: center; gap: 3px; cursor: pointer; border: none;
+  transition: all 0.2s ease;
+}
+.link-btn:hover { transform: scale(1.05); }
+
+/* Final page */
+.final-card { text-align: center; }
+.final-emoji { font-size: 3rem; margin-bottom: 8px; display: block; animation: gentleBounce 2s ease-in-out infinite; }
+@keyframes gentleBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.final-hearts { font-size: 1.2rem; letter-spacing: 6px; margin: 16px 0; color: var(--pink-500); }
+.final-info { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; text-align: left; }
+.info-row {
+  display: flex; align-items: center; gap: 12px; background: var(--pink-50);
+  border-radius: 14px; padding: 14px 18px; border: 1px solid var(--pink-100);
+  cursor: pointer; transition: all 0.3s ease; position: relative;
+}
+.info-row:hover {
+  border-color: var(--pink-400);
+  background: linear-gradient(135deg, var(--pink-50), #fff);
+  box-shadow: 0 4px 16px var(--shadow-pink);
+  transform: translateX(4px);
+}
+.info-row:active { transform: scale(0.98); }
+.info-row::after {
+  content: '✏️'; font-size: 0.75rem; opacity: 0; transition: opacity 0.3s ease;
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+}
+.info-row:hover::after { opacity: 0.5; }
+.info-label { font-size: 0.72rem; color: var(--pink-500); font-weight: 700; letter-spacing: 1px; min-width: 52px; }
+.info-value { font-size: 0.95rem; color: var(--text-dark); font-weight: 500; flex: 1; }
+
+.btn-back {
+  position: absolute; top: 16px; left: 16px;
+  background: rgba(255, 255, 255, 0.9); border: 1.5px solid var(--pink-200);
+  border-radius: 50%; width: 36px; height: 36px; display: flex;
+  align-items: center; justify-content: center; cursor: pointer;
+  font-size: 1.1rem; color: var(--pink-500); transition: all 0.3s ease;
+  z-index: 10; -webkit-tap-highlight-color: transparent;
+}
+.btn-back:hover { background: #fff; border-color: var(--pink-400); transform: scale(1.1); }
+
+.loading-dots { display: flex; gap: 6px; justify-content: center; padding: 20px; }
+.loading-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--pink-400); animation: dotBounce 1.4s infinite ease-in-out both; }
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes dotBounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+.shake { animation: shake 0.5s ease; }
+
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(74, 59, 64, 0.9); color: #fff;
+  padding: 12px 24px; border-radius: 50px; font-size: 0.85rem;
+  z-index: 9999; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap; backdrop-filter: blur(8px); max-width: 90vw;
+  text-align: center; word-wrap: break-word; white-space: normal;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 380px) {
+  .stage { padding: 28px 20px 24px; }
+  .stage h1 { font-size: 1.35rem; }
+  .activity-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .activity-card { padding: 14px 4px 12px; }
+  .activity-icon { font-size: 1.7rem; }
+  .activity-name { font-size: 0.72rem; }
+  .recommend-card { padding: 12px; }
+  .recommend-img { width: 44px; height: 44px; font-size: 1.3rem; }
+  .recommend-title { font-size: 0.88rem; }
+  .recommend-desc { font-size: 0.72rem; }
+  .recommend-detail { font-size: 0.7rem; }
+  .tag { font-size: 0.62rem; padding: 2px 6px; }
+  .link-btn { font-size: 0.62rem; padding: 2px 6px; }
+}
+
+@media (max-width: 320px) {
+  .activity-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.wink { display: inline-block; animation: wink 3s infinite; }
+@keyframes wink { 0%, 90%, 100% { transform: rotate(0deg); } 93% { transform: rotate(15deg) scale(0.9); } 96% { transform: rotate(0deg) scale(1); } }
+
+/* 文字输入框用于"其他" */
+.text-input-large {
+  width: 100%; padding: 14px 16px; border: 2px solid var(--pink-200);
+  border-radius: 16px; font-family: inherit; font-size: 1rem;
+  color: var(--text-dark); background: var(--warm-white);
+  transition: all 0.3s ease; outline: none; resize: none;
+}
+.text-input-large:focus {
+  border-color: var(--pink-400); box-shadow: 0 2px 12px var(--shadow-pink);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <span class="petal">✿</span><span class="petal">❀</span><span class="petal">✽</span><span class="petal">🌸</span>
+  <span class="petal">✿</span><span class="petal">❀</span><span class="petal">✽</span><span class="petal">🌸</span>
+</div>
+
+<div class="app-container">
+
+  <!-- ========== Stage 1: 初始邀请 ========== -->
+  <div class="stage active" id="stage-1">
+    <div class="flower-deco">✿ ❀ ✽ ❀ ✿</div>
+    <img class="avatar" src="assets/avatar.jpg" alt="头像" onerror="this.style.display='none'">
+    <h1>🌸 可以和我约会嘛？<span class="wink">🥺</span> 🌸</h1>
+    <div class="system-hint">系统检测到：对方紧张程度：★★★★★</div>
+    <div class="peanut">🥜</div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="goToStage(2)">愿意 <span class="heart-beat">❤</span></button>
+      <button class="btn btn-secondary" id="btn-no" onclick="handleNo()">不要 🦶</button>
+    </div>
+  </div>
+
+  <!-- ========== Stage 2: 惊讶确认 ========== -->
+  <div class="stage" id="stage-2">
+    <button class="btn-back" onclick="goToStage(1)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <img class="avatar" src="assets/avatar.jpg" alt="头像" onerror="this.style.display='none'">
+    <h1>等下，你真的点了愿意？？<span class="wink">😭</span></h1>
+    <p class="subtitle">我都已经准备好被你点"不要"了。<br>没想到...你居然说愿意！</p>
+    <button class="btn btn-primary btn-full" onclick="goToStage(3)">好啦好啦 →</button>
+  </div>
+
+  <!-- ========== Stage 3: 时间选择 ========== -->
+  <div class="stage" id="stage-3">
+    <button class="btn-back" onclick="goToStage(2)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>所以...你什么时候有空？<span class="wink">☺️</span></h2>
+    <p class="subtitle">选一个我们都能见面的时间吧～</p>
+    <div class="input-group">
+      <label class="input-label">选一天 📆</label>
+      <input type="date" class="custom-input" id="date-picker" onchange="onDateChange()">
+    </div>
+    <div class="input-group">
+      <label class="input-label">几点见？⏰</label>
+      <select class="custom-input" id="time-picker" onchange="onTimeChange()">
+        <option value="">选一个时间...</option>
+        <option value="12:00">12:00</option>
+        <option value="12:30">12:30</option>
+        <option value="13:00">13:00</option>
+        <option value="13:30">13:30</option>
+        <option value="14:00">14:00</option>
+        <option value="15:00">15:00</option>
+        <option value="16:00">16:00</option>
+        <option value="17:00">17:00</option>
+        <option value="18:00">18:00</option>
+        <option value="18:30">18:30</option>
+        <option value="19:00">19:00</option>
+        <option value="19:30">19:30</option>
+        <option value="20:00">20:00</option>
+      </select>
+    </div>
+    <button class="btn btn-primary btn-full" id="confirm-time-btn" onclick="confirmTime()" disabled style="opacity:0.5;">确定时间 <span class="heart-beat">❤</span></button>
+  </div>
+
+  <!-- ========== Stage 4: 活动选择 ========== -->
+  <div class="stage" id="stage-4">
+    <button class="btn-back" onclick="goToStage(3)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>我们玩点什么？<span class="wink">🤔</span></h2>
+    <p class="subtitle">挑一个你想一起玩的～<br>（仅限上海哦 📍）</p>
+    <div class="activity-grid" id="activity-grid">
+      <div class="activity-card" onclick="selectActivity('eat', '吃', this)">
+        <span class="activity-icon">🍜</span><span class="activity-name">吃</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('karting', '卡丁车', this)">
+        <span class="activity-icon">🏎️</span><span class="activity-name">卡丁车</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('livehouse', 'Live House', this)">
+        <span class="activity-icon">🎸</span><span class="activity-name">Live House</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('comedy', '脱口秀', this)">
+        <span class="activity-icon">🎤</span><span class="activity-name">脱口秀</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('art', '美术馆', this)">
+        <span class="activity-icon">🎨</span><span class="activity-name">美术馆</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('sport', '运动', this)">
+        <span class="activity-icon">🏃</span><span class="activity-name">运动</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('citywalk', 'City Walk', this)">
+        <span class="activity-icon">🚶</span><span class="activity-name">City Walk</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('movie', '看电影', this)">
+        <span class="activity-icon">🎬</span><span class="activity-name">看电影</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('other', '其他', this)">
+        <span class="activity-icon">✨</span><span class="activity-name">其他</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Stage 4b: 菜系选择 (吃) ========== -->
+  <div class="stage" id="stage-4b">
+    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>想吃什么菜系？<span class="wink">🤤</span></h2>
+    <p class="subtitle">告诉我你馋什么～</p>
+    <div class="activity-grid" id="food-grid">
+      <div class="activity-card" onclick="selectFoodType('pizza', '🍕 披萨', this)">
+        <span class="activity-icon">🍕</span><span class="activity-name">披萨</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('sushi', '🍣 寿司', this)">
+        <span class="activity-icon">🍣</span><span class="activity-name">寿司</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('hotpot', '🍲 火锅', this)">
+        <span class="activity-icon">🍲</span><span class="activity-name">火锅</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('bbq', '🥩 烤肉', this)">
+        <span class="activity-icon">🥩</span><span class="activity-name">烤肉</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('ramen', '🍜 拉面', this)">
+        <span class="activity-icon">🍜</span><span class="activity-name">拉面</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('malatang', '🌶️ 麻辣烫', this)">
+        <span class="activity-icon">🌶️</span><span class="activity-name">麻辣烫</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('skewer', '🍢 烧烤', this)">
+        <span class="activity-icon">🍢</span><span class="activity-name">烧烤</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('yunnan', '🍜 云南菜', this)">
+        <span class="activity-icon">🍜</span><span class="activity-name">云南菜</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('chuanxiang', '🌶️ 川湘菜', this)">
+        <span class="activity-icon">🌶️</span><span class="activity-name">川湘菜</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('fusion', '🍽️ 融合菜', this)">
+        <span class="activity-icon">🍽️</span><span class="activity-name">融合菜</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('korean', '🍖 韩餐', this)">
+        <span class="activity-icon">🍖</span><span class="activity-name">韩餐</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('japanese', '🍣 日料', this)">
+        <span class="activity-icon">🍣</span><span class="activity-name">日料</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('southeast', '🍛 东南亚菜', this)">
+        <span class="activity-icon">🍛</span><span class="activity-name">东南亚菜</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('shanghainese', '🏮 本帮菜', this)">
+        <span class="activity-icon">🏮</span><span class="activity-name">本帮菜</span>
+      </div>
+      <div class="activity-card" onclick="selectFoodType('western', '🍴 西餐', this)">
+        <span class="activity-icon">🍴</span><span class="activity-name">西餐</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Stage 4c: 其他活动输入 ========== -->
+  <div class="stage" id="stage-4c">
+    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>你想玩什么？<span class="wink">✨</span></h2>
+    <p class="subtitle">输入你想做的任何活动，我来帮你安排～</p>
+    <div class="input-group" style="margin-top:12px;">
+      <textarea class="text-input-large" id="other-input" rows="3" placeholder="比如：去公园野餐、逛二次元谷子店、剧本杀..." oninput="checkOtherInput()"></textarea>
+    </div>
+    <button class="btn btn-primary btn-full" id="confirm-other-btn" onclick="confirmOther()" disabled style="opacity:0.5;">确定！<span class="heart-beat">❤</span></button>
+  </div>
+
+  <!-- ========== Stage 5: 具体推荐 ========== -->
+  <div class="stage" id="stage-5">
+    <button class="btn-back" onclick="goBackFromRecommend()">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2 id="recommend-title">为你找到这些～</h2>
+    <p class="subtitle" id="recommend-subtitle">根据你选的时间匹配的推荐</p>
+    <div id="recommend-content">
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+    <button class="btn btn-primary btn-full" id="confirm-activity-btn" onclick="confirmActivity()" disabled style="opacity:0.5;">就选这个 <span class="heart-beat">❤</span></button>
+  </div>
+
+  <!-- ========== Stage 6: 最终确认 ========== -->
+  <div class="stage" id="stage-6">
+    <div class="flower-deco">✿ ❀ ✽ ❀ ✿</div>
+    <div class="final-card">
+      <span class="final-emoji">🥳</span>
+      <h1>真开心你没有拒绝～</h1>
+      <p class="subtitle">我会准时出现，带着一点紧张和很多期待。<br>上海见！❤</p>
+      <div class="final-info">
+        <div class="info-row" onclick="goBackToEdit('date')">
+          <span class="info-label">DATE</span>
+          <span class="info-value" id="final-date">-</span>
+        </div>
+        <div class="info-row" onclick="goBackToEdit('time')">
+          <span class="info-label">TIME</span>
+          <span class="info-value" id="final-time">-</span>
+        </div>
+        <div class="info-row" onclick="goBackToEdit('plan')">
+          <span class="info-label">PLAN</span>
+          <span class="info-value" id="final-activity">-</span>
+        </div>
+        <div class="info-row" onclick="goBackToEdit('spot')">
+          <span class="info-label">SPOT</span>
+          <span class="info-value" id="final-spot">-</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+        <button class="btn btn-primary" onclick="submitToFormspree()" id="submit-btn" style="padding:10px 20px;font-size:0.85rem;">💌 提交给TA</button>
+      </div>
+      <div class="final-hearts">♥ ♥ ♥ ♥ ♥</div>
+      <p class="subtitle" style="margin-top:12px; font-size:0.78rem; color:var(--pink-400);">已经帮你整理好啦，到时候别放鸽子哦～ 🐦</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== State ==========
+const state = { date: '', time: '', activity: '', activityLabel: '', spot: '', foodType: '', foodTypeLabel: '', otherInput: '' };
+
+// ========== Web3Forms 配置（无需注册，国内可访问）==========
+// 使用方法：
+// 1. 打开 https://web3forms.com/ 获取 Access Key（免费，无需注册）
+// 2. 把 Access Key 替换到 WEB3FORMS_KEY
+// 3. 把接收通知的邮箱替换到 WEB3FORMS_EMAIL
+const WEB3FORMS_KEY = '9fdf54c1-559b-4641-8478-12a6f61b518a';
+const WEB3FORMS_EMAIL = 'huyu20040403@gmail.com';
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+
+function goToStage(n) {
+  document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('stage-' + n);
+  if (target) { target.classList.add('active'); target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+
+// ========== Stage 1 ==========
+let noClickCount = 0;
+const noTexts = ['不要 🦶', '真的不要嘛？🥺', '再想想嘛...🥹', '求求了😭', '点愿意嘛❤'];
+function handleNo() {
+  const btn = document.getElementById('btn-no');
+  btn.classList.add('shake'); setTimeout(() => btn.classList.remove('shake'), 500);
+  noClickCount++;
+  if (noClickCount < noTexts.length) { btn.textContent = noTexts[noClickCount]; }
+  else { btn.textContent = '点愿意嘛❤'; btn.style.opacity = '0.6'; btn.onclick = function() { goToStage(2); }; }
+  showToast('都说了...点愿意嘛 🥺');
+}
+
+// ========== Stage 3 ==========
+function onDateChange() { state.date = document.getElementById('date-picker').value; updateTimeBtn(); }
+function onTimeChange() { state.time = document.getElementById('time-picker').value; updateTimeBtn(); }
+function updateTimeBtn() {
+  const btn = document.getElementById('confirm-time-btn');
+  if (state.date && state.time) { btn.disabled = false; btn.style.opacity = '1'; }
+  else { btn.disabled = true; btn.style.opacity = '0.5'; }
+}
+function confirmTime() {
+  if (!state.date || !state.time) { showToast('先选好日期和时间哦～'); return; }
+  goToStage(4);
+}
+
+// ========== Stage 4: Activity Selection ==========
+function selectActivity(activity, label, el) {
+  document.querySelectorAll('#activity-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.activity = activity; state.activityLabel = label;
+
+  if (activity === 'eat') { setTimeout(() => goToStage('4b'), 400); }
+  else if (activity === 'other') { setTimeout(() => goToStage('4c'), 400); }
+  else { setTimeout(() => loadRecommendations(activity), 400); }
+}
+
+// ========== Stage 4b: Food Type Selection ==========
+function selectFoodType(foodType, label, el) {
+  document.querySelectorAll('#food-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.foodType = foodType; state.foodTypeLabel = label;
+  state.activityLabel = '吃 · ' + label;
+  setTimeout(() => loadRecommendations('eat'), 400);
+}
+
+// ========== Stage 4c: Other Input ==========
+function checkOtherInput() {
+  const val = document.getElementById('other-input').value.trim();
+  const btn = document.getElementById('confirm-other-btn');
+  if (val.length > 0) { btn.disabled = false; btn.style.opacity = '1'; }
+  else { btn.disabled = true; btn.style.opacity = '0.5'; }
+}
+function confirmOther() {
+  const val = document.getElementById('other-input').value.trim();
+  if (!val) { showToast('告诉我你想玩什么呀～'); return; }
+  state.otherInput = val; state.activityLabel = '其他 · ' + val;
+  state.spot = val;
+  updateFinalPage();
+  goToStage(6);
+}
+
+// ========== Back from recommendations ==========
+function goBackFromRecommend() {
+  if (state.activity === 'eat') goToStage('4b');
+  else if (state.activity === 'other') goToStage('4c');
+  else goToStage(4);
+}
+
+// ========== Toast ==========
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg; toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ========== 上海推荐数据 ==========
+const shanghaiData = {
+  eat: {
+    pizza: {
+      title: '上海披萨店推荐～', subtitle: '薄底厚底都有，你喜欢哪种？',
+      items: [
+        { icon: '🍕', title: 'Pizza Marzano', desc: '南京西路 · 意式薄底 · 窑烤', detail: '源自英国的人气披萨连锁，上海多家门店。招牌四季披萨、松露蘑菇披萨，饼底薄脆，芝士浓郁。' },
+        { icon: '🍕', title: 'Scarpetta', desc: '外滩 · 手工意式 · 约会氛围', detail: '外滩三号里的意大利餐厅，手工披萨和意面一绝。坐拥外滩夜景，约会氛围拉满。' },
+        { icon: '🍕', title: 'The Nest', desc: '外滩源 · 创意披萨 · 景观位', detail: '顶楼景观餐厅，创意披萨搭配精酿啤酒。推荐松露披萨和玛格丽特，吃完可以沿外滩散步。' },
+        { icon: '🍕', title: 'BANG', desc: '新天地 · 美式披萨 · 休闲', detail: '新天地的美式披萨酒吧，厚底芝士瀑布。适合周末放松，边吃边聊。' },
+      ]
+    },
+    sushi: {
+      title: '上海寿司日料推荐～', subtitle: '从平价到高端，总有一款适合你',
+      items: [
+        { icon: '🍣', title: 'Maki House', desc: '新天地 · 创意寿司 · 平价', detail: '上海本土人气寿司品牌，性价比高。招牌火炙寿司拼盘、三文鱼卷，新鲜度在线。' },
+        { icon: '🍣', title: 'Sushi Yuki', desc: '古北 · 传统江户前 · 预约制', detail: '藏在古北社区里的传统寿司店，大将来自日本。omakase 980元/位，需提前一周预约。' },
+        { icon: '🍣', title: '鮨初代', desc: '外滩 · 高端寿司 · 包间', detail: '外滩 hidden gem，仅8个座位的寿司吧台。当日空运食材，每日菜单不同。' },
+        { icon: '🍣', title: '大鮨', desc: '陆家嘴 · 商务日料 · 景观', detail: '陆家嘴中心高端日料，适合商务约会。寿司套餐+刺身拼盘，窗外就是黄浦江。' },
+      ]
+    },
+    hotpot: {
+      title: '上海火锅推荐～', subtitle: '热气腾腾，边吃边聊',
+      items: [
+        { icon: '🍲', title: '海底捞', desc: '多门店 · 服务天花板 · 24小时', detail: '上海火锅界服务标杆，多门店可选。24小时营业，凌晨也能吃。推荐番茄锅+麻辣锅双拼。' },
+        { icon: '🍲', title: '凑凑火锅', desc: '多门店 · 台式火锅 · 奶茶', detail: '台式火锅代表，大红袍奶茶是隐藏彩蛋。台式麻辣锅配鸭血豆腐无限续，边吃边看川剧变脸。' },
+        { icon: '🍲', title: '小龙坎', desc: '多门店 · 四川火锅 · 辣度可调', detail: '正宗四川火锅，红锅牛油浓郁。推荐小郡肝、毛肚、黄喉，辣度可选微辣/中辣/特辣。' },
+        { icon: '🍲', title: '巴奴毛肚火锅', desc: '南京西路 · 毛肚专家 · 品质', detail: '主打毛肚品质，招牌「经典毛肚」七上八下。菌汤锅是灵魂，吃完涮蔬菜绝配。' },
+      ]
+    },
+    bbq: {
+      title: '上海烤肉推荐～', subtitle: '滋滋冒油的幸福感',
+      items: [
+        { icon: '🥩', title: '姜虎东白丁烤肉', desc: '多门店 · 韩式烤肉 · 综艺同款', detail: '韩国综艺同款烤肉，经典猪肉套餐、护心肉必点。烤盘边的蒸蛋和芝士玉米是灵魂搭配。' },
+        { icon: '🥩', title: '大隐隐于市', desc: '武康路 · 精致烤肉 · 需预约', detail: '武康路老洋房里的日式烤肉，A5和牛是招牌。仅6张桌，需提前2-3天预约。' },
+        { icon: '🥩', title: '汉拿山', desc: '多门店 · 经典韩式 · 量大', detail: '老牌韩式烤肉连锁，量大实惠。推荐牛排、五花肉、LA牛仔骨，小菜可免费续。' },
+        { icon: '🥩', title: '九田家黑牛烤肉', desc: '多门店 · 日式烤肉 · 性价比', detail: '主打日式烤肉，肉质新鲜，价格亲民。推荐黑牛雪花、牛舌，配梅子酒绝佳。' },
+      ]
+    },
+    ramen: {
+      title: '上海拉面推荐～', subtitle: '热汤暖胃，深夜治愈',
+      items: [
+        { icon: '🍜', title: '一蘭拉面', desc: '静安 · 日式拉面 · 网红', detail: '日本名店，上海首店。一人一隔间，经典豚骨拉面 customizable。汤头浓郁，面条筋道。' },
+        { icon: '🍜', title: '蟹的传人', desc: '南京西路 · 蟹黄拌面 · 招牌', detail: '招牌蟹黄拌面，每碗满满蟹黄。蟹粉小笼也是必点，鲜味十足。' },
+        { icon: '🍜', title: '弄堂面馆', desc: '徐汇 · 本帮面 · 老字号', detail: '老上海本帮面馆，招牌葱油拌面、雪菜肉丝面。店小人多，建议避开饭点。' },
+        { icon: '🍜', title: '博多拉面', desc: '古北 · 九州拉面 · 地道', detail: '日本师傅坐镇，主打九州博多豚骨拉面。可选面条硬度，溏心蛋是灵魂。' },
+      ]
+    },
+    malatang: {
+      title: '上海麻辣烫推荐～', subtitle: '选你爱吃的，煮一大锅',
+      items: [
+        { icon: '🌶️', title: '杨国福麻辣烫', desc: '多门店 · 连锁品牌 · 骨汤', detail: '全国连锁，骨汤底是招牌。自选食材按斤称重，推荐牛肉、午餐肉、土豆、年糕。' },
+        { icon: '🌶️', title: '张亮麻辣烫', desc: '多门店 · 连锁品牌 · 麻辣', detail: '杨国福的竞争对手，口味更偏麻辣。麻辣牛肉和毛肚是必点，冬天吃超暖。' },
+        { icon: '🌶️', title: '觅姐麻辣烫', desc: '多门店 · 网红品牌 · 番茄', detail: '番茄汤底是招牌，汤底浓郁。自选食材种类丰富，建议加麻酱。' },
+        { icon: '🌶️', title: '马路边边', desc: '多门店 · 串串火锅 · 怀旧', detail: '复古成都串串店，80年代怀旧装修。牛肉串串种类超多，配冰粉解辣。' },
+      ]
+    },
+    skewer: {
+      title: '上海烧烤推荐～', subtitle: '烧烤+啤酒，夏天的标配',
+      items: [
+        { icon: '🍢', title: '丰茂烤串', desc: '多门店 · 朝鲜烤串 · 自动旋转', detail: '全自动旋转烤串，不用自己翻面。招牌羊肉串、烤面包片，啤酒种类丰富。' },
+        { icon: '🍢', title: '很久以前羊肉串', desc: '多门店 · 草原羊肉 · 仪式感', detail: '呼伦贝尔草原羊肉，上桌时点燃酒精仪式感十足。推荐羊肉串、烤羊排、烤茄子。' },
+        { icon: '🍢', title: '木屋烧烤', desc: '多门店 · 深圳连锁 · 中式烧烤', detail: '深圳开来的人气烧烤连锁，烤生蚝、烤韭菜、烤鸡翅是必点。适合朋友聚会。' },
+        { icon: '🍢', title: '管氏翅吧', desc: '多门店 · 烤翅专家 · 必点', detail: '烤翅是招牌，秘制酱料腌制入味。麻辣翅、蜜汁翅、蒜香翅三种口味，各有拥趸。' },
+      ]
+    },
+    yunnan: {
+      title: '上海云南菜推荐～', subtitle: '酸辣鲜香，异域风味',
+      items: [
+        { icon: '🍜', title: '茶马颐苑', desc: '静安 · 云南菜 · 古镇风情', detail: '装修复刻云南古镇，酸汤鱼、汽锅鸡、过桥米线是招牌。推荐配玫瑰酿。' },
+        { icon: '🍜', title: '云南小花', desc: '徐汇 · 小锅米线 · 家常', detail: '藏在徐汇的云南小馆，小锅米线是招牌。铜锅洋芋焖饭、烤乳扇也是必点。' },
+        { icon: '🍜', title: '芭蕉树', desc: '长宁 · 傣味餐厅 · 酸辣', detail: '主打傣族风味，酸辣鱼、柠檬鸡、竹筒饭。装修有热带风情，适合拍照。' },
+        { icon: '🍜', title: '一坐一忘', desc: '多门店 · 云南菜 · 精品', detail: '精品云南菜代表，黑松露汽锅鸡、云南菌菇火锅。环境优雅，适合约会。' },
+      ]
+    },
+    chuanxiang: {
+      title: '上海川湘菜推荐～', subtitle: '无辣不欢，越辣越开心',
+      items: [
+        { icon: '🌶️', title: '辣府', desc: '多门店 · 川菜 · 麻辣火锅', detail: '上海老牌川菜，水煮鱼、辣子鸡、毛血旺是必点。辣度可以自选，适合能吃辣的。' },
+        { icon: '🌶️', title: '巷弄里', desc: '静安 · 湘菜 · 湖南风味', detail: '藏在弄堂里的湘菜馆，小炒肉、剁椒鱼头、辣椒炒肉是招牌。老板湖南人，味道正宗。' },
+        { icon: '🌶️', title: '蜀地辣子鸡', desc: '多门店 · 川菜 · 招牌鸡', detail: '招牌辣子鸡，鸡肉酥脆辣椒香。干煸四季豆、口水鸡也是必点，配酸梅汤解辣。' },
+        { icon: '🌶️', title: '望湘园', desc: '多门店 · 湘菜 · 连锁', detail: '连锁湘菜品牌，口味稳定。推荐剁椒鱼头、农家小炒肉、长沙臭豆腐。' },
+      ]
+    },
+    fusion: {
+      title: '上海融合菜推荐～', subtitle: '打破边界，创意料理',
+      items: [
+        { icon: '🍽️', title: '福和慧', desc: '静安 · 素食融合 · 米其林', detail: '米其林一星素食餐厅，融合东西方料理。菜单随季节变换，每道菜都是艺术品。' },
+        { icon: '🍽️', title: 'Ultraviolet', desc: '外滩 · 沉浸式餐厅 · 预约难', detail: '全球最难预约的餐厅之一，一晚仅10席。沉浸式用餐体验，光影+音效+美食三位一体。' },
+        { icon: '🍽️', title: 'Bor Eatery', desc: '静安 · 北欧融合 · 简约', detail: '北欧风格融合菜，三文鱼、生蚝、牛排。简约环境，适合安静约会。' },
+        { icon: '🍽️', title: 'The Nest', desc: '外滩源 · 创意融合 · 景观', detail: '外滩三号里的创意融合菜，分子料理+传统技法。景观位可俯瞰外滩。' },
+      ]
+    },
+    korean: {
+      title: '上海韩餐推荐～', subtitle: '炸鸡啤酒+韩式烤肉',
+      items: [
+        { icon: '🍖', title: '校村炸鸡', desc: '多门店 · 韩式炸鸡 · 网红', detail: '上海最红的韩式炸鸡，招牌酱油炸鸡、甜辣炸鸡。外酥里嫩，配啤酒绝配。' },
+        { icon: '🍖', title: '新罗宝', desc: '古北 · 传统韩餐 · 地道', detail: '藏在古北韩国人社区的传统韩餐，石锅拌饭、泡菜汤、炒年糕。老板是韩国阿祖妈。' },
+        { icon: '🍖', title: '姜虎东白丁烤肉', desc: '多门店 · 烤肉 · 综艺同款', detail: '韩国综艺同款烤肉店，护心肉、猪五花是招牌。烤盘边的蒸蛋和芝士玉米是隐藏菜单。' },
+        { icon: '🍖', title: 'Professor Lee', desc: '多门店 · 创意韩餐 · 排队', detail: '创意韩餐代表，部队锅、海鲜葱饼、辣炒年糕。永远在排队，建议工作日去。' },
+      ]
+    },
+    japanese: {
+      title: '上海日料推荐～', subtitle: '从居酒屋到omakase',
+      items: [
+        { icon: '🍣', title: '鸟心', desc: '多门店 · 居酒屋 · 烧鸟', detail: '日式烧鸟居酒屋，烤鸡肝、鸡翅、鸡软骨是必点。配清酒或朝日生啤，氛围轻松。' },
+        { icon: '🍣', title: '舞妓', desc: '外滩 · 和食 · 精致', detail: '外滩高端和食，怀石料理+精致寿司。食材新鲜，摆盘精美。' },
+        { icon: '🍣', title: 'Maki House', desc: '新天地 · 创意寿司 · 平价', detail: '高性价比创意寿司，火炙寿司、卷物丰富。适合 casual 约会。' },
+        { icon: '🍣', title: '一兰拉面', desc: '静安 · 日式拉面 · 一人食', detail: '日式拉面名店，一人一隔间。豚骨拉面汤头浓郁，可加溏心蛋、叉烧。' },
+      ]
+    },
+    southeast: {
+      title: '上海东南亚菜推荐～', subtitle: '酸酸辣辣，夏天超开胃',
+      items: [
+        { icon: '🍛', title: '越南粉 Pho', desc: '多门店 · 越南菜 · 轻食', detail: '上海最好吃的越南粉，火车头粉是招牌。汤底清爽，配小米辣和青柠。' },
+        { icon: '🍛', title: '泰式料理', desc: '多门店 · 泰餐 · 咖喱', detail: '冬阴功汤、绿咖喱、泰式炒河粉。推荐芒果糯米饭当甜品，完美收尾。' },
+        { icon: '🍛', title: '咖喱屋', desc: '静安 · 日式咖喱 · 日式', detail: '日式咖喱专门店，猪排咖喱、牛肉咖喱是招牌。米饭可续，适合大胃王。' },
+        { icon: '🍛', title: '芭蕉树', desc: '长宁 · 傣族菜 · 东南亚', detail: '主打傣族风味，酸辣鱼、柠檬鸡、竹筒饭。酸辣开胃，适合夏天。' },
+      ]
+    },
+    shanghainese: {
+      title: '上海本帮菜推荐～', subtitle: '浓油赤酱，老上海味道',
+      items: [
+        { icon: '🏮', title: '光明邨大酒家', desc: '淮海路 · 本帮菜 · 排队王', detail: '淮海路上的排队王，鲜肉月饼、蟹粉小笼、松鼠鳜鱼是招牌。每次都要排1小时以上。' },
+        { icon: '🏮', title: '上海老饭店', desc: '豫园 · 百年老店 · 传统', detail: '始创于1875年，最老的本帮菜馆。八宝鸭、扣三丝、油爆虾是经典。' },
+        { icon: '🏮', title: '德兴馆', desc: '多门店 · 百年面馆 · 必吃', detail: '始创于1878年，招牌焖肉面、爆鱼面。面条劲道，浇头入味，是几代上海人的记忆。' },
+        { icon: '🏮', title: '瑞福园', desc: '多门店 · 家常本帮 · 实惠', detail: '家常本帮菜，红烧肉、响油鳝丝、腌笃鲜。价格亲民，适合日常聚餐。' },
+      ]
+    },
+    western: {
+      title: '上海西餐推荐～', subtitle: '法式浪漫 or 美式经典',
+      items: [
+        { icon: '🍴', title: 'Mr & Mrs Bund', desc: '外滩 · 法式 · 米其林', detail: '外滩三号里的米其林一星法餐，主厨 Paul Pairet。经典法式料理，景观位可俯瞰外滩。' },
+        { icon: '🍴', title: 'Mercato', desc: '外滩 · 意式 · 米其林', detail: '同样出自 Paul Pairet 之手，意式海鲜料理。餐厅氛围轻松，适合初次约会。' },
+        { icon: '🍴', title: 'The Commune Social', desc: '静安 · 创意西餐 · 轻松', detail: '创意西班牙/美式融合餐厅，tapas 是招牌。氛围轻松，适合聊天。' },
+        { icon: '🍴', title: 'Pierre', desc: '外滩 · 法餐 · 景观', detail: '半岛酒店顶层法餐，俯瞰外滩全景。主厨来自法国，经典法餐。' },
+      ]
+    },
+  },
+
+  karting: {
+    title: '上海卡丁车场馆～', subtitle: '油门踩到底，约会也刺激！',
+    items: [
+      { icon: '🏎️', title: '上海极速赛道', desc: '浦东 · 室外赛道 · 专业级', detail: '浦东临港的大型室外卡丁车场，全长1.2公里，18个弯道。适合有一定基础的玩家，最高时速可达100km/h。提供双人座和单人座，支持团体比赛。' },
+      { icon: '🏁', title: '炫动卡丁车', desc: '闵行 · 室内场馆 · 新手友好', detail: '闵行区的室内卡丁车馆，赛道全长600米，环境干净。提供新手教学，有专业教练指导。支持儿童/青少年赛道，适合带小朋友一起玩。' },
+      { icon: '🚗', title: '速卡丁车俱乐部', desc: '嘉定 · 超长赛道 · 团体优惠', detail: '嘉定区的专业卡丁车俱乐部，赛道全长1.5公里，是上海最长的赛道之一。提供200cc/270cc两种车型，团体报名可享优惠。每周有业余比赛。' },
+      { icon: '🏎️', title: 'K1 Speed上海', desc: '浦东 · 电动卡丁 · 速度快', detail: '美国连锁品牌，电动卡丁车环保无尾气。室内场馆，赛道设计紧凑，最高时速70km/h。提供成绩排行榜，可以和朋友PK。' },
+    ]
+  },
+  livehouse: {
+    title: '上海的Live House～', subtitle: '感受现场音乐的魅力',
+    items: [
+      { icon: '🎸', title: 'MAO Livehouse 上海', desc: '黄浦 · 重庆中路 · 摇滚地标', detail: '上海摇滚/独立音乐的标志性场馆，可容纳500人。每周有3-5场演出，涵盖摇滚、独立、电子。场地不大，气氛热烈。' },
+      { icon: '🎵', title: '育音堂', desc: '杨浦 · 杨树浦路 · 老牌', detail: '上海最老牌的Live House之一，专注独立音乐。场地可容纳200人，经常有地下乐队演出。票价亲民，氛围亲切。' },
+      { icon: '🎤', title: 'TX淮海 · 年轻力中心', desc: '黄浦 · 淮海路 · 潮流', detail: '淮海路上的潮流购物中心，不定期举办Live演出。场地在 rooftop，可以一边看演出一边俯瞰淮海路夜景。免费或低价。' },
+      { icon: '🎶', title: '万代南梦宫上海', desc: '虹口 · 大型场馆 · 2000人', detail: '大型演出场馆，可容纳2000人。经常举办日本艺人、K-Pop 团体的演出。场地设施专业，音响效果一流。' },
+      { icon: '🎹', title: 'Blue Note Shanghai', desc: '黄浦 · 外滩源 · 爵士', detail: '国际爵士品牌 Blue Note 的上海分店，品质极高。每晚有不同的爵士乐队演出，环境优雅。适合安静的约会。' },
+    ]
+  },
+  comedy: {
+    title: '上海脱口秀演出～', subtitle: '笑到肚子疼的那种',
+    items: [
+      { icon: '🎤', title: '笑果工厂', desc: '南京西路 · 周末专场', detail: '笑果文化旗下的脱口秀工厂，常驻演员质量稳定。周末有专场演出，开放麦在工作日。场地舒适，可提前选座。' },
+      { icon: '😂', title: '山羊GOAT脱口秀', desc: '巨鹿路 · 开放麦+专场', detail: '位于巨鹿路的脱口秀俱乐部，开放麦（新人演员试演）+ 专场（成熟演员）两种形式。氛围轻松，适合第一次看脱口秀。' },
+      { icon: '🎭', title: '喜剧联盒国', desc: '徐汇 · 线下俱乐部', detail: '上海本土脱口秀俱乐部，每周有3-4场演出。演员风格多元，有互动环节。票价100元左右，性价比高。' },
+      { icon: '🎪', title: '单立人喜剧', desc: '不定期 · 各剧场巡演', detail: '国内知名单口喜剧厂牌，不定期在上海巡演。关注大麦/猫眼，有专场演出时赶紧抢票。' },
+    ]
+  },
+  art: {
+    title: '上海美术馆 & 展览～', subtitle: '文艺约会首选',
+    items: [
+      { icon: '🎨', title: '上海当代艺术博物馆', desc: '浦东 · 花园港路 · 免费', detail: '上海最大的当代艺术博物馆，免费参观。上海双年展主场馆，建筑本身就是工业风的艺术品。定期有国内外艺术家的特展。' },
+      { icon: '🖼️', title: 'teamLab无界美术馆', desc: '黄浦 · 沉浸式 · 数字艺术', detail: '全球知名的沉浸式数字艺术美术馆，50+互动作品。光影+声音+互动，没有地图，可以随意漫步。门票¥219，需提前购票。' },
+      { icon: '🏛️', title: '上海博物馆东馆', desc: '浦东 · 免费 · 预约', detail: '上海博物馆新馆，免费参观需提前小程序预约。青铜器、陶瓷、书画是三大镇馆之宝。建筑现代，展厅宽敞。' },
+      { icon: '🖼️', title: 'UCCA Edge', desc: '静安 · 当代艺术 · 国际', detail: 'UCCA 上海分馆，专注当代艺术展览。经常举办国际艺术家的个展，展览质量极高。门票约¥100。' },
+      { icon: '🏺', title: '龙美术馆', desc: '徐汇滨江 · 私人收藏', detail: '私人收藏家刘益谦创办的美术馆，建筑本身就是艺术品。定期有重磅展览，馆藏丰富。门票¥150，建议工作日去。' },
+    ]
+  },
+  sport: {
+    title: '一起运动一下吧～', subtitle: '约会也要活力满满！',
+    items: [
+      { icon: '🏸', title: '洛克公园羽毛球', desc: '多门店 · 预约制 · 场地充足', detail: '上海最大的运动公园连锁，羽毛球、篮球、足球都有。场地可在线预约，配备专业灯光。建议提前2-3天预约。' },
+      { icon: '🧗', title: '岩心攀岩馆', desc: '徐汇 · 室内攀岩 · 新手友好', detail: '室内攀岩馆，有难度从V0到V8的线路。提供新手体验课，包含装备租赁和教练指导。90分钟体验约¥100。' },
+      { icon: '🏊', title: '源深游泳馆', desc: '浦东 · 标准泳池 · 水质好', detail: '浦东的标准游泳馆，50米标准泳池。水质管理严格，常年恒温。票价¥40，建议避开周末高峰。' },
+      { icon: '🎾', title: '久事网球场', desc: '闵行 · 室内外 · 可教练', detail: '上海的网球中心，有室内外场地。可租拍子，可请教练。工作日场地¥120/小时，周末¥150/小时。' },
+      { icon: '🛼', title: 'Roller文化创意滑轮', desc: '杨浦 · 轮滑体验 · 超有趣', detail: '杨浦的轮滑体验中心，复古迪斯科风格。提供轮滑鞋租赁，场地有灯光和音乐。适合初次体验，¥80/人。' },
+    ]
+  },
+  citywalk: {
+    title: '上海City Walk路线～', subtitle: '走走停停，探索上海的角落',
+    alwaysDetail: true,
+    items: [
+      { icon: '🚶', title: '武康路 · 安福路', desc: '梧桐树下的法式浪漫 · 网红咖啡+老洋房', detail: '【路线】武康大楼 → 巴金故居 → 罗密欧阳台 → 安福路 → 话剧艺术中心 → 网红咖啡街\n【沿途】武康大楼（拍照打卡）、老麦咖啡馆（复古风情）、%Arabica（网红咖啡）、HARMAY话梅（美妆集合）、多抓鱼（二手书店）' },
+      { icon: '🌆', title: '外滩 → 北外滩', desc: '万国建筑群 → 滨江步道 · 日落最佳', detail: '【路线】外白渡桥 → 外滩观景台 → 和平饭店 → 万国建筑博览群 → 滨江步道 → 北外滩\n【沿途】外白渡桥（情深深雨濛濛同款）、外滩27号（百年前是怡和洋行）、外白渡桥日落（最佳拍照时间）、北外滩滨江步道（夜景超美）' },
+      { icon: '🌿', title: '愚园路', desc: '百年老街 · 独立书店+小店 · 慢节奏', detail: '【路线】愚园路 → 刘长胜故居 → 长宁区少年宫 → 独立书店 → 小众咖啡馆\n【沿途】愚园路公共市集（社区菜场+小店）、The Cannery（美式餐厅）、Element（买手店）、@Fotografiska（摄影艺术中心）' },
+      { icon: '🏯', title: '豫园 → 老城厢', desc: '老上海弄堂+城隍庙小吃 · 人文路线', detail: '【路线】豫园 → 城隍庙 → 老城厢弄堂 → 方浜中路 → 文庙\n【沿途】豫园（明代园林）、城隍庙小吃（南翔小笼、生煎）、方浜中路（老上海弄堂）、文庙（旧书市场）' },
+      { icon: '🌊', title: '徐汇滨江', desc: '龙美术馆→西岸美术馆 · 江边艺术长廊', detail: '【路线】龙美术馆 → 油罐艺术中心 → 西岸美术馆 → 滨江步道 → 余德耀美术馆\n【沿途】龙美术馆（建筑本身就是艺术品）、油罐艺术中心（工业风改造）、西岸美术馆（常设展免费）、江边跑道（散步超舒服）' },
+      { icon: '📚', title: '多伦路 → 甜爱路', desc: '文化名人街 → 上海最甜的路 · 文艺打卡', detail: '【路线】多伦路文化名人街 → 鲁迅故居 → 甜爱路 → 甜爱咖啡馆\n【沿途】多伦路文化名人街（鲁迅、茅盾、郭沫若曾居住）、鲁迅故居（免费参观）、甜爱路（邮筒投递情书）、甜爱咖啡馆（写明信片寄给未来的自己）' },
+    ]
+  },
+  movie: {
+    title: '上海影院推荐～', subtitle: '看完电影还能逛逛～',
+    items: [
+      { icon: '🎬', title: 'SFC上影影城', desc: '新天地 · IMAX杜比 · 顶级体验', detail: '新天地旗舰影院，IMAX+杜比全景声。座椅舒适，音响效果顶级。看完电影可以在新天地逛街吃饭。' },
+      { icon: '🍿', title: 'CGV影城', desc: '月星环球港 · 舒适座椅', detail: '月星环球港的CGV影城，4DX厅有动感座椅和特效。商场吃饭逛街一条龙，看完电影不用挪地方。' },
+      { icon: '🎥', title: '万达影城', desc: '五角场 · IMAX', detail: '五角场万达的IMAX厅，屏幕够大。看完电影可以在大学路（大学周边）逛逛，青春气息浓厚。' },
+    ]
+  },
+};
+
+// ========== Load Recommendations ==========
+function loadRecommendations(activity) {
+  goToStage(5);
+  const container = document.getElementById('recommend-content');
+  container.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  document.getElementById('confirm-activity-btn').disabled = true;
+  document.getElementById('confirm-activity-btn').style.opacity = '0.5';
+  state.spot = '';
+
+  // 移除所有选中
+  document.querySelectorAll('.recommend-card').forEach(c => c.classList.remove('selected'));
+
+  setTimeout(() => {
+    let data;
+    if (activity === 'eat') {
+      data = shanghaiData.eat[state.foodType];
+    } else {
+      data = shanghaiData[activity];
+    }
+    if (!data) {
+      container.innerHTML = '<p style="text-align:center;color:var(--text-medium);padding:20px;">暂无推荐，稍后补充～</p>';
+      return;
+    }
+
+    document.getElementById('recommend-title').textContent = data.title;
+    document.getElementById('recommend-subtitle').innerHTML = data.subtitle + '<br><span style="font-size:0.72rem;color:var(--pink-400);">📅 ' + formatDate(state.date) + ' ' + state.time + ' · 上海</span>';
+
+    const alwaysDetail = data.alwaysDetail || false;
+    let html = '<div class="recommend-list">';
+    data.items.forEach(item => {
+      const extraClass = alwaysDetail ? 'always-detail' : '';
+      html += `
+        <div class="recommend-card ${extraClass}" onclick="selectSpot('${item.title}', this)">
+          <div class="recommend-header">
+            <div class="recommend-img">${item.icon}</div>
+            <div class="recommend-body">
+              <div class="recommend-title">${item.title}</div>
+              <div class="recommend-desc">${item.desc}</div>
+              <div class="recommend-meta">`;
+
+      // 外跳链接
+      if (activity === 'movie') {
+        html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 猫眼购票 →</a>`;
+      } else if (activity === 'livehouse') {
+        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
+      } else if (activity === 'comedy') {
+        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
+      }
+
+      html += `</div>
+            </div>
+          </div>
+          <div class="recommend-detail">${item.detail}</div>
+        </div>`;
+    });
+    html += '</div>';
+    container.innerHTML = html;
+  }, 800);
+}
+
+// ========== Select Spot ==========
+function selectSpot(spotName, el) {
+  document.querySelectorAll('.recommend-card').forEach(c => {
+    c.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  state.spot = spotName;
+  showToast('已选择: ' + spotName);
+
+  const btn = document.getElementById('confirm-activity-btn');
+  btn.disabled = false; btn.style.opacity = '1';
+}
+
+// ========== Confirm Activity ==========
+function confirmActivity() {
+  if (!state.spot) { showToast('先选一个想去的地方吧～'); return; }
+  updateFinalPage();
+  goToStage(6);
+}
+
+// ========== Click info-row to edit ==========
+function goBackToEdit(type) {
+  if (type === 'date' || type === 'time') {
+    goToStage(3);
+  } else if (type === 'plan') {
+    goToStage(4);
+    // 清除之前的activity选中，让用户重新选
+    document.querySelectorAll('#activity-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  } else if (type === 'spot') {
+    goToStage(5);
+  }
+}
+
+// ========== Submit to Web3Forms ==========
+async function submitToFormspree() {
+  if (!state.date || !state.time || !state.spot) {
+    showToast('先完成选择才能提交哦～'); return;
+  }
+  if (WEB3FORMS_KEY === 'YOUR_ACCESS_KEY_HERE' || WEB3FORMS_EMAIL === 'YOUR_EMAIL_HERE') {
+    showToast('⚠️ Access Key 或邮箱未配置，请先设置'); return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true; btn.style.opacity = '0.6';
+  btn.innerHTML = '提交中... ⏳';
+
+  try {
+    const response = await fetch(WEB3FORMS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        email: WEB3FORMS_EMAIL,
+        subject: '🌸 有人回应了你的约会邀请！',
+        from_name: '约会邀请小程序',
+        日期: formatDate(state.date),
+        时间: state.time,
+        活动: state.activityLabel,
+        地点: state.spot,
+        其他说明: state.otherInput || '无',
+        提交时间: new Date().toLocaleString('zh-CN'),
+        来源: window.location.href
+      })
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      btn.innerHTML = '✅ 已提交！';
+      btn.style.background = 'linear-gradient(135deg, #4ECDC4, #44A8A0)';
+      showToast('提交成功！TA很快就会收到～ 💌');
+      setTimeout(() => {
+        btn.innerHTML = '✅ 已提交';
+        btn.disabled = true;
+      }, 100);
+    } else {
+      throw new Error(result.message || '提交失败');
+    }
+  } catch (err) {
+    btn.disabled = false; btn.style.opacity = '1';
+    btn.innerHTML = originalText;
+    showToast('提交失败，请检查网络后重试');
+  }
+}
+
+// ========== Share / Copy ==========
+function generateShareLink() {
+  if (!state.date || !state.time || !state.spot) {
+    showToast('先完成选择才能分享哦～'); return;
+  }
+  const params = new URLSearchParams();
+  params.set('d', state.date);
+  params.set('t', state.time);
+  params.set('a', state.activityLabel);
+  params.set('s', state.spot);
+  const shareUrl = window.location.origin + window.location.pathname + '?' + params.toString();
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    showToast('分享链接已复制！发给对方就能看到了～');
+  }).catch(() => {
+    showToast('复制失败，请手动复制地址栏');
+  });
+}
+
+function copyResult() {
+  if (!state.date || !state.time || !state.spot) {
+    showToast('先完成选择才能复制哦～'); return;
+  }
+  const text = `📅 ${formatDate(state.date)} ${state.time}\n🎯 ${state.activityLabel}\n📍 ${state.spot}\n\n上海见！❤`;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('结果已复制，直接粘贴发给对方吧～');
+  }).catch(() => {
+    showToast('复制失败，请手动截图');
+  });
+}
+
+// ========== Update Final Page ==========
+function updateFinalPage() {
+  document.getElementById('final-date').textContent = formatDate(state.date);
+  document.getElementById('final-time').textContent = state.time;
+  document.getElementById('final-activity').textContent = state.activityLabel;
+  document.getElementById('final-spot').textContent = state.spot;
+}
+
+// ========== Format Date ==========
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  const d = new Date(dateStr + 'T00:00:00');
+  const month = d.getMonth() + 1, day = d.getDate();
+  const weekDays = ['周日','周一','周二','周三','周四','周五','周六'];
+  return `${month}月${day}日 ${weekDays[d.getDay()]}`;
+}
+
+// ========== Set min date + parse shared URL ==========
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split('T')[0];
+  document.getElementById('date-picker').min = minDate;
+
+  // 检查是否有分享链接参数
+  const params = new URLSearchParams(window.location.search);
+  const sharedDate = params.get('d');
+  const sharedTime = params.get('t');
+  const sharedActivity = params.get('a');
+  const sharedSpot = params.get('s');
+  if (sharedDate && sharedTime && sharedActivity && sharedSpot) {
+    state.date = sharedDate;
+    state.time = sharedTime;
+    state.activityLabel = sharedActivity;
+    state.spot = sharedSpot;
+    updateFinalPage();
+    // 直接跳到最终页，不显示前面的流程
+    document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+    document.getElementById('stage-6').classList.add('active');
+  }
+});
+</script>
+
+</body>
+</html>
