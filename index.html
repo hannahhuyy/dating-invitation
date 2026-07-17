@@ -417,7 +417,7 @@ body {
     <button class="btn-back" onclick="goToStage(3)">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>我们玩点什么？<span class="wink">🤔</span></h2>
-    <p class="subtitle">挑一个你想一起玩的～<br>（仅限上海哦 📍）</p>
+    <p class="subtitle">挑一个你想一起玩的～<br>上海本地 + 周边游 📍</p>
     <div class="activity-grid" id="activity-grid">
       <div class="activity-card" onclick="selectActivity('eat', '吃', this)">
         <span class="activity-icon">🍜</span><span class="activity-name">吃</span>
@@ -442,6 +442,12 @@ body {
       </div>
       <div class="activity-card" onclick="selectActivity('movie', '看电影', this)">
         <span class="activity-icon">🎬</span><span class="activity-name">看电影</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('events', '本周活动', this)">
+        <span class="activity-icon">🎪</span><span class="activity-name">本周活动</span>
+      </div>
+      <div class="activity-card" onclick="selectActivity('travel', '周边游', this)">
+        <span class="activity-icon">🏕️</span><span class="activity-name">周边游</span>
       </div>
       <div class="activity-card" onclick="selectActivity('other', '其他', this)">
         <span class="activity-icon">✨</span><span class="activity-name">其他</span>
@@ -495,9 +501,6 @@ body {
       <div class="activity-card" onclick="selectFoodType('southeast', '🍛 东南亚菜', this)">
         <span class="activity-icon">🍛</span><span class="activity-name">东南亚菜</span>
       </div>
-      <div class="activity-card" onclick="selectFoodType('shanghainese', '🏮 本帮菜', this)">
-        <span class="activity-icon">🏮</span><span class="activity-name">本帮菜</span>
-      </div>
       <div class="activity-card" onclick="selectFoodType('western', '🍴 西餐', this)">
         <span class="activity-icon">🍴</span><span class="activity-name">西餐</span>
       </div>
@@ -516,7 +519,33 @@ body {
     <button class="btn btn-primary btn-full" id="confirm-other-btn" onclick="confirmOther()" disabled style="opacity:0.5;">确定！<span class="heart-beat">❤</span></button>
   </div>
 
-  <!-- ========== Stage 5: 具体推荐 ========== -->
+  <!-- ========== Stage 4d: 周边游类型选择 ========== -->
+  <div class="stage" id="stage-4d">
+    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>想去哪里野？<span class="wink">🏕️</span></h2>
+    <p class="subtitle">江浙沪周边，活动导向～<br>夏天就要出去玩水避暑！</p>
+    <div class="activity-grid" id="travel-grid">
+      <div class="activity-card" onclick="selectTravelType('riverplay', '💦 溯溪玩水', this)">
+        <span class="activity-icon">💦</span><span class="activity-name">溯溪玩水</span>
+      </div>
+      <div class="activity-card" onclick="selectTravelType('paddleboard', '🏄 划桨板', this)">
+        <span class="activity-icon">🏄</span><span class="activity-name">划桨板</span>
+      </div>
+      <div class="activity-card" onclick="selectTravelType('hiking', '⛰️ 徒步登山', this)">
+        <span class="activity-icon">⛰️</span><span class="activity-name">徒步登山</span>
+      </div>
+      <div class="activity-card" onclick="selectTravelType('camping', '🏕️ 避暑露营', this)">
+        <span class="activity-icon">🏕️</span><span class="activity-name">避暑露营</span>
+      </div>
+      <div class="activity-card" onclick="selectTravelType('culture', '⛩️ 文化古镇', this)">
+        <span class="activity-icon">⛩️</span><span class="activity-name">文化古镇</span>
+      </div>
+      <div class="activity-card" onclick="selectTravelType('watertown', '🚣 水乡古镇', this)">
+        <span class="activity-icon">🚣</span><span class="activity-name">水乡古镇</span>
+      </div>
+    </div>
+  </div>
   <div class="stage" id="stage-5">
     <button class="btn-back" onclick="goBackFromRecommend()">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
@@ -567,7 +596,7 @@ body {
 
 <script>
 // ========== State ==========
-const state = { date: '', time: '', activity: '', activityLabel: '', spot: '', foodType: '', foodTypeLabel: '', otherInput: '' };
+const state = { date: '', time: '', activity: '', activityLabel: '', spot: '', foodType: '', foodTypeLabel: '', travelType: '', travelTypeLabel: '', otherInput: '' };
 
 // ========== Web3Forms 配置（无需注册，国内可访问）==========
 // 使用方法：
@@ -616,7 +645,9 @@ function selectActivity(activity, label, el) {
   state.activity = activity; state.activityLabel = label;
 
   if (activity === 'eat') { setTimeout(() => goToStage('4b'), 400); }
+  else if (activity === 'travel') { setTimeout(() => goToStage('4d'), 400); }
   else if (activity === 'other') { setTimeout(() => goToStage('4c'), 400); }
+  else if (activity === 'events') { setTimeout(() => loadRecommendations('events'), 400); }
   else { setTimeout(() => loadRecommendations(activity), 400); }
 }
 
@@ -627,6 +658,15 @@ function selectFoodType(foodType, label, el) {
   state.foodType = foodType; state.foodTypeLabel = label;
   state.activityLabel = '吃 · ' + label;
   setTimeout(() => loadRecommendations('eat'), 400);
+}
+
+// ========== Stage 4d: Travel Type Selection ==========
+function selectTravelType(travelType, label, el) {
+  document.querySelectorAll('#travel-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.travelType = travelType; state.travelTypeLabel = label;
+  state.activityLabel = '周边游 · ' + label;
+  setTimeout(() => loadRecommendations('travel'), 400);
 }
 
 // ========== Stage 4c: Other Input ==========
@@ -648,6 +688,7 @@ function confirmOther() {
 // ========== Back from recommendations ==========
 function goBackFromRecommend() {
   if (state.activity === 'eat') goToStage('4b');
+  else if (state.activity === 'travel') goToStage('4d');
   else if (state.activity === 'other') goToStage('4c');
   else goToStage(4);
 }
@@ -779,15 +820,6 @@ const shanghaiData = {
         { icon: '🍛', title: '芭蕉树', desc: '长宁 · 傣族菜 · 东南亚', detail: '主打傣族风味，酸辣鱼、柠檬鸡、竹筒饭。酸辣开胃，适合夏天。' },
       ]
     },
-    shanghainese: {
-      title: '上海本帮菜推荐～', subtitle: '浓油赤酱，老上海味道',
-      items: [
-        { icon: '🏮', title: '光明邨大酒家', desc: '淮海路 · 本帮菜 · 排队王', detail: '淮海路上的排队王，鲜肉月饼、蟹粉小笼、松鼠鳜鱼是招牌。每次都要排1小时以上。' },
-        { icon: '🏮', title: '上海老饭店', desc: '豫园 · 百年老店 · 传统', detail: '始创于1875年，最老的本帮菜馆。八宝鸭、扣三丝、油爆虾是经典。' },
-        { icon: '🏮', title: '德兴馆', desc: '多门店 · 百年面馆 · 必吃', detail: '始创于1878年，招牌焖肉面、爆鱼面。面条劲道，浇头入味，是几代上海人的记忆。' },
-        { icon: '🏮', title: '瑞福园', desc: '多门店 · 家常本帮 · 实惠', detail: '家常本帮菜，红烧肉、响油鳝丝、腌笃鲜。价格亲民，适合日常聚餐。' },
-      ]
-    },
     western: {
       title: '上海西餐推荐～', subtitle: '法式浪漫 or 美式经典',
       items: [
@@ -867,7 +899,84 @@ const shanghaiData = {
       { icon: '🎥', title: '万达影城', desc: '五角场 · IMAX', detail: '五角场万达的IMAX厅，屏幕够大。看完电影可以在大学路（大学周边）逛逛，青春气息浓厚。' },
     ]
   },
-};
+
+  // ========== 本周活动/展览 ==========
+  events: {
+    title: '上海本周活动 & 展览～', subtitle: '这周末上海有这些好玩的！',
+    alwaysDetail: true,
+    items: [
+      { icon: '🤖', title: 'WAIC 世界人工智能大会', desc: '世博展览馆 · 7月5-7日 · 免费预约', detail: '【活动】全球AI顶级盛会，各大厂展示最新AI产品\n【亮点】可体验各种AI互动装置、机器人、自动驾驶\n【门票】免费，需提前在官网或小程序预约\n【地址】浦东新区博城路1099号世博展览馆', link: 'https://www.worldaic.com.cn/', linkText: '🔗 官网预约 →' },
+      { icon: '🍢', title: '小红书 人生一串大赏', desc: '前滩太古里 · 美食市集 · 限时', detail: '【活动】小红书主办的人气烧烤美食节，集合全国烤串摊主\n【亮点】各种创意烤串+啤酒+live演出，氛围感拉满\n【门票】免费入场，现场消费\n【地址】浦东新区前滩太古里', link: 'https://www.xiaohongshu.com/search_result?keyword=人生一串大赏', linkText: '🔗 小红书详情 →' },
+      { icon: '🌊', title: '海藻市场 SEAMARKET', desc: '西岸艺术中心 · 文创市集 · 潮流', detail: '【活动】西岸超人气文创市集，集合独立设计师、手作、 vintage\n【亮点】各种小众品牌摊位+美食+音乐，适合周末逛\n【门票】免费入场\n【地址】徐汇区龙腾大道2555号西岸艺术中心', link: 'https://www.xiaohongshu.com/search_result?keyword=海藻市场', linkText: '🔗 小红书详情 →' },
+      { icon: '📔', title: '魔都手帐市集', desc: '各文创园区 · 手作文具 · 季节限定', detail: '【活动】手帐爱好者的天堂，各种胶带、贴纸、手账本、文创周边\n【亮点】可以淘到很多小众文具品牌，现场还有手作workshop\n【门票】免费入场\n【地址】不定期更换场地，关注小红书获取最新信息', link: 'https://www.xiaohongshu.com/search_result?keyword=魔都手帐市集', linkText: '🔗 小红书详情 →' },
+      { icon: '🎨', title: '浦东美术馆 当前展览', desc: '浦东 · 滨江 · 大展不断', detail: '【活动】浦东美术馆定期举办国际级大展，建筑本身也是打卡地\n【亮点】当前展出国际艺术家个展，具体内容关注公众号\n【门票】约¥100-150，可在公众号购票预约\n【地址】浦东新区滨江大道2727号', link: 'https://www.xiaohongshu.com/search_result?keyword=浦东美术馆展览', linkText: '🔗 最新展览 →' },
+      { icon: '🎪', title: '更多活动 · 大麦/猫眼', desc: '随时更新的演出 & 展览 & 市集', detail: '【平台推荐】\n🎫 大麦网 — 演出/展览/市集一站式查\n🎫 猫眼 — 电影/演出/展览购票\n📱 小红书搜"上海周末活动" — 最新的市集和pop-up\n📱 公众号：上海生活、ShanghaiWOW、魔都探索队', link: 'https://m.damai.cn/', linkText: '🎫 大麦查活动 →' },
+    ]
+  },
+
+  // ========== 周边游 ==========
+  travel: {
+    riverplay: {
+      title: '江浙沪溯溪玩水推荐～', subtitle: '夏天就是要泡在水里！💦',
+      alwaysDetail: true,
+      items: [
+        { icon: '💦', title: '建德新安江 · 白沙奇雾', desc: '杭州建德 · 天然空调 · 江雾仙境', detail: '【特色】夏天来新安江像天然大空调，水温常年17℃\n【必看】傍晚17:30开始出现江雾（白沙奇雾），梅雨季更壮观\n【玩法】新安绿道夏日冬泳基地戏水、观雾、拍照\n【交通】上海自驾约3.5h，或高铁到建德站\n【Tips】水质清澈可见水草，记得带换洗衣物', link: 'http://xhslink.com/o/1R5LRHD62Ms', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏞️', title: '安吉 · 龙王溪溯溪', desc: '湖州安吉 · 竹林溪流 · 清凉避暑', detail: '【特色】藏在竹海里的天然溪流，水温凉爽\n【玩法】溯溪徒步+天然水潭游泳+竹林BBQ\n【交通】上海自驾约2.5h\n【Tips】穿防滑溯溪鞋，注意雨后水位上涨\n【周边】可以顺路去中国大竹海、天荒坪', link: 'https://www.xiaohongshu.com/search_result?keyword=安吉溯溪', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌊', title: '桐庐 · 芦茨溪', desc: '杭州桐庐 · 溪水清澈 · 避暑胜地', detail: '【特色】杭州周边最火的溯溪地之一，溪水碧绿清澈\n【玩法】溪边扎营+游泳+漂流+抓鱼\n【交通】上海自驾约3h，或高铁到桐庐站\n【Tips】周末人多建议早到，可住溪边民宿\n【周边】严子陵钓台、富春江', link: 'https://www.xiaohongshu.com/search_result?keyword=桐庐芦茨溪', linkText: '🔗 小红书攻略 →' },
+        { icon: '💎', title: '临安 · 天目山溪谷', desc: '杭州临安 · 原始森林溪流 · 小众', detail: '【特色】天目山脚的原始溪谷，人少水清\n【玩法】溯溪探险+天然滑水道+森林徒步\n【交通】上海自驾约3h\n【Tips】部分路段需要攀爬，有一定难度\n【周边】天目山景区、大树王景区', link: 'https://www.xiaohongshu.com/search_result?keyword=临安天目山溯溪', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    paddleboard: {
+      title: '江浙沪划桨板推荐～', subtitle: '站在水上看风景，太酷了！🏄',
+      alwaysDetail: true,
+      items: [
+        { icon: '🏄', title: '千岛湖 · 无人岛露营桨板', desc: '杭州淳安 · 桨板上岛 · 露营', detail: '【特色】用桨板把帐篷物资运到无人岛上露营\n【地点】千岛湖金山坞附近，停车免费走到水边约100m\n【玩法】划桨板上岛+岛上露营+BBQ+看星空\n【交通】上海自驾约4h\n【Tips】需穿救生衣！蚊虫多带防蚊用品，无补给需自带水\n【参考公众号】幻想乡wanderland / 走之旅行', link: 'http://xhslink.com/o/5iRuh7d0nZ', linkText: '🔗 小红书攻略 →' },
+        { icon: '🚣', title: '淀山湖 · 桨板体验', desc: '上海青浦 · 最近的桨板点 · 半日游', detail: '【特色】上海最近的桨板体验地，不用出市\n【玩法】桨板教学+自由划行+湖上看日落\n【交通】上海自驾约1h\n【Tips】有桨板俱乐部提供装备租赁，约¥150-200/人\n【周边】朱家角古镇、东方绿舟', link: 'https://www.xiaohongshu.com/search_result?keyword=淀山湖桨板', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌅', title: '太湖 · 桨板日落', desc: '苏州太湖 · 湖光山色 · 日落绝佳', detail: '【特色】太湖水域开阔，桨板看日落超美\n【玩法】下午出发划到湖心+看日落+岸边烧烤\n【交通】上海自驾约1.5h\n【Tips】有桨板俱乐部可租装备，注意风向\n【周边】西山岛、东山、陆巷古村', link: 'https://www.xiaohongshu.com/search_result?keyword=太湖桨板', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌿', title: '德清 · 下渚湖桨板', desc: '湖州德清 · 湿地迷宫 · 小众秘境', detail: '【特色】湿地迷宫般的湖泊，划桨板穿行在芦苇荡中\n【玩法】桨板湿地探索+观鸟+农家乐\n【交通】上海自驾约2h\n【Tips】湿地公园内可租桨板，约¥120/人\n【周边】莫干山、新市古镇', link: 'https://www.xiaohongshu.com/search_result?keyword=下渚湖桨板', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    hiking: {
+      title: '江浙沪徒步登山推荐～', subtitle: '山里凉快，走走停停最舒服！⛰️',
+      alwaysDetail: true,
+      items: [
+        { icon: '⛰️', title: '莫干山 · 竹海徒步', desc: '湖州德清 · 竹林避暑 · 经典路线', detail: '【特色】中国四大避暑胜地之一，竹海+瀑布+民国别墅群\n【路线】剑池 → 芦花荡 → 武陵村 → 大坑景区，全程约4h\n【交通】上海自驾约2.5h，或高铁到德清站转公交\n【Tips】山上气温比市区低5-8℃，带件薄外套\n【住宿】山上有民宿和酒店，也可以当天往返\n【参考公众号】Full Ahead / 走之旅行', link: 'https://www.xiaohongshu.com/search_result?keyword=莫干山徒步', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏔️', title: '天台山 · 国清寺徒步', desc: '台州天台 · 佛宗道源 · 清幽古寺', detail: '【特色】佛教天台宗祖庭，千年古寺+隋梅+古树\n【路线】国清寺 → 隋塔 → 赤城山，全程约3h\n【交通】上海高铁到天台山站约2h\n【Tips】国清寺免费，香火自愿\n【美食】天台扁食、麦饼、糊拉汰', link: 'https://www.xiaohongshu.com/search_result?keyword=天台山徒步', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌿', title: '临安 · 大明山', desc: '杭州临安 · 高山草甸 · 万米岩洞', detail: '【特色】海拔1489m，夏天山上气温22℃左右，避暑绝佳\n【路线】索道上山 → 万米岩洞 → 高山草甸 → 悬空栈道\n【交通】上海自驾约3.5h\n【Tips】门票约¥88+索道¥80，建议穿运动鞋\n【周边】可以顺路去浙西大峡谷漂流', link: 'https://www.xiaohongshu.com/search_result?keyword=大明山徒步', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌲', title: '四明山 · 盘山公路', desc: '宁波余姚 · 最美盘山路 · 四季皆宜', detail: '【特色】浙江最美盘山公路，沿途红杉林+古村+柿子林\n【路线】四明山观景台 → 柿林村 → 丹山赤水 → 四明湖\n【交通】上海自驾约3h\n【Tips】自驾最佳，沿途随时停车拍照\n【美食】余姚杨梅（6月）、农家土鸡、笋干', link: 'https://www.xiaohongshu.com/search_result?keyword=四明山自驾', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    camping: {
+      title: '江浙沪避暑露营推荐～', subtitle: '山里吹风看星星，夏天最浪漫的事！🏕️',
+      alwaysDetail: true,
+      items: [
+        { icon: '🏕️', title: '安吉 · 云上草原露营', desc: '湖州安吉 · 高山草原 · 星空露营', detail: '【特色】海拔1168m的高山草原，夏天均温22℃\n【玩法】草原露营+滑草+悬崖秋千+看星空+日出云海\n【交通】上海自驾约3h\n【Tips】有装备租赁，也可自带帐篷\n【费用】景区门票+露营位约¥300-500/人', link: 'https://www.xiaohongshu.com/search_result?keyword=安吉云上草原露营', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌌', title: '千岛湖 · 湖畔露营', desc: '杭州淳安 · 湖景帐篷 · 日落+星空', detail: '【特色】千岛湖畔的专业露营地，设施完善\n【玩法】帐篷露营+湖边BBQ+桨板+看日落星空\n【交通】上海自驾约4h\n【Tips】有glamping豪华露营可选，¥500-800/晚\n【周边】可以租桨板去无人岛（见划桨板推荐）', link: 'https://www.xiaohongshu.com/search_result?keyword=千岛湖露营', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏞️', title: '桐庐 · 言几又露营', desc: '杭州桐庐 · 山谷营地 · 精致露营', detail: '【特色】藏在山谷里的精致露营地，有泳池和咖啡\n【玩法】山谷露营+山泉泳池+手冲咖啡+篝火晚会\n【交通】上海自驾约3h\n【Tips】全包制约¥800-1200/晚/人，含餐食活动\n【周边】芦茨溪溯溪、严子陵钓台', link: 'https://www.xiaohongshu.com/search_result?keyword=桐庐露营', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌙', title: '崇明 · 东平森林露营', desc: '上海崇明 · 不出市 · 森林星空', detail: '【特色】上海最近的森林露营地，不用出市\n【玩法】森林帐篷+骑行+烧烤+萤火虫（夏季）\n【交通】上海自驾约1.5h\n【Tips】东平国家森林公园内有指定露营区\n【费用】公园门票¥70+露营位费', link: 'https://www.xiaohongshu.com/search_result?keyword=崇明露营', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    culture: {
+      title: '江浙沪文化古镇游推荐～', subtitle: '不只是古镇，更是文化深度游！⛩️',
+      alwaysDetail: true,
+      items: [
+        { icon: '⛩️', title: '东阳 · 木雕建筑两日游', desc: '浙江东阳 · 世界木雕之都 · 小众深度', detail: '【Day1】卢宅（"北有故宫，南有卢宅"，¥65）→ 中国木雕博物馆（免费）\n【Day2】李宅古村（600年历史，免费）→ 史家庄花厅（"江南第一花厅"，免费）\n【交通】上海高铁到横店站，换金义东轻轨\n【住宿】卢宅或振兴路夜市附近\n【特色】除了横店，东阳的木雕建筑更值得一看', link: 'http://xhslink.com/o/8wXcJKQHwQw', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏯', title: '松阳 · 古村落群', desc: '丽水松阳 · 最后的江南秘境 · 文艺', detail: '【特色】被国家地理评为"最后的江南秘境"\n【路线】杨家堂村 → 陈家铺村 → 平田村 → 松阳老街\n【亮点】先锋书店（陈家铺村）、飞鸟集民宿、古法红糖作坊\n【交通】上海高铁到丽水站约2.5h，转大巴\n【美食】煨盐鸡、沙擂、延寿乌饭', link: 'https://www.xiaohongshu.com/search_result?keyword=松阳古村落', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏮', title: '景德镇 · 陶溪川文创', desc: '江西景德镇 · 陶瓷文化 · 周末市集', detail: '【特色】千年瓷都的文艺复兴，老厂房改造的文创街区\n【必逛】陶溪川文创街区（周末有市集）→ 三宝村 → 御窑博物馆\n【亮点】可以体验拉胚、陶艺课，秋千墙拍照\n【交通】上海高铁到景德镇北站约3h\n【住宿】陶溪川附近民宿，¥200-400/晚', link: 'https://www.xiaohongshu.com/search_result?keyword=景德镇陶溪川', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏛️', title: '泉州 · 世遗古城', desc: '福建泉州 · 海丝起点 · 半城烟火半城仙', detail: '【特色】联合国世遗城市，多元宗教文化交融\n【路线】开元寺 → 西街 → 关帝庙 → 清净寺 → 蟳埔村\n【亮点】蟳埔女簪花围体验（¥40）、双塔日落\n【交通】上海飞机约2h或高铁约5h\n【美食】面线糊、四果汤、土笋冻、姜母鸭', link: 'https://www.xiaohongshu.com/search_result?keyword=泉州旅游攻略', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    watertown: {
+      title: '江浙沪水乡古镇推荐～', subtitle: '小桥流水人家，逛吃逛吃！🚣',
+      alwaysDetail: true,
+      items: [
+        { icon: '🌙', title: '乌镇 · 西栅夜游', desc: '嘉兴桐乡 · 枕水人家 · 夜景绝美', detail: '【特色】西栅夜景是乌镇灵魂，灯光倒影在水中\n【路线】西栅 → 木心美术馆 → 乌村 → 老邮局\n【亮点】坐摇橹船夜游、草木本色染坊、水剧场\n【交通】上海自驾约1.5h，或高铁到桐乡站\n【门票】西栅¥150，东西栅联票¥190\n【住宿】景区内民宿/酒店，体验枕水而眠', link: 'https://www.xiaohongshu.com/search_result?keyword=乌镇西栅', linkText: '🔗 小红书攻略 →' },
+        { icon: '🛶', title: '西塘 · 烟雨长廊', desc: '嘉兴嘉善 · 最浪漫的水乡 · 汉服拍照', detail: '【特色】《碟中谍3》取景地，烟雨长廊是标志性景观\n【路线】烟雨长廊 → 石皮弄 → 送子来凤桥 → 永宁桥\n【亮点】穿汉服拍照超美、夜晚酒吧街热闹\n【交通】上海自驾约1h，或高铁到嘉善南站\n【门票】¥95（工作日¥65）\n【美食】芡实糕、管老太臭豆腐、送子龙蹄', link: 'https://www.xiaohongshu.com/search_result?keyword=西塘古镇', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌉', title: '南浔 · 中西合璧', desc: '湖州南浔 · 百间楼 · 最低调的水乡', detail: '【特色】唯一中西合璧的古镇，富豪宅邸+百间楼沿河\n【路线】小莲庄 → 嘉业堂藏书楼 → 张石铭旧宅 → 百间楼\n【亮点】百间楼是最原生态的水乡沿河建筑群，免费区域\n【交通】上海自驾约1.5h\n【门票】¥100（百间楼区域免费）\n【美食】双交面、浔蹄、绣花锦', link: 'https://www.xiaohongshu.com/search_result?keyword=南浔古镇', linkText: '🔗 小红书攻略 →' },
+        { icon: '🍶', title: '绍兴 · 安昌古镇', desc: '绍兴柯桥 · 酱香古镇 · 最有烟火气', detail: '【特色】比其他古镇更原生态，沿河晒满酱鸭腊肠\n【路线】安昌老街 → 城隍殿 → 民俗馆 → 师爷馆\n【亮点】坐乌篷船、看扯白糖、吃酱货\n【交通】上海高铁到绍兴北站约1.5h，转公交\n【门票】免费（小景点联票¥50）\n【美食】安昌腊肠、酱油饭、黄酒棒冰、臭豆腐', link: 'https://www.xiaohongshu.com/search_result?keyword=安昌古镇', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+  },
 
 // ========== Load Recommendations ==========
 function loadRecommendations(activity) {
@@ -885,6 +994,8 @@ function loadRecommendations(activity) {
     let data;
     if (activity === 'eat') {
       data = shanghaiData.eat[state.foodType];
+    } else if (activity === 'travel') {
+      data = shanghaiData.travel[state.travelType];
     } else {
       data = shanghaiData[activity];
     }
@@ -916,6 +1027,8 @@ function loadRecommendations(activity) {
         html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
       } else if (activity === 'comedy') {
         html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
+      } else if (item.link) {
+        html += `<a href="${item.link}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">${item.linkText || '🔗 查看详情 →'}</a>`;
       }
 
       html += `</div>
