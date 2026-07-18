@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 和我约会嘛？🌸</title>
+<meta name="description" content="一份可爱的约会邀请～选个时间、挑个活动，上海见！">
+<meta name="theme-color" content="#FF7B94">
+<!-- Open Graph 社交分享标签 -->
+<meta property="og:title" content="对方向你发起了一个dating邀请">
+<meta property="og:description" content="一份可爱的约会邀请～选个时间、挑个活动，上海见！">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_CN">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对方向你发起了一个dating邀请">
+<meta name="twitter:description" content="一份可爱的约会邀请～选个时间、挑个活动，上海见！">
+<!-- Emoji Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+<title>对方向你发起了一个dating邀请</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -27,6 +40,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 html, body { height: 100%; overflow-x: hidden; }
 body {
   font-family: 'Noto Sans SC', 'Comfortaa', sans-serif;
@@ -34,6 +48,8 @@ body {
   color: var(--text-dark);
   display: flex; align-items: center; justify-content: center;
   min-height: 100vh; padding: 20px; position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .bg-decoration {
@@ -182,6 +198,11 @@ body {
   border-radius: 18px; padding: 18px 6px 14px; text-align: center;
   cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   -webkit-tap-highlight-color: transparent; user-select: none;
+  outline: none;
+}
+.activity-card:focus-visible {
+  border-color: var(--pink-500);
+  box-shadow: 0 0 0 3px rgba(255, 123, 148, 0.3);
 }
 .activity-card:hover {
   border-color: var(--pink-400); transform: translateY(-4px);
@@ -196,10 +217,19 @@ body {
 .activity-card:hover .activity-icon { transform: scale(1.15); }
 .activity-name { font-size: 0.78rem; font-weight: 500; color: var(--text-dark); }
 
+/* 主分类卡片（上海/周边游/长线旅游） */
+.category-card { padding: 28px 8px 20px; }
+.category-card .activity-icon { font-size: 2.6rem; margin-bottom: 10px; }
+.category-card .activity-name { font-size: 0.95rem; font-weight: 600; }
+
+/* 长线旅游时长网格 */
+#longdistance-grid { grid-template-columns: repeat(2, 1fr); }
+
 /* Recommend List */
 .recommend-list {
   display: flex; flex-direction: column; gap: 12px;
   margin: 16px 0; max-height: 420px; overflow-y: auto; padding-right: 4px;
+  overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
 }
 .recommend-list::-webkit-scrollbar { width: 4px; }
 .recommend-list::-webkit-scrollbar-track { background: var(--pink-50); border-radius: 2px; }
@@ -252,6 +282,50 @@ body {
   transition: all 0.2s ease;
 }
 .link-btn:hover { transform: scale(1.05); }
+
+/* ========== 周边游精选卡片 ========== */
+.travel-featured-scroll {
+  display: flex; overflow: hidden; padding: 4px 0 12px;
+  margin: 16px -4px 8px;
+}
+.travel-featured-track {
+  display: flex; gap: 12px;
+  animation: autoScroll 30s linear infinite;
+  will-change: transform;
+}
+.travel-featured-scroll:hover .travel-featured-track { animation-play-state: paused; }
+
+@keyframes autoScroll {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.travel-featured-card {
+  flex-shrink: 0; width: 200px; scroll-snap-align: start;
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  background: #fff; border: 2px solid var(--pink-100);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.travel-featured-card:hover { border-color: var(--pink-400); transform: translateY(-4px); box-shadow: 0 8px 24px var(--shadow-pink); }
+.travel-featured-card:active { transform: scale(0.97); }
+.travel-featured-card:focus-visible { outline: none; border-color: var(--pink-500); box-shadow: 0 0 0 3px rgba(255, 123, 148, 0.3); }
+
+.travel-card-img {
+  height: 110px; display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; position: relative; overflow: hidden;
+}
+.travel-card-img::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.15));
+}
+.travel-card-body { padding: 10px 12px 12px; }
+.travel-card-title { font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+.travel-card-desc { font-size: 0.7rem; color: var(--text-medium); line-height: 1.4; }
+.travel-card-tag { font-size: 0.62rem; color: var(--pink-600); background: var(--pink-50); padding: 2px 6px; border-radius: 6px; display: inline-block; margin-top: 6px; }
+
+.travel-section-title { font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin: 18px 0 8px; padding-left: 4px; display: flex; align-items: center; gap: 6px; }
 
 /* Final page */
 .final-card { text-align: center; }
@@ -313,6 +387,11 @@ body {
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
 @media (max-width: 380px) {
   .stage { padding: 28px 20px 24px; }
   .stage h1 { font-size: 1.35rem; }
@@ -333,6 +412,24 @@ body {
   .activity-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* 安全区域适配 */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+}
+
+/* 选中文本颜色 */
+::selection { background: var(--pink-200); color: var(--text-dark); }
+
+/* 尊重用户的减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .petal { display: none; }
+}
+
 .wink { display: inline-block; animation: wink 3s infinite; }
 @keyframes wink { 0%, 90%, 100% { transform: rotate(0deg); } 93% { transform: rotate(15deg) scale(0.9); } 96% { transform: rotate(0deg) scale(1); } }
 
@@ -346,6 +443,67 @@ body {
 .text-input-large:focus {
   border-color: var(--pink-400); box-shadow: 0 2px 12px var(--shadow-pink);
 }
+
+/* 时长筛选标签 */
+.duration-filter {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; padding: 10px 12px;
+  background: var(--pink-50); border-radius: 16px;
+  border: 1px solid var(--pink-100);
+}
+.duration-filter-label {
+  font-size: 0.85rem; color: var(--pink-600); font-weight: 600; white-space: nowrap;
+}
+.duration-filter-tags { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.duration-tag {
+  font-size: 0.75rem; padding: 5px 14px; border-radius: 50px;
+  background: #fff; color: var(--text-medium); border: 1.5px solid var(--pink-100);
+  cursor: pointer; transition: all 0.25s ease; font-weight: 500;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.duration-tag:hover { border-color: var(--pink-400); color: var(--pink-500); }
+.duration-tag.active {
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-600));
+  color: #fff; border-color: transparent; font-weight: 600;
+  box-shadow: 0 3px 12px rgba(255, 92, 122, 0.3);
+}
+
+/* 路线详情页 */
+.route-detail {
+  max-height: 400px; overflow-y: auto; padding-right: 4px;
+  margin-bottom: 18px; overscroll-behavior: contain;
+}
+.route-detail::-webkit-scrollbar { width: 4px; }
+.route-detail::-webkit-scrollbar-track { background: var(--pink-50); border-radius: 2px; }
+.route-detail::-webkit-scrollbar-thumb { background: var(--pink-300); border-radius: 2px; }
+.route-overview {
+  background: var(--pink-50); border-radius: 16px; padding: 14px 16px;
+  border-left: 4px solid var(--pink-500); margin-bottom: 16px;
+  font-size: 0.85rem; color: var(--text-dark); line-height: 1.6;
+}
+.route-overview .route-emoji { font-size: 1.8rem; margin-right: 8px; }
+.route-day {
+  background: var(--warm-white); border: 1.5px solid var(--pink-100);
+  border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+}
+.route-day-title {
+  font-size: 0.9rem; font-weight: 700; color: var(--pink-600);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+}
+.route-day-content { font-size: 0.82rem; color: var(--text-medium); line-height: 1.6; }
+.route-tips {
+  background: #fff; border: 1.5px dashed var(--pink-300); border-radius: 16px;
+  padding: 14px 16px; margin-top: 14px; font-size: 0.82rem; color: var(--pink-600); line-height: 1.6;
+}
+.route-tips-title { font-weight: 700; margin-bottom: 4px; }
+.route-detail-img { font-size: 3rem; text-align: center; margin-bottom: 14px; }
+
+@media (max-width: 380px) {
+  .duration-tag { font-size: 0.7rem; padding: 4px 12px; }
+  .route-day-content { font-size: 0.78rem; }
+  .route-overview { font-size: 0.8rem; }
+}
+
 </style>
 </head>
 <body>
@@ -361,7 +519,7 @@ body {
   <div class="stage active" id="stage-1">
     <div class="flower-deco">✿ ❀ ✽ ❀ ✿</div>
     <img class="avatar" src="assets/avatar.jpg" alt="头像" onerror="this.style.display='none'">
-    <h1>🌸 可以和我约会嘛？<span class="wink">🥺</span> 🌸</h1>
+    <h1>对方向你发起了一个dating邀请</h1>
     <div class="system-hint">系统检测到：对方紧张程度：★★★★★</div>
     <div class="peanut">🥜</div>
     <div class="btn-group">
@@ -417,47 +575,23 @@ body {
     <button class="btn-back" onclick="goToStage(3)">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>我们玩点什么？<span class="wink">🤔</span></h2>
-    <p class="subtitle">挑一个你想一起玩的～<br>上海本地 + 周边游 📍</p>
-    <div class="activity-grid" id="activity-grid">
-      <div class="activity-card" onclick="selectActivity('eat', '吃', this)">
-        <span class="activity-icon">🍜</span><span class="activity-name">吃</span>
+    <p class="subtitle">上海本地 · 周边游 · 长线旅行 🗺️</p>
+    <div class="activity-grid category-grid" id="activity-grid">
+      <div class="activity-card category-card" onclick="selectCategory('shanghai', '上海', this)">
+        <span class="activity-icon">🏙️</span><span class="activity-name">上海</span>
       </div>
-      <div class="activity-card" onclick="selectActivity('karting', '卡丁车', this)">
-        <span class="activity-icon">🏎️</span><span class="activity-name">卡丁车</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('livehouse', 'Live House', this)">
-        <span class="activity-icon">🎸</span><span class="activity-name">Live House</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('comedy', '脱口秀', this)">
-        <span class="activity-icon">🎤</span><span class="activity-name">脱口秀</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('art', '美术馆', this)">
-        <span class="activity-icon">🎨</span><span class="activity-name">美术馆</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('sport', '运动', this)">
-        <span class="activity-icon">🏃</span><span class="activity-name">运动</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('citywalk', 'City Walk', this)">
-        <span class="activity-icon">🚶</span><span class="activity-name">City Walk</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('movie', '看电影', this)">
-        <span class="activity-icon">🎬</span><span class="activity-name">看电影</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('events', '本周活动', this)">
-        <span class="activity-icon">🎪</span><span class="activity-name">本周活动</span>
-      </div>
-      <div class="activity-card" onclick="selectActivity('travel', '周边游', this)">
+      <div class="activity-card category-card" onclick="selectCategory('travel', '周边游', this)">
         <span class="activity-icon">🏕️</span><span class="activity-name">周边游</span>
       </div>
-      <div class="activity-card" onclick="selectActivity('other', '其他', this)">
-        <span class="activity-icon">✨</span><span class="activity-name">其他</span>
+      <div class="activity-card category-card" onclick="selectCategory('longdistance', '短线', this)">
+        <span class="activity-icon">✈️</span><span class="activity-name">短线</span>
       </div>
     </div>
   </div>
 
   <!-- ========== Stage 4b: 菜系选择 (吃) ========== -->
   <div class="stage" id="stage-4b">
-    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <button class="btn-back" onclick="goToStage('4e')">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>想吃什么菜系？<span class="wink">🤤</span></h2>
     <p class="subtitle">告诉我你馋什么～</p>
@@ -509,7 +643,7 @@ body {
 
   <!-- ========== Stage 4c: 其他活动输入 ========== -->
   <div class="stage" id="stage-4c">
-    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <button class="btn-back" onclick="goToStage('4e')">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>你想玩什么？<span class="wink">✨</span></h2>
     <p class="subtitle">输入你想做的任何活动，我来帮你安排～</p>
@@ -519,12 +653,59 @@ body {
     <button class="btn btn-primary btn-full" id="confirm-other-btn" onclick="confirmOther()" disabled style="opacity:0.5;">确定！<span class="heart-beat">❤</span></button>
   </div>
 
-  <!-- ========== Stage 4d: 周边游类型选择 ========== -->
+  <!-- ========== Stage 4e: 上海本地活动 ========== -->
+  <div class="stage" id="stage-4e">
+    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>上海本地玩什么？<span class="wink">🏙️</span></h2>
+    <p class="subtitle">挑一个活动类型～</p>
+    <div class="activity-grid" id="shanghai-grid">
+      <div class="activity-card" onclick="selectShanghaiActivity('events', '本周活动', this)">
+        <span class="activity-icon">🎪</span><span class="activity-name">本周活动</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('eat', '吃吃吃', this)">
+        <span class="activity-icon">🍜</span><span class="activity-name">吃吃吃</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('karting', '卡丁车', this)">
+        <span class="activity-icon">🏎️</span><span class="activity-name">卡丁车</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('livehouse', 'Livehouse', this)">
+        <span class="activity-icon">🎸</span><span class="activity-name">Livehouse</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('comedy', '脱口秀', this)">
+        <span class="activity-icon">🎤</span><span class="activity-name">脱口秀</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('art', '展览馆', this)">
+        <span class="activity-icon">🎨</span><span class="activity-name">展览馆</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('sport', '休闲运动', this)">
+        <span class="activity-icon">🏃</span><span class="activity-name">休闲运动</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('citywalk', 'City Walk', this)">
+        <span class="activity-icon">🚶</span><span class="activity-name">City Walk</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('movie', '电影', this)">
+        <span class="activity-icon">🎬</span><span class="activity-name">电影</span>
+      </div>
+      <div class="activity-card" onclick="selectShanghaiActivity('other', '其他', this)">
+        <span class="activity-icon">✨</span><span class="activity-name">其他</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Stage 4d: 周边游（精选+分类）========== -->
   <div class="stage" id="stage-4d">
     <button class="btn-back" onclick="goToStage(4)">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>想去哪里野？<span class="wink">🏕️</span></h2>
-    <p class="subtitle">江浙沪周边，活动导向～<br>夏天就要出去玩水避暑！</p>
+    <p class="subtitle">江浙沪周边</p>
+
+    <div class="travel-section-title">江浙沪精选</div>
+    <div class="travel-featured-scroll" id="travel-featured">
+      <div class="travel-featured-track" id="travel-featured-track"></div>
+    </div>
+
+    <div class="travel-section-title">🗺️ 按玩法分类</div>
     <div class="activity-grid" id="travel-grid">
       <div class="activity-card" onclick="selectTravelType('riverplay', '💦 溯溪玩水', this)">
         <span class="activity-icon">💦</span><span class="activity-name">溯溪玩水</span>
@@ -544,26 +725,51 @@ body {
       <div class="activity-card" onclick="selectTravelType('watertown', '🚣 水乡古镇', this)">
         <span class="activity-icon">🚣</span><span class="activity-name">水乡古镇</span>
       </div>
+      <div class="activity-card" onclick="selectTravelType('hotspring', '♨️ 温泉度假', this)">
+        <span class="activity-icon">♨️</span><span class="activity-name">温泉度假</span>
+      </div>
     </div>
   </div>
+
+  <!-- ========== Stage 5: 推荐列表 ========== -->
   <div class="stage" id="stage-5">
     <button class="btn-back" onclick="goBackFromRecommend()">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2 id="recommend-title">为你找到这些～</h2>
     <p class="subtitle" id="recommend-subtitle">根据你选的时间匹配的推荐</p>
+    <div class="duration-filter" id="duration-filter" style="display:none;">
+      <div class="duration-filter-label">⏱️</div>
+      <div class="duration-filter-tags" id="duration-filter-tags">
+        <div class="duration-tag active" data-duration="3days" onclick="selectLongDuration('3days')">3天</div>
+        <div class="duration-tag" data-duration="35days" onclick="selectLongDuration('35days')">3-5天</div>
+        <div class="duration-tag" data-duration="1week" onclick="selectLongDuration('1week')">一周</div>
+        <div class="duration-tag" data-duration="10days" onclick="selectLongDuration('10days')">10天+</div>
+      </div>
+    </div>
     <div id="recommend-content">
       <div class="loading-dots"><span></span><span></span><span></span></div>
     </div>
     <button class="btn btn-primary btn-full" id="confirm-activity-btn" onclick="confirmActivity()" disabled style="opacity:0.5;">就选这个 <span class="heart-beat">❤</span></button>
   </div>
 
+  <!-- ========== Stage 5b: 路线详情 ========== -->
+  <div class="stage" id="stage-5b">
+    <button class="btn-back" onclick="closeRouteDetail()">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2 id="route-detail-title">路线详情～</h2>
+    <p class="subtitle" id="route-detail-subtitle">-</p>
+    <div id="route-detail-content" class="route-detail"></div>
+    <button class="btn btn-primary btn-full" onclick="confirmRouteFromDetail()">就选这条路 <span class="heart-beat">❤</span></button>
+  </div>
+
   <!-- ========== Stage 6: 最终确认 ========== -->
   <div class="stage" id="stage-6">
+    <button class="btn-back" onclick="goToStage(5)">‹</button>
     <div class="flower-deco">✿ ❀ ✽ ❀ ✿</div>
     <div class="final-card">
       <span class="final-emoji">🥳</span>
       <h1>真开心你没有拒绝～</h1>
-      <p class="subtitle">我会准时出现，带着一点紧张和很多期待。<br>上海见！❤</p>
+      <p class="subtitle">我会准时出现，带着一点紧张和很多期待。</p>
       <div class="final-info">
         <div class="info-row" onclick="goBackToEdit('date')">
           <span class="info-label">DATE</span>
@@ -596,7 +802,7 @@ body {
 
 <script>
 // ========== State ==========
-const state = { date: '', time: '', activity: '', activityLabel: '', spot: '', foodType: '', foodTypeLabel: '', travelType: '', travelTypeLabel: '', otherInput: '' };
+const state = { date: '', time: '', activity: '', activityLabel: '', spot: '', foodType: '', foodTypeLabel: '', travelType: '', travelTypeLabel: '', longDistanceType: '', longDistanceLabel: '', selectedMovie: '', otherInput: '', category: '' };
 
 // ========== Web3Forms 配置（无需注册，国内可访问）==========
 // 使用方法：
@@ -610,7 +816,11 @@ const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
 function goToStage(n) {
   document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
   const target = document.getElementById('stage-' + n);
-  if (target) { target.classList.add('active'); target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  if (target) {
+    target.classList.add('active');
+    // 延迟滚动以确保动画完成后定位准确
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
 }
 
 // ========== Stage 1 ==========
@@ -638,16 +848,35 @@ function confirmTime() {
   goToStage(4);
 }
 
-// ========== Stage 4: Activity Selection ==========
-function selectActivity(activity, label, el) {
+// ========== Stage 4: Category Selection ==========
+function selectCategory(category, label, el) {
   document.querySelectorAll('#activity-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.category = category;
+  state.activity = category === 'travel' ? 'travel' : (category === 'longdistance' ? 'longdistance' : '');
+  state.activityLabel = label;
+
+  if (category === 'shanghai') { setTimeout(() => goToStage('4e'), 400); }
+  else if (category === 'travel') { setTimeout(() => { renderTravelFeatured(); goToStage('4d'); }, 400); }
+  else if (category === 'longdistance') {
+    state.activity = 'longdistance';
+    state.longDistanceType = '3days';
+    state.longDistanceLabel = '3天';
+    state.activityLabel = '短线 · 3天';
+    setTimeout(() => loadRecommendations('longdistance'), 400);
+  }
+}
+
+// ========== Stage 4e: Shanghai Activity Selection ==========
+function selectShanghaiActivity(activity, label, el) {
+  document.querySelectorAll('#shanghai-grid .activity-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   state.activity = activity; state.activityLabel = label;
 
   if (activity === 'eat') { setTimeout(() => goToStage('4b'), 400); }
-  else if (activity === 'travel') { setTimeout(() => goToStage('4d'), 400); }
   else if (activity === 'other') { setTimeout(() => goToStage('4c'), 400); }
   else if (activity === 'events') { setTimeout(() => loadRecommendations('events'), 400); }
+  else if (activity === 'movie') { state.selectedMovie = ''; setTimeout(() => loadRecommendations('movie'), 400); }
   else { setTimeout(() => loadRecommendations(activity), 400); }
 }
 
@@ -689,8 +918,13 @@ function confirmOther() {
 function goBackFromRecommend() {
   if (state.activity === 'eat') goToStage('4b');
   else if (state.activity === 'travel') goToStage('4d');
+  else if (state.activity === 'longdistance') goToStage(4);
+  else if (state.activity === 'movie') {
+    state.selectedMovie = '';
+    goToStage('4e');
+  }
   else if (state.activity === 'other') goToStage('4c');
-  else goToStage(4);
+  else goToStage('4e');
 }
 
 // ========== Toast ==========
@@ -698,6 +932,24 @@ function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg; toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ========== 庆祝彩屑 ==========
+function createConfetti() {
+  const colors = ['#FF9DB0', '#FFB7C5', '#FFCDD5', '#FF7B94', '#E8B4B8', '#FFE4E8'];
+  const emojis = ['🌸', '✿', '❀', '💕', '🎉', '✨'];
+  for (let i = 0; i < 30; i++) {
+    const confetti = document.createElement('div');
+    confetti.style.cssText = `position:fixed;top:-20px;left:${Math.random()*100}vw;z-index:9999;pointer-events:none;font-size:${12+Math.random()*16}px;animation:confettiFall ${2+Math.random()*2}s ${Math.random()*0.5}s ease-in forwards;`;
+    confetti.textContent = Math.random() > 0.5 ? emojis[Math.floor(Math.random()*emojis.length)] : '';
+    if (!confetti.textContent) {
+      confetti.style.width = '8px'; confetti.style.height = '8px';
+      confetti.style.borderRadius = '50%';
+      confetti.style.background = colors[Math.floor(Math.random()*colors.length)];
+    }
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 4500);
+  }
 }
 
 // ========== 上海推荐数据 ==========
@@ -892,25 +1144,47 @@ const shanghaiData = {
     ]
   },
   movie: {
+    title: '近期热映 & 即将上映～', subtitle: '先选一部想看的电影🎬',
+    alwaysDetail: true,
+    items: [
+      { icon: '🎬', title: '哪吒之魔童闹海', desc: '2025春节档 · 动画神话 · 现象级', detail: '【类型】动画 / 神话 / 喜剧\n【看点】“我命由我不由天”续作，视效与情感双双拉满\n【上映】2025-01-29\n【购票】猫眼 / 淘票票提前选座', releaseDate: '2025-01-29' },
+      { icon: '🎬', title: '唐探1900', desc: '2025春节档 · 悬疑喜剧 · 合家欢', detail: '【类型】悬疑 / 喜剧 / 动作\n【看点】唐探系列前传，王宝强刘昊然搭档再出击\n【上映】2025-01-29\n【购票】猫眼 / 淘票票', releaseDate: '2025-01-29' },
+      { icon: '🎬', title: '封神第二部：战火西岐', desc: '2025春节档 · 史诗神话', detail: '【类型】神话 / 战争 / 史诗\n【看点】西岐保卫战，姬发与殷郊宿命对决，特效升级\n【上映】2025-01-29\n【购票】IMAX 体验更佳', releaseDate: '2025-01-29' },
+      { icon: '🎬', title: '狂野时代', desc: '2026暑期档 · 毕赣新作', detail: '【类型】剧情 / 科幻 / 文艺\n【看点】毕赣导演新片，易烊千玺、舒淇主演，期待值拉满\n【上映】2026-暑期（具体待定）\n【关注】定档后尽快抢票', releaseDate: '2026-07-15' },
+      { icon: '🎬', title: '东极岛', desc: '2026暑期档 · 战争冒险', detail: '【类型】战争 / 历史 / 冒险\n【看点】管虎执导，二战时期东极岛渔民救盟军战俘真实事件\n【上映】2026-暑期（具体待定）\n【关注】主旋律+大场面', releaseDate: '2026-07-20' },
+      { icon: '🎬', title: '流浪地球3', desc: '2027春节档 · 科幻巨制', detail: '【类型】科幻 / 灾难 / 冒险\n【看点】国产科幻天花板续作，郭帆执导，刘慈欣原著改编\n【上映】2027-01-29（可先补课1&2）\n【关注】猫眼想看提前mark', releaseDate: '2027-01-29' },
+      { icon: '🎬', title: '更多新片 · 猫眼/淘票票', desc: '实时排片 & 热门榜单', detail: '【推荐】猫眼 APP / 淘票票 / 豆瓣电影\n【小技巧】提前1-2天购票选座，IMAX/杜比厅体验更好\n【注意】上映日期以实际排片为准', releaseDate: '2026-07-18' },
+    ]
+  },
+  cinema: {
     title: '上海影院推荐～', subtitle: '看完电影还能逛逛～',
     items: [
       { icon: '🎬', title: 'SFC上影影城', desc: '新天地 · IMAX杜比 · 顶级体验', detail: '新天地旗舰影院，IMAX+杜比全景声。座椅舒适，音响效果顶级。看完电影可以在新天地逛街吃饭。' },
       { icon: '🍿', title: 'CGV影城', desc: '月星环球港 · 舒适座椅', detail: '月星环球港的CGV影城，4DX厅有动感座椅和特效。商场吃饭逛街一条龙，看完电影不用挪地方。' },
       { icon: '🎥', title: '万达影城', desc: '五角场 · IMAX', detail: '五角场万达的IMAX厅，屏幕够大。看完电影可以在大学路（大学周边）逛逛，青春气息浓厚。' },
+      { icon: '🎞️', title: '百丽宫影城', desc: '静安嘉里/环贸 · 高端体验', detail: '百丽宫以高端观影体验著称，座椅舒适、银幕质量好。多在核心商圈，适合约会。' },
+      { icon: '🎦', title: '大光明电影院', desc: '南京西路 · 百年老影院', detail: '上海老牌电影院，历史悠久。虽不如新影院豪华，但位置绝佳，看完可逛南京路。' },
     ]
   },
 
-  // ========== 本周活动/展览 ==========
+  // ========== 本周活动/展览（按日期智能匹配）==========
   events: {
-    title: '上海本周活动 & 展览～', subtitle: '这周末上海有这些好玩的！',
+    title: '上海近期活动 & 展览～', subtitle: '根据你选的日期匹配当周活动！',
     alwaysDetail: true,
     items: [
-      { icon: '🤖', title: 'WAIC 世界人工智能大会', desc: '世博展览馆 · 7月5-7日 · 免费预约', detail: '【活动】全球AI顶级盛会，各大厂展示最新AI产品\n【亮点】可体验各种AI互动装置、机器人、自动驾驶\n【门票】免费，需提前在官网或小程序预约\n【地址】浦东新区博城路1099号世博展览馆', link: 'https://www.worldaic.com.cn/', linkText: '🔗 官网预约 →' },
-      { icon: '🍢', title: '小红书 人生一串大赏', desc: '前滩太古里 · 美食市集 · 限时', detail: '【活动】小红书主办的人气烧烤美食节，集合全国烤串摊主\n【亮点】各种创意烤串+啤酒+live演出，氛围感拉满\n【门票】免费入场，现场消费\n【地址】浦东新区前滩太古里', link: 'https://www.xiaohongshu.com/search_result?keyword=人生一串大赏', linkText: '🔗 小红书详情 →' },
-      { icon: '🌊', title: '海藻市场 SEAMARKET', desc: '西岸艺术中心 · 文创市集 · 潮流', detail: '【活动】西岸超人气文创市集，集合独立设计师、手作、 vintage\n【亮点】各种小众品牌摊位+美食+音乐，适合周末逛\n【门票】免费入场\n【地址】徐汇区龙腾大道2555号西岸艺术中心', link: 'https://www.xiaohongshu.com/search_result?keyword=海藻市场', linkText: '🔗 小红书详情 →' },
-      { icon: '📔', title: '魔都手帐市集', desc: '各文创园区 · 手作文具 · 季节限定', detail: '【活动】手帐爱好者的天堂，各种胶带、贴纸、手账本、文创周边\n【亮点】可以淘到很多小众文具品牌，现场还有手作workshop\n【门票】免费入场\n【地址】不定期更换场地，关注小红书获取最新信息', link: 'https://www.xiaohongshu.com/search_result?keyword=魔都手帐市集', linkText: '🔗 小红书详情 →' },
-      { icon: '🎨', title: '浦东美术馆 当前展览', desc: '浦东 · 滨江 · 大展不断', detail: '【活动】浦东美术馆定期举办国际级大展，建筑本身也是打卡地\n【亮点】当前展出国际艺术家个展，具体内容关注公众号\n【门票】约¥100-150，可在公众号购票预约\n【地址】浦东新区滨江大道2727号', link: 'https://www.xiaohongshu.com/search_result?keyword=浦东美术馆展览', linkText: '🔗 最新展览 →' },
-      { icon: '🎪', title: '更多活动 · 大麦/猫眼', desc: '随时更新的演出 & 展览 & 市集', detail: '【平台推荐】\n🎫 大麦网 — 演出/展览/市集一站式查\n🎫 猫眼 — 电影/演出/展览购票\n📱 小红书搜"上海周末活动" — 最新的市集和pop-up\n📱 公众号：上海生活、ShanghaiWOW、魔都探索队', link: 'https://m.damai.cn/', linkText: '🎫 大麦查活动 →' },
+      { icon: '🎬', title: 'BilibiliWorld 2026', desc: '国家会展中心 · 7/10-12 · 二次元狂欢', detail: '【活动】B站线下盛会，170+参展商、130家游戏展商\n【亮点】原神/明日方舟/恋与深空互动展区、痛车展区、海外嘉宾\n【门票】会员购购票，单日票¥98起\n【地址】青浦区崧泽大道333号国家会展中心', startDate: '2026-07-10', endDate: '2026-07-12', link: 'https://www.bilibili.com/', linkText: '🔗 B站详情 ↗' },
+      { icon: '🏛️', title: '世界树之巅·美洲古代文明大展', desc: '上海博物馆 · 7/9起 · 超大规模沉浸式', detail: '【展览】1129组近3000件文物，串联奥尔梅克/玛雅/阿兹特克/安第斯文明\n【亮点】超大规模沉浸式空间，文博爱好者必看\n【门票】上博公众号预约购票\n【地址】黄浦区人民大道201号上海博物馆', startDate: '2026-07-09', endDate: '2027-11-14', link: 'https://www.shanghaimuseum.net/', linkText: '🔗 上博预约 ↗' },
+      { icon: '🌙', title: '博物馆奇妙夜·萌萌TA奇妙夜', desc: '上博 · 每周六晚 · 卡皮巴拉羊驼进馆', detail: '【活动】卡皮巴拉、羊驼、玉米蛇等美洲动物进入展厅\n【时间】7/11-8/31 每周六 18:30-21:30\n【门票】基础活动票¥198/人，专项互动票另购\n【亮点】看千年文物+见真实生灵，亲子夜游首选', startDate: '2026-07-11', endDate: '2026-08-31', link: 'https://www.shanghaimuseum.net/', linkText: '🔗 购票预约 ↗' },
+      { icon: '🎵', title: '2026上海夏季音乐节 MISA', desc: '全城多处 · 7/5-26 · 33场演出', detail: '【活动】33场主体演出+城市草坪音乐广场露天演出\n【亮点】全城交响、MISA Talk、工作坊，音乐延伸到城市日常空间\n【门票】部分免费，部分购票\n【地址】上海多处音乐厅、商圈、公园', startDate: '2026-07-05', endDate: '2026-07-26', link: 'https://www.misa.com.cn/', linkText: '🔗 MISA详情 ↗' },
+      { icon: '🏺', title: '马王堆汉墓·生活美学大展', desc: '上海美术馆 · 国宝级 · 暑期重磅', detail: '【展览】千金之家——马王堆汉墓的生活美学及养成，国宝艺术大展\n【亮点】与上博美洲大展构筑全城文化锚点\n【门票】关注公众号购票预约\n【地址】上海美术馆', startDate: '2026-07-01', endDate: '2026-09-30', link: 'https://www.xiaohongshu.com/search_result?keyword=马王堆上海', linkText: '🔗 小红书详情 ↗' },
+      { icon: '⚔️', title: '肇兴中国·秦大一统文物特展', desc: '上博东馆 · 至9/7 · 510件文物', detail: '【展览】14家考古文博机构联手，510件文物展现秦大一统之路\n【亮点】历史爱好者必看，展期至9月7日\n【门票】免费预约\n【地址】浦东世纪大道上博东馆', startDate: '2026-06-15', endDate: '2026-09-07', link: 'https://www.shanghaimuseum.net/', linkText: '🔗 上博预约 ↗' },
+      { icon: '👑', title: '国采·故宫藏清代帝后服饰展', desc: '世博会博物馆 · 7/7起 · 近九成首次出京', detail: '【展览】故宫藏清代帝后服饰，近九成展品首次出京，超三成首次公开\n【亮点】清宫剧迷大饱眼福，世博会博物馆上新\n【门票】关注公众号预约\n【地址】蒙自路818号世博会博物馆', startDate: '2026-07-07', endDate: '2026-10-31', link: 'https://www.xiaohongshu.com/search_result?keyword=世博会博物馆故宫', linkText: '🔗 小红书详情 ↗' },
+      { icon: '🎨', title: '清韵·康雍乾文物特展', desc: '闵行博物馆 · 7/3起 · 120余件官窑书画', detail: '【展览】120余件官窑、书画、玉器，看尽三代帝王审美\n【亮点】免费参观，性价比超高\n【门票】免费，公众号预约\n【地址】闵行区新镇路1538号闵行博物馆', startDate: '2026-07-03', endDate: '2026-10-31', link: 'https://www.xiaohongshu.com/search_result?keyword=闵行博物馆清韵', linkText: '🔗 小红书详情 ↗' },
+      { icon: '🌟', title: '天地星语·中国诗文里的天文', desc: '上海天文馆 · 暑期 · MR沉浸体验', detail: '【展览】分日、月、星三大篇章，设有独立MR沉浸体验空间\n【亮点】带娃打卡首选，天文+诗词跨界\n【门票】天文馆门票¥30起\n【地址】临港大道380号上海天文馆', startDate: '2026-07-01', endDate: '2026-09-30', link: 'https://www.sstm-sam.org.cn/', linkText: '🔗 天文馆预约 ↗' },
+      { icon: '🎪', title: 'GOFORWILD尽兴乐园', desc: '长宁来福士 · 至7/25 · 城市微度假', detail: '【活动】百年钟楼旁900㎡大草坪，棕榈树/老爷车/无动力火车/落日公路/晚风营地/露天电影\n【亮点】城市微度假空间，免费打卡\n【门票】免费入场\n【地址】长宁来福士大草坪', startDate: '2026-06-20', endDate: '2026-07-25', link: 'https://www.xiaohongshu.com/search_result?keyword=GOFORWILD尽兴乐园', linkText: '🔗 小红书详情 ↗' },
+      { icon: '🎭', title: '开心麻花·西部无法无天的小镇', desc: '虹桥艺术中心 · 至7/12 · 120分钟爆笑', detail: '【演出】开心麻花喜剧，120分钟忘掉烦恼\n【门票】大麦网购票，¥80-380\n【地址】天山路888号虹桥艺术中心\n【时间】即日-7月12日', startDate: '2026-06-25', endDate: '2026-07-12', link: 'https://m.damai.cn/', linkText: '🎫 大麦购票 ↗' },
+      { icon: '🌃', title: '暑期博物馆奇妙夜', desc: '全市50+博物馆 · 暑期 · 夜间开放', detail: '【活动】50余家博物馆参与，数量创历年之最\n【亮点】延长开放时间+文创市集+夜间导览+研学讲座+演艺\n【适合】夜游博物馆成今夏新潮流\n【参与】关注各博物馆公众号预约', startDate: '2026-07-01', endDate: '2026-08-31', link: 'https://www.xiaohongshu.com/search_result?keyword=上海博物馆奇妙夜', linkText: '🔗 小红书详情 ↗' },
+      { icon: '🎪', title: '更多活动 · 大麦/猫眼', desc: '随时更新的演出 & 展览 & 市集', detail: '【平台推荐】\n🎫 大麦网 — 演出/展览/市集一站式查\n🎫 猫眼 — 电影/演出/展览购票\n📱 小红书搜"上海周末活动" — 最新市集和pop-up\n📱 公众号：上海生活、ShanghaiWOW、魔都探索队', link: 'https://m.damai.cn/', linkText: '🎫 大麦查活动 ↗' },
     ]
   },
 
@@ -924,13 +1198,14 @@ const shanghaiData = {
         { icon: '🏞️', title: '安吉 · 龙王溪溯溪', desc: '湖州安吉 · 竹林溪流 · 清凉避暑', detail: '【特色】藏在竹海里的天然溪流，水温凉爽\n【玩法】溯溪徒步+天然水潭游泳+竹林BBQ\n【交通】上海自驾约2.5h\n【Tips】穿防滑溯溪鞋，注意雨后水位上涨\n【周边】可以顺路去中国大竹海、天荒坪', link: 'https://www.xiaohongshu.com/search_result?keyword=安吉溯溪', linkText: '🔗 小红书攻略 →' },
         { icon: '🌊', title: '桐庐 · 芦茨溪', desc: '杭州桐庐 · 溪水清澈 · 避暑胜地', detail: '【特色】杭州周边最火的溯溪地之一，溪水碧绿清澈\n【玩法】溪边扎营+游泳+漂流+抓鱼\n【交通】上海自驾约3h，或高铁到桐庐站\n【Tips】周末人多建议早到，可住溪边民宿\n【周边】严子陵钓台、富春江', link: 'https://www.xiaohongshu.com/search_result?keyword=桐庐芦茨溪', linkText: '🔗 小红书攻略 →' },
         { icon: '💎', title: '临安 · 天目山溪谷', desc: '杭州临安 · 原始森林溪流 · 小众', detail: '【特色】天目山脚的原始溪谷，人少水清\n【玩法】溯溪探险+天然滑水道+森林徒步\n【交通】上海自驾约3h\n【Tips】部分路段需要攀爬，有一定难度\n【周边】天目山景区、大树王景区', link: 'https://www.xiaohongshu.com/search_result?keyword=临安天目山溯溪', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏊', title: '仙居 · 永安溪漂流', desc: '台州仙居 · 竹筏漂流 · 山水画廊', detail: '【特色】永安溪被誉为"华东第一漂"，两岸丹霞地貌\n【玩法】竹筏漂流+皮划艇+溪边野餐\n【交通】上海自驾约4h，或高铁到仙居站\n【Tips】漂流全程约2小时，夏季最佳\n【周边】神仙居、皤滩古镇', link: 'https://www.xiaohongshu.com/search_result?keyword=仙居永安溪漂流', linkText: '🔗 小红书攻略 →' },
       ]
     },
     paddleboard: {
       title: '江浙沪划桨板推荐～', subtitle: '站在水上看风景，太酷了！🏄',
       alwaysDetail: true,
       items: [
-        { icon: '🏄', title: '千岛湖 · 无人岛露营桨板', desc: '杭州淳安 · 桨板上岛 · 露营', detail: '【特色】用桨板把帐篷物资运到无人岛上露营\n【地点】千岛湖金山坞附近，停车免费走到水边约100m\n【玩法】划桨板上岛+岛上露营+BBQ+看星空\n【交通】上海自驾约4h\n【Tips】需穿救生衣！蚊虫多带防蚊用品，无补给需自带水\n【参考公众号】幻想乡wanderland / 走之旅行', link: 'http://xhslink.com/o/5iRuh7d0nZ', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏄', title: '千岛湖 · 无人岛露营桨板', desc: '杭州淳安 · 桨板上岛 · 露营', detail: '【特色】用桨板把帐篷物资运到无人岛上露营\n【地点】千岛湖金山坞附近，停车免费走到水边约100m\n【玩法】划桨板上岛+岛上露营+BBQ+看星空\n【交通】上海自驾约4h\n【Tips】需穿救生衣！蚊虫多带防蚊用品，无补给需自带水', link: 'http://xhslink.com/o/5iRuh7d0nZ', linkText: '🔗 小红书攻略 →' },
         { icon: '🚣', title: '淀山湖 · 桨板体验', desc: '上海青浦 · 最近的桨板点 · 半日游', detail: '【特色】上海最近的桨板体验地，不用出市\n【玩法】桨板教学+自由划行+湖上看日落\n【交通】上海自驾约1h\n【Tips】有桨板俱乐部提供装备租赁，约¥150-200/人\n【周边】朱家角古镇、东方绿舟', link: 'https://www.xiaohongshu.com/search_result?keyword=淀山湖桨板', linkText: '🔗 小红书攻略 →' },
         { icon: '🌅', title: '太湖 · 桨板日落', desc: '苏州太湖 · 湖光山色 · 日落绝佳', detail: '【特色】太湖水域开阔，桨板看日落超美\n【玩法】下午出发划到湖心+看日落+岸边烧烤\n【交通】上海自驾约1.5h\n【Tips】有桨板俱乐部可租装备，注意风向\n【周边】西山岛、东山、陆巷古村', link: 'https://www.xiaohongshu.com/search_result?keyword=太湖桨板', linkText: '🔗 小红书攻略 →' },
         { icon: '🌿', title: '德清 · 下渚湖桨板', desc: '湖州德清 · 湿地迷宫 · 小众秘境', detail: '【特色】湿地迷宫般的湖泊，划桨板穿行在芦苇荡中\n【玩法】桨板湿地探索+观鸟+农家乐\n【交通】上海自驾约2h\n【Tips】湿地公园内可租桨板，约¥120/人\n【周边】莫干山、新市古镇', link: 'https://www.xiaohongshu.com/search_result?keyword=下渚湖桨板', linkText: '🔗 小红书攻略 →' },
@@ -940,10 +1215,11 @@ const shanghaiData = {
       title: '江浙沪徒步登山推荐～', subtitle: '山里凉快，走走停停最舒服！⛰️',
       alwaysDetail: true,
       items: [
-        { icon: '⛰️', title: '莫干山 · 竹海徒步', desc: '湖州德清 · 竹林避暑 · 经典路线', detail: '【特色】中国四大避暑胜地之一，竹海+瀑布+民国别墅群\n【路线】剑池 → 芦花荡 → 武陵村 → 大坑景区，全程约4h\n【交通】上海自驾约2.5h，或高铁到德清站转公交\n【Tips】山上气温比市区低5-8℃，带件薄外套\n【住宿】山上有民宿和酒店，也可以当天往返\n【参考公众号】Full Ahead / 走之旅行', link: 'https://www.xiaohongshu.com/search_result?keyword=莫干山徒步', linkText: '🔗 小红书攻略 →' },
+        { icon: '⛰️', title: '莫干山 · 竹海徒步', desc: '湖州德清 · 竹林避暑 · 经典路线', detail: '【特色】中国四大避暑胜地之一，竹海+瀑布+民国别墅群\n【路线】剑池 → 芦花荡 → 武陵村 → 大坑景区，全程约4h\n【交通】上海自驾约2.5h，或高铁到德清站转公交\n【Tips】山上气温比市区低5-8℃，带件薄外套\n【住宿】山上有民宿和酒店，也可以当天往返', link: 'https://www.xiaohongshu.com/search_result?keyword=莫干山徒步', linkText: '🔗 小红书攻略 →' },
         { icon: '🏔️', title: '天台山 · 国清寺徒步', desc: '台州天台 · 佛宗道源 · 清幽古寺', detail: '【特色】佛教天台宗祖庭，千年古寺+隋梅+古树\n【路线】国清寺 → 隋塔 → 赤城山，全程约3h\n【交通】上海高铁到天台山站约2h\n【Tips】国清寺免费，香火自愿\n【美食】天台扁食、麦饼、糊拉汰', link: 'https://www.xiaohongshu.com/search_result?keyword=天台山徒步', linkText: '🔗 小红书攻略 →' },
         { icon: '🌿', title: '临安 · 大明山', desc: '杭州临安 · 高山草甸 · 万米岩洞', detail: '【特色】海拔1489m，夏天山上气温22℃左右，避暑绝佳\n【路线】索道上山 → 万米岩洞 → 高山草甸 → 悬空栈道\n【交通】上海自驾约3.5h\n【Tips】门票约¥88+索道¥80，建议穿运动鞋\n【周边】可以顺路去浙西大峡谷漂流', link: 'https://www.xiaohongshu.com/search_result?keyword=大明山徒步', linkText: '🔗 小红书攻略 →' },
         { icon: '🌲', title: '四明山 · 盘山公路', desc: '宁波余姚 · 最美盘山路 · 四季皆宜', detail: '【特色】浙江最美盘山公路，沿途红杉林+古村+柿子林\n【路线】四明山观景台 → 柿林村 → 丹山赤水 → 四明湖\n【交通】上海自驾约3h\n【Tips】自驾最佳，沿途随时停车拍照\n【美食】余姚杨梅（6月）、农家土鸡、笋干', link: 'https://www.xiaohongshu.com/search_result?keyword=四明山自驾', linkText: '🔗 小红书攻略 →' },
+        { icon: '🍂', title: '徽杭古道 · 徒步穿越', desc: '安徽绩溪→浙江临安 · 千年商道', detail: '【特色】中国十大徒步古道之一，徽商走出去的路\n【路线】绩溪伏岭 → 竹岭 → 上雪堂 → 蓝天凹 → 浙川村，全程约20km\n【交通】上海到绩溪高铁约3h，返程从临安回\n【Tips】两天一夜最佳，中途有客栈可住宿\n【季节】春秋最美，10月红叶+4月杜鹃', link: 'https://www.xiaohongshu.com/search_result?keyword=徽杭古道徒步', linkText: '🔗 小红书攻略 →' },
       ]
     },
     camping: {
@@ -954,6 +1230,7 @@ const shanghaiData = {
         { icon: '🌌', title: '千岛湖 · 湖畔露营', desc: '杭州淳安 · 湖景帐篷 · 日落+星空', detail: '【特色】千岛湖畔的专业露营地，设施完善\n【玩法】帐篷露营+湖边BBQ+桨板+看日落星空\n【交通】上海自驾约4h\n【Tips】有glamping豪华露营可选，¥500-800/晚\n【周边】可以租桨板去无人岛（见划桨板推荐）', link: 'https://www.xiaohongshu.com/search_result?keyword=千岛湖露营', linkText: '🔗 小红书攻略 →' },
         { icon: '🏞️', title: '桐庐 · 言几又露营', desc: '杭州桐庐 · 山谷营地 · 精致露营', detail: '【特色】藏在山谷里的精致露营地，有泳池和咖啡\n【玩法】山谷露营+山泉泳池+手冲咖啡+篝火晚会\n【交通】上海自驾约3h\n【Tips】全包制约¥800-1200/晚/人，含餐食活动\n【周边】芦茨溪溯溪、严子陵钓台', link: 'https://www.xiaohongshu.com/search_result?keyword=桐庐露营', linkText: '🔗 小红书攻略 →' },
         { icon: '🌙', title: '崇明 · 东平森林露营', desc: '上海崇明 · 不出市 · 森林星空', detail: '【特色】上海最近的森林露营地，不用出市\n【玩法】森林帐篷+骑行+烧烤+萤火虫（夏季）\n【交通】上海自驾约1.5h\n【Tips】东平国家森林公园内有指定露营区\n【费用】公园门票¥70+露营位费', link: 'https://www.xiaohongshu.com/search_result?keyword=崇明露营', linkText: '🔗 小红书攻略 →' },
+        { icon: '⭐', title: '安吉 · 天荒坪观星露营', desc: '湖州安吉 · 天文观测点 · 银河肉眼可见', detail: '【特色】江南最佳观星地之一，天荒坪海拔近1000m\n【玩法】高山露营+观星+日出云海+天荒坪抽水蓄能电站\n【交通】上海自驾约3h\n【Tips】光污染极少，夏季可看到银河；带望远镜更佳\n【周边】藏龙百瀑、大竹海', link: 'https://www.xiaohongshu.com/search_result?keyword=天荒坪观星', linkText: '🔗 小红书攻略 →' },
       ]
     },
     culture: {
@@ -974,9 +1251,318 @@ const shanghaiData = {
         { icon: '🛶', title: '西塘 · 烟雨长廊', desc: '嘉兴嘉善 · 最浪漫的水乡 · 汉服拍照', detail: '【特色】《碟中谍3》取景地，烟雨长廊是标志性景观\n【路线】烟雨长廊 → 石皮弄 → 送子来凤桥 → 永宁桥\n【亮点】穿汉服拍照超美、夜晚酒吧街热闹\n【交通】上海自驾约1h，或高铁到嘉善南站\n【门票】¥95（工作日¥65）\n【美食】芡实糕、管老太臭豆腐、送子龙蹄', link: 'https://www.xiaohongshu.com/search_result?keyword=西塘古镇', linkText: '🔗 小红书攻略 →' },
         { icon: '🌉', title: '南浔 · 中西合璧', desc: '湖州南浔 · 百间楼 · 最低调的水乡', detail: '【特色】唯一中西合璧的古镇，富豪宅邸+百间楼沿河\n【路线】小莲庄 → 嘉业堂藏书楼 → 张石铭旧宅 → 百间楼\n【亮点】百间楼是最原生态的水乡沿河建筑群，免费区域\n【交通】上海自驾约1.5h\n【门票】¥100（百间楼区域免费）\n【美食】双交面、浔蹄、绣花锦', link: 'https://www.xiaohongshu.com/search_result?keyword=南浔古镇', linkText: '🔗 小红书攻略 →' },
         { icon: '🍶', title: '绍兴 · 安昌古镇', desc: '绍兴柯桥 · 酱香古镇 · 最有烟火气', detail: '【特色】比其他古镇更原生态，沿河晒满酱鸭腊肠\n【路线】安昌老街 → 城隍殿 → 民俗馆 → 师爷馆\n【亮点】坐乌篷船、看扯白糖、吃酱货\n【交通】上海高铁到绍兴北站约1.5h，转公交\n【门票】免费（小景点联票¥50）\n【美食】安昌腊肠、酱油饭、黄酒棒冰、臭豆腐', link: 'https://www.xiaohongshu.com/search_result?keyword=安昌古镇', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌉', title: '周庄 · 中国第一水乡', desc: '苏州昆山 · 双桥沈厅 · 经典水乡', detail: '【特色】"中国第一水乡"，陈逸飞画中的双桥\n【路线】沈厅 → 张厅 → 双桥 → 富安桥 → 南湖秋月\n【亮点】坐摇橹船穿桥过巷、夜游灯光水影\n【交通】上海自驾约1h，或地铁11号线转公交\n【门票】¥100（16:00后夜游¥80）\n【美食】万三蹄、阿婆茶、袜底酥', link: 'https://www.xiaohongshu.com/search_result?keyword=周庄古镇', linkText: '🔗 小红书攻略 →' },
+      ]
+    },
+    hotspring: {
+      title: '江浙沪温泉度假推荐～', subtitle: '泡汤放松，秋冬最治愈的事！♨️',
+      alwaysDetail: true,
+      items: [
+        { icon: '♨️', title: '南京 · 汤山温泉', desc: '南京江宁 · 千年圣汤 · 六朝御用', detail: '【特色】中国四大温泉之一，1500年历史，南朝御用温泉\n【玩法】露天泡池+私汤+SPA+温泉水上乐园\n【交通】上海高铁到南京南站约1.5h，转地铁\n【住宿】汤山颐尚温泉度假村/御豪温泉酒店\n【Tips】冬季泡汤最佳，建议住一晚体验夜泡', link: 'https://www.xiaohongshu.com/search_result?keyword=汤山温泉', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌿', title: '安吉 · 竹海温泉', desc: '湖州安吉 · 竹林私汤 · 山野秘境', detail: '【特色】藏在竹海里的温泉度假村，私汤直面竹海\n【玩法】竹林私汤+山景SPA+竹林徒步+农家菜\n【交通】上海自驾约2.5h\n【住宿】安吉帐篷客·溪谷酒店/君澜温泉\n【Tips】秋冬泡汤最舒服，夏季可搭配溯溪', link: 'https://www.xiaohongshu.com/search_result?keyword=安吉温泉', linkText: '🔗 小红书攻略 →' },
+        { icon: '🏔️', title: '宁海 · 森林温泉', desc: '宁波宁海 · 高山森林温泉 · 天然氧吧', detail: '【特色】海拔近200m的森林温泉，水温49.5℃\n【玩法】森林泡池+药浴池+鱼疗+石板浴\n【交通】上海自驾约3.5h，或高铁到宁海站\n【住宿】宁海森林温泉度假村/南逸温泉\n【周边】前童古镇、浙东大峡谷', link: 'https://www.xiaohongshu.com/search_result?keyword=宁海森林温泉', linkText: '🔗 小红书攻略 →' },
+        { icon: '🌸', title: '武义 · 唐风温泉', desc: '金华武义 · 唐风古韵 · 温泉之城', detail: '【特色】浙江"温泉之城"，唐风主题温泉度假村\n【玩法】唐风泡池+日式汤屋+溶洞温泉+汗蒸\n【交通】上海高铁到武义北站约2.5h\n【住宿】武义唐风温泉度假村/清水湾沁温泉\n【美食】武义宣莲、醋鸡、芋饺', link: 'https://www.xiaohongshu.com/search_result?keyword=武义温泉', linkText: '🔗 小红书攻略 →' },
       ]
     },
   },
+
+  // ========== 长线旅游 ==========
+  longdistance: {
+    '3days': {
+      title: '3天小长假玩法～', subtitle: '周末请一天假，刚好能跑远点！',
+      items: [
+        { icon: '🌲', title: '川西小众线 · 3天', desc: '四姑娘山双桥沟 · 鱼子西 · 墨石公园', routeOverview: '川西小环线精华，雪山、草原、石林一次看齐', route: [
+          { title: '成都 → 四姑娘山', content: '成都集合出发，沿都汶高速前往四姑娘山镇。<br>下午游览<b>双桥沟</b>（门票+观光车），红杉林、撵鱼坝、人参果坪。<br>宿日隆镇，晚上可去猫鼻梁看四姑娘山全景日落。' },
+          { title: '鱼子西 → 新都桥', content: '上午从四姑娘山出发，经丹巴前往<b>鱼子西</b>。<br>鱼子西是360°观景平台，可同时看到雅拉雪山、贡嘎雪山、四姑娘山三座神山。<br>傍晚在新都桥看<b>摄影家天堂</b>的日落光影，宿新都桥。' },
+          { title: '墨石公园 → 返程', content: '上午游览<b>墨石公园</b>，异域星球般的黑色石林地貌。<br>经塔公草原、折多山返回成都。' }
+        ], tips: '川西海拔较高（3000-4000m），注意高反，备好冲锋衣和防晒；7-10月最佳' },
+        { icon: '🌊', title: '云南大理 · 3天', desc: '洱海骑行 · 喜洲古镇 · 苍山', routeOverview: '风花雪月的大理，骑行洱海、逛古镇、看苍山雪', route: [
+          { title: '大理古城 → 洱海', content: '上午逛<b>大理古城</b>，人民路、洋人街。<br>下午租电动车/自行车沿<b>洱海生态廊道</b>骑行，才村→龙龛码头。<br>傍晚在龙龛码头看日落，晚上回古城逛夜市。' },
+          { title: '喜洲 → 海舌公园', content: '上午前往<b>喜洲古镇</b>，看白族民居、吃喜洲粑粑。<br>下午去<b>海舌公园</b>，洱海边最出片的湿地公园。<br>体验<b>周城扎染</b>，亲手做一块蓝染方巾。' },
+          { title: '苍山 → 返程', content: '上午乘<b>感通索道</b>上苍山，或去<b>寂照庵</b>吃素斋（最文艺的尼姑庵）。<br>下午返回，或在古城多待一晚。' }
+        ], tips: '大理夏季多雨，备好雨具；古城夜生活丰富；紫外线强，注意防晒' },
+        { icon: '🏖️', title: '福建平潭 · 3天', desc: '蓝眼泪 · 风车海 · 海岛骑行', routeOverview: '中国大陆距离台湾最近的海岛，蓝眼泪+风车海浪漫 combo', route: [
+          { title: '福州 → 平潭', content: '从福州自驾/高铁到平潭，入住坛南湾附近。<br>下午<b>坛南湾</b>沙滩玩水、看日落。<br>晚上追<b>蓝眼泪</b>（4-8月高发），关注“平潭蓝眼泪”实时播报。' },
+          { title: '环岛骑行', content: '租电动车环岛：<b>环岛东路</b>→<b>长江澳风车田</b>→<b>北部生态廊道</b>。<br>风车海是平潭标志，傍晚光线最好。<br>中午在<b>北港村</b>吃海鲜，石头厝民宿拍照。' },
+          { title: '猴研岛 → 返程', content: '上午去<b>猴研岛</b>，中国大陆距离台湾最近的地方（68海里）。<br>打卡邮票相框、红色公路。<br>下午返回福州。' }
+        ], tips: '4-8月蓝眼泪高发；海岛风大，带件外套；海鲜便宜又新鲜' },
+        { icon: '⛰️', title: '武功山 · 3天', desc: '高山草甸 · 云海日出 · 徒步圣地', routeOverview: '华东徒步天花板，十万亩高山草甸+云海日出', route: [
+          { title: '抵达 → 上山', content: '高铁到萍乡北站，拼车到武功山景区。<br>乘中庵索道上山，徒步至<b>金顶</b>。<br>傍晚看日落，晚上住帐篷或客栈，看星空。' },
+          { title: '金顶 → 发云界', content: '早起看<b>云海日出</b>（概率极高，尤其雨后）。<br>徒步<b>武功山精华段</b>：金顶→吊马庄→白云客栈→发云界。<br>全程约6-7小时，穿越十万亩高山草甸。' },
+          { title: '下山 → 返程', content: '从发云界或龙山村下山，返回萍乡。<br>【Tips】山上住宿条件简陋，带好睡袋内胆；晴天紫外线极强' }
+        ], tips: '5-10月最佳；山顶温差大，即使夏天也要带厚外套；建议穿登山鞋' },
+        { icon: '🏔️', title: '雨崩神瀑 · 3天', desc: '梅里雪山 · 藏族村寨 · 轻徒步', routeOverview: '不去天堂，就去雨崩——梅里雪山脚下的藏族秘境', route: [
+          { title: '丽江 → 飞来寺', content: '从丽江出发，乘车经香格里拉前往<b>飞来寺</b>。<br>傍晚在飞来寺观景台看<b>梅里雪山日照金山</b>（卡瓦格博峰）。<br>宿飞来寺，海拔3400m。' },
+          { title: '进入雨崩 → 神瀑', content: '早上从西当村进<b>雨崩村</b>（徒步或越野车）。<br>下午走<b>雨崩神瀑线</b>（往返约4-5小时），藏传佛教朝圣地。<br>宿雨崩上村或下村，看星空。' },
+          { title: '尼农峡谷 → 返程', content: '从<b>尼农峡谷</b>出雨崩（风景最出片的出村路线）。<br>乘车返回香格里拉/丽江。' }
+        ], tips: '海拔3300-3900m，注意高反；最佳季节10-11月（看到日照金山概率最高）' },
+        { icon: '🏔️', title: '黄山 · 3天', desc: '迎客松 · 云海日出 · 光明顶', routeOverview: '五岳归来不看山，黄山归来不看岳', route: [
+          { title: '抵达 → 上山', content: '高铁到黄山北站，转大巴到<b>黄山风景区</b>。<br>从前山乘玉屏索道上山，看<b>迎客松</b>、<b>玉屏楼</b>。<br>经百步云梯、一线天到天海，宿天海或光明顶附近。' },
+          { title: '光明顶日出 → 西海大峡谷', content: '早起在<b>光明顶</b>看日出云海（概率极高）。<br>上午走<b>西海大峡谷</b>环线，黄山最壮观的峡谷。<br>下午经排云亭、飞来石返回，宿山上。' },
+          { title: '日出 → 下山', content: '再看一次日出（不同位置不同景）。<br>经后山<b>始信峰</b>、<b>梦笔生花</b>，乘云谷索道下山。<br>下午去<b>宏村</b>或<b>屯溪老街</b>。' }
+        ], tips: '山上住宿需提前预订（旺季一房难求）；雨后云海概率最高；带厚外套，山顶比山下低10°C' },
+        { icon: '🌿', title: '武夷山 · 3天', desc: '九曲溪竹筏 · 天游峰 · 大红袍', routeOverview: '丹霞地貌+茶文化，世界双遗产地', route: [
+          { title: '天游峰 → 茶洞', content: '高铁到武夷山北站/东站。<br>上午登<b>天游峰</b>（武夷第一胜地，俯瞰九曲溪全景）。<br>下午去<b>大红袍景区</b>，看母树大红袍，品岩茶。' },
+          { title: '九曲溪竹筏 → 武夷宫', content: '上午乘<b>九曲溪竹筏</b>漂流（必体验！需提前预订）。<br>全程约1.5小时，山水画卷中穿行。<br>下午逛<b>武夷宫</b>、<b>宋街</b>、<b>万春园</b>。' },
+          { title: '下梅古村 → 返程', content: '上午去<b>下梅古村</b>（万里茶路起点，晋商茶贸易重镇）。<br>看古民居、邹氏宗祠。<br>下午返程。' }
+        ], tips: '九曲溪竹筏务必提前1-2天预订；3-11月最佳；岩茶爱好者可去茶厂品茶' },
+        { icon: '🌲', title: '福州赤壁斗湖 · 3天', desc: '高山草甸 · 杜鹃花海 · 露营', routeOverview: '福建闽侯的高山秘境，万亩高山草甸与野生杜鹃花海', route: [
+          { title: '福州 → 闽侯', content: '飞抵福州长乐机场，或高铁到福州站。<br>租车前往闽侯县大湖乡，车程约1.5h。<br>入住山脚民宿，准备次日登山装备。' },
+          { title: '赤壁斗湖', content: '早起徒步<b>赤壁斗湖</b>环线（约10km）。<br>高山草甸、野生杜鹃花海（4-5月最佳）、高山湖泊。<br>山顶可露营，看星空银河。' },
+          { title: '三坊七巷 → 返程', content: '上午返回福州，逛<b>三坊七巷</b>。<br>吃福州鱼丸、肉燕、佛跳墙。<br>下午返程。' }
+        ], tips: '4-5月杜鹃花期最美；山顶露营需自带装备；福州美食不要错过' },
+      ]
+    },
+    '35days': {
+      title: '3-5天深度游～', subtitle: '把年假拆一拆，去远一点的地方',
+      items: [
+        { icon: '🏜️', title: '新疆伊犁 · 5天', desc: '赛里木湖 · 果子沟 · 那拉提', routeOverview: '新疆最美的夏天，草原、湖泊、雪山、花海一次看够', route: [
+          { title: '乌鲁木齐 → 赛里木湖', content: '飞抵乌鲁木齐，乘车前往<b>赛里木湖</b>（大西洋最后一滴眼泪）。<br>环湖自驾/骑行，看野花和天鹅。<br>经<b>果子沟大桥</b>前往霍城，宿霍城或伊宁。' },
+          { title: '霍城 → 那拉提', content: '上午看<b>霍城薰衣草</b>（6月最佳）。<br>下午前往<b>那拉提草原</b>，空中草原和河谷草原。<br>可体验骑马，宿那拉提镇。' },
+          { title: '那拉提 → 巴音布鲁克', content: '上午继续那拉提，或走<b>独库公路中段</b>。<br>下午到<b>巴音布鲁克</b>，看九曲十八弯日落。<br>宿巴音布鲁克。' },
+          { title: '巴音 → 独库公路 → 奎屯', content: '走<b>独库公路北段</b>，一天穿越四季。<br>沿途大小龙池、天山神秘大峡谷。<br>宿奎屯。' },
+          { title: '返程', content: '从奎屯/乌鲁木齐返程。<br>【Tips】伊犁最佳季节6-8月，草原花海绝美；新疆昼夜温差大，带厚外套' }
+        ], tips: '新疆检查严格，随身携带身份证；独库公路开放期短（6-9月），需提前确认；防晒+补水' },
+        { icon: '🏔️', title: '云南香格里拉 · 5天', desc: '梅里雪山 · 普达措 · 松赞林寺', routeOverview: '心中的日月，雪山、草甸、古寺、藏寨的完美结合', route: [
+          { title: '丽江 → 香格里拉', content: '从丽江出发，乘车前往<b>香格里拉</b>。<br>下午参观<b>松赞林寺</b>（小布达拉宫）。<br>晚上逛<b>独克宗古城</b>，转经筒。' },
+          { title: '普达措 → 纳帕海', content: '上午游览<b>普达措国家公园</b>（属都湖、碧塔海）。<br>下午去<b>纳帕海</b>，依拉草原，夏天是海、冬天是草原。<br>可租藏服拍照。' },
+          { title: '梅里雪山', content: '早起前往<b>飞来寺</b>，看<b>梅里雪山日照金山</b>。<br>卡瓦格博峰是藏区八大神山之首。<br>下午可去<b>明永冰川</b>（低海拔冰川，可近距离看）。' },
+          { title: '雨崩村', content: '从西当进入<b>雨崩村</b>，徒步<b>神瀑</b>或<b>冰湖</b>。<br>雨崩是梅里雪山脚下的藏族秘境，徒步圣地。<br>宿雨崩村，看星空。' },
+          { title: '返程', content: '从尼农峡谷出雨崩，返回丽江/香格里拉。<br>【Tips】海拔3300m+，注意高反；梅里雪山看日照金山需运气，秋冬概率更高' }
+        ], tips: '高反预防：提前吃红景天，不要剧烈运动；秋冬看到日照金山概率最高（10-11月）' },
+        { icon: '🌿', title: '贵州黔东南 · 4天', desc: '千户苗寨 · 肇兴侗寨 · 梯田', routeOverview: '中国最后的原始部落，少数民族风情+梯田+古镇', route: [
+          { title: '贵阳 → 西江千户苗寨', content: '从贵阳出发，乘车到<b>西江千户苗寨</b>。<br>全世界最大的苗族聚居村寨，吊脚楼层层叠叠。<br>晚上看苗寨夜景，灯火如星河。' },
+          { title: '千户苗寨 → 肇兴侗寨', content: '上午体验苗族银饰、蜡染。<br>下午前往<b>肇兴侗寨</b>，中国最大侗族村寨。<br>晚上听<b>侗族大歌</b>（人类非物质文化遗产）。' },
+          { title: '堂安梯田 → 岜沙苗寨', content: '早起看<b>堂安梯田</b>日出（比元阳更原生态）。<br>徒步<b>堂安→肇兴</b>的梯田古道（约2小时）。<br>下午去<b>岜沙苗寨</b>，中国最后的枪手部落。' },
+          { title: '返程', content: '返回贵阳，或继续去荔波小七孔。<br>【Tips】酸汤鱼必吃；少数民族风情浓郁，适合人文摄影；山路多，备好晕车药' }
+        ], tips: '贵州多雨，带雨具；山路弯多，建议包车或跟小团；酸汤鱼、丝娃娃、肠旺面必吃' },
+        { icon: '⛰️', title: '川西稻城亚丁 · 5天', desc: '蓝色星球最后一片净土 · 三神山', routeOverview: '亚丁三神山+牛奶海+五色海，徒步者的终极目标', route: [
+          { title: '成都 → 新都桥', content: '成都出发，经雅安、泸定、康定。<br>翻越<b>折多山</b>（4298m），到新都桥。<br>宿新都桥，适应海拔。' },
+          { title: '新都桥 → 亚丁', content: '经理塘（世界高城）前往<b>香格里拉镇</b>。<br>沿途毛垭大草原、海子山。<br>宿香格里拉镇，海拔2900m。' },
+          { title: '亚丁长线', content: '乘观光车到扎灌崩，徒步<b>牛奶海</b>+ <b>五色海</b>。<br>往返约6-7小时，海拔4600m+。<br>近距离看<b>央迈勇</b>（文殊菩萨）和<b>夏诺多吉</b>（金刚手菩萨）。' },
+          { title: '亚丁短线 → 理塘', content: '上午走<b>亚丁短线</b>：珍珠海+仙乃日（观音菩萨）。<br>下午返回理塘，看<b>长青春科尔寺</b>和理塘草原。' },
+          { title: '返程', content: '经理塘、新都桥返回成都。<br>【Tips】亚丁长线非常虐，建议带登山杖、氧气瓶；10月中旬秋色最美' }
+        ], tips: '海拔2900-4700m，高反预防第一；10月中旬秋色最美；牛奶海长线需体力，可骑马部分路段' },
+        { icon: '🏜️', title: '腾格里沙漠徒步 · 4天', desc: '沙漠露营 · 星空银河 · 五湖连穿', routeOverview: '中国四大沙漠之一，徒步穿越+沙漠露营看银河', route: [
+          { title: '银川 → 阿拉善', content: '抵达银川，乘车到阿拉善左旗。<br>下午沙漠入口 briefing，分发装备。<br>宿牧民家或帐篷，看沙漠日落。' },
+          { title: '五湖连穿 D1', content: '徒步<b>天鹅湖→乌兰湖</b>（红色盐湖，地球心脏）。<br>沙漠徒步约12km，沙丘起伏。<br>晚上沙漠露营，看银河。' },
+          { title: '五湖连穿 D2', content: '徒步<b>乌兰湖→苏海图湖→太阳湖</b>。<br>约15km，穿越沙漠腹地。<br>傍晚到达太阳湖营地，篝火晚会。' },
+          { title: '出沙漠 → 返程', content: '上午徒步最后一段，出沙漠。<br>返回银川，吃手抓羊肉。' }
+        ], tips: '沙漠昼夜温差大，白天40°C+、晚上10°C；需防晒面巾、墨镜、高帮鞋；徒步强度中等' },
+        { icon: '🏞️', title: '桂林阳朔 · 4天', desc: '漓江竹筏 · 遇龙河 · 十里画廊', routeOverview: '桂林山水甲天下，竹筏漂流+喀斯特峰林骑行', route: [
+          { title: '桂林 → 漓江', content: '飞抵桂林，逛<b>东西巷</b>、<b>靖江王城</b>。<br>第二天上午乘<b>漓江游船</b>（桂林→阳朔，4小时）。<br>沿途九马画山、黄布倒影、20元人民币背景。' },
+          { title: '阳朔 · 遇龙河', content: '上午<b>遇龙河竹筏漂流</b>（比漓江更小众清幽）。<br>下午租电动车骑行<b>十里画廊</b>。<br>晚上逛<b>西街</b>，看《印象·刘三姐》。' },
+          { title: '相公山 → 兴坪', content: '早起去<b>相公山</b>看漓江全景日出。<br>下午到<b>兴坪古镇</b>，20元人民币背景打卡。<br>体验渔翁鸬鹚拍照。' },
+          { title: '龙脊梯田 → 返程', content: '前往<b>龙脊梯田</b>（约2h）。<br>看梯田壮观景色（4-5月灌水季/9-10月金秋最佳）。<br>返程桂林。' }
+        ], tips: '4-10月最佳；漓江游船提前预订；遇龙河竹筏比漓江更推荐；龙脊梯田注意季节' },
+        { icon: '⛰️', title: '勒多曼因冰川线 · 5天', desc: '贡嘎南坡 · 冰川 · 高山海子', routeOverview: '近距离接触勒多曼因冰川，贡嘎南坡的极致风光', route: [
+          { title: '成都 → 康定', content: '成都出发，经雅安到<b>康定</b>。<br>适应海拔，逛康定城，吃藏餐。<br>宿康定。' },
+          { title: '康定 → 老榆林 → 格西草原', content: '徒步起点<b>老榆林</b>，前往<b>格西草原</b>。<br>海拔3200m→3600m，适应高原。<br>草原营地看星空。' },
+          { title: '上日乌且 → 勒多曼因冰川', content: '翻越<b>日乌且垭口</b>（4920m），近距离看<b>勒多曼因冰川</b>。<br>冰塔林、冰裂缝、冰川湖，风景极致。<br>宿冰川附近营地。' },
+          { title: '莫溪沟 → 贡嘎寺', content: '沿<b>莫溪沟</b>下行，到达<b>贡嘎寺</b>。<br>老贡嘎寺是贡嘎雪山最佳观景点之一。<br>宿贡嘎寺。' },
+          { title: '子梅垭口 → 返程', content: '早起去<b>子梅垭口</b>看<b>贡嘎雪山</b>日出。<br>垭口海拔4500m，贡嘎主峰7556m直刺苍穹。<br>下午返回成都。' }
+        ], tips: '高原重装徒步，需一定体力；最佳季节10月；建议跟专业户外团；带好高反药物' },
+        { icon: '⛩️', title: '日本熊野古道 · 5天', desc: '世界文化遗产 · 朝圣之路 · 温泉', routeOverview: '日本最古老朝圣道，穿越森林、神社与温泉小镇', route: [
+          { title: '大阪 → 纪伊田边', content: '飞抵大阪，乘JR到<b>纪伊田边</b>。<br>领取熊野古道朝圣护照，准备徒步。<br>宿田边。' },
+          { title: '中边路 D1', content: '从<b>滝尻王子</b>出发，徒步至<b>近露王子</b>。<br>约15km，穿越原始森林和茶田。<br>宿近露。' },
+          { title: '中边路 D2', content: '近露 → <b>熊野本宫大社</b>。<br>约20km，途经发心门王子。<br>宿本宫大社附近温泉旅馆。' },
+          { title: '熊野速玉大社 → 那智大社', content: '上午参拜<b>熊野速玉大社</b>。<br>下午前往<b>那智大社</b>，看那智瀑布。<br>宿那智胜浦。' },
+          { title: '返程', content: '上午泡<b>胜浦温泉</b>，吃金枪鱼。<br>下午返回大阪/关西机场。<br>【Tips】最佳季节春秋，10月红叶最美' }
+        ], tips: '需日本签证；沿途有行李托运服务，轻装徒步；温泉旅馆需提前预订；春秋最佳' },
+        { icon: '🙏', title: '五台山朝圣 · 4天', desc: '文殊菩萨道场 · 五台连穿 · 朝台', routeOverview: '中国佛教四大名山之首，五台连穿朝圣之旅', route: [
+          { title: '抵达 → 台怀镇', content: '飞抵太原/五台山机场，或高铁到五台山站。<br>乘车到<b>台怀镇</b>，逛<b>殊像寺</b>、<b>塔院寺</b>。<br>宿台怀镇。' },
+          { title: '东台 → 北台', content: '凌晨登<b>东台望海峰</b>看日出。<br>徒步至<b>北台叶斗峰</b>（华北屋脊，3061m）。<br>宿澡浴池或中台。' },
+          { title: '中台 → 西台 → 南台', content: '经<b>中台翠岩峰</b>、<b>西台挂月峰</b>。<br>最后到<b>南台锦绣峰</b>，完成五台连穿。<br>宿台怀镇。' },
+          { title: '菩萨顶 → 返程', content: '上午登<b>菩萨顶</b>，俯瞰台怀镇全景。<br>逛<b>黛螺顶</b>（小朝台）。<br>下午返程。' }
+        ], tips: '朝台海拔高（3000m+），注意保暖；夏季最佳；可包车或徒步； religious sites dress modestly' },
+        { icon: '🌋', title: '印度尼西亚火山瀑布 · 4天', desc: 'Bromo · Ijen · Sewu瀑布 · 蓝火', routeOverview: '印尼东爪哇火山瀑布组合，日出、蓝火、瀑布一次看齐', route: [
+          { title: '泗水 → Bromo', content: '飞抵泗水，乘车到<b>Bromo火山</b>脚下。<br>凌晨2点出发， Jeep越野到观景台。<br>看Bromo火山日出，星空+火山口超震撼。' },
+          { title: 'Bromo → Ijen', content: '上午徒步Bromo火山口。<br>下午乘车前往<b>Ijen火山</b>（约6h）。<br>宿Ijen附近。' },
+          { title: 'Ijen蓝火 → Sewu瀑布', content: '凌晨1点出发爬Ijen，看<b>蓝色火焰</b>和硫酸湖。<br>中午前往<b>Sewu瀑布</b>（千层瀑布）。<br>宿玛琅或泗水。' },
+          { title: '返程', content: '上午逛<b>玛琅</b>彩虹村或市区。<br>下午从泗水飞回。<br>【Tips】需印尼签证/落地签；爬火山累，睡眠少；带防毒面具（Ijen）' }
+        ], tips: '需印尼签证/落地签；火山徒步累，需好体力；Ijen需防毒面具；雨季（11-3月）瀑布更壮观但路滑' },
+        { icon: '🐬', title: '印度尼西亚巴厘岛 · 5天', desc: '海滩 · 海豚 · 潜水 · 乌布稻田', routeOverview: '印尼最经典的度假海岛，海豚、潜水、稻田、瑜伽全都有', route: [
+          { title: '抵达 → 乌布', content: '飞抵登巴萨机场，前往<b>乌布</b>。<br>逛<b>乌布皇宫</b>、<b>乌布市场</b>。<br>晚上看<b> Kecak 火舞</b>。' },
+          { title: '海豚 → 梯田', content: '凌晨去<b>罗威纳</b>出海看<b>海豚</b>（日出时分）。<br>下午逛<b>德格拉朗梯田</b>，打卡网红秋千。<br>宿乌布。' },
+          { title: '佩尼达岛', content: '出海去<b>佩尼达岛</b>，看<b>Kelingking Beach</b>（恐龙湾）。<br>浮潜看<b>Manta Ray</b>魔鬼鱼。<br>宿佩尼达或返回巴厘岛。' },
+          { title: '图兰奔潜水', content: '前往<b>图兰奔</b>，深潜看<b>自由号沉船</b>。<br>或去<b>蓝梦岛</b>看<b>恶魔眼泪</b>。<br>宿南部海滩。' },
+          { title: '返程', content: '上午在<b>水明漾/库塔</b>海滩放松。<br>下午从登巴萨飞回。<br>【Tips】巴厘岛4-10月旱季最佳；需印尼签证/落地签；防晒第一' }
+        ], tips: '4-10月旱季最佳；需印尼签证/落地签；乌布适合稻田瑜伽，南部适合冲浪；防晒+防蚊' },
+      ]
+    },
+    '1week': {
+      title: '一周长途旅行～', subtitle: '适合寒暑假或年假连请',
+      items: [
+        { icon: '🏔️', title: '新疆南北疆环线 · 7天', desc: '独库公路 · 喀纳斯 · 禾木', routeOverview: '一次看遍新疆精华：北疆风景+南疆人文', route: [
+          { title: '乌鲁木齐 → 天山天池 → 可可托海', content: '乌鲁木齐出发，先游<b>天山天池</b>。<br>下午前往<b>可可托海</b>（不是海，是峡谷+白桦林）。<br>宿可可托海镇。' },
+          { title: '可可托海 → 布尔津 → 喀纳斯', content: '经北屯到布尔津，下午进入<b>喀纳斯</b>。<br>观鱼台看喀纳斯湖全景，神仙湾、月亮湾、卧龙湾。<br>宿喀纳斯村。' },
+          { title: '喀纳斯 → 禾木', content: '上午继续喀纳斯，或去<b>白哈巴</b>（西北第一村）。<br>下午前往<b>禾木</b>，中国最美村庄之一。<br>傍晚看日落，晚上看星空。' },
+          { title: '禾木晨雾 → 魔鬼城', content: '早起看<b>禾木晨雾</b>（摄影大片时刻）。<br>下午前往<b>世界魔鬼城</b>，雅丹地貌。<br>宿克拉玛依。' },
+          { title: '赛里木湖 → 伊宁', content: '前往<b>赛里木湖</b>环湖，看野花和天鹅。<br>经果子沟大桥到伊宁。<br>宿伊宁，逛六星街。' },
+          { title: '那拉提 → 独库公路', content: '上午<b>那拉提草原</b>，空中草原骑马。<br>下午走<b>独库公路</b>北段，一天穿越四季。<br>宿奎屯/独山子。' },
+          { title: '返程', content: '返回乌鲁木齐，或直接飞回。<br>【Tips】7-9月最佳；独库公路开放期短（6-9月），需提前确认；车程长，备好零食' }
+        ], tips: '新疆车程每天4-6小时，做好准备；身份证随时携带；7-9月最佳，秋色9月中下旬最美' },
+        { icon: '🚂', title: '西伯利亚铁路线 · 7天精华段', desc: '满洲里→赤塔→伊尔库茨克→贝加尔湖', routeOverview: '横跨亚欧大陆的火车旅行，体验俄式慢生活', route: [
+          { title: '北京/满洲里 → 出境', content: '从北京乘K3或从满洲里乘K19出境，进入俄罗斯。<br>火车穿越蒙古草原/西伯利亚森林。<br>体验俄式餐车和卧铺。' },
+          { title: '赤塔', content: '抵达<b>赤塔</b>（Chita），西伯利亚东部门户。<br>城市不大，但俄式建筑和教堂很有味道。<br>逛列宁广场、赤塔大教堂。' },
+          { title: '赤塔 → 伊尔库茨克', content: '继续火车前往<b>伊尔库茨克</b>（Irkutsk）。<br>城市保留大量19世纪木建筑，被称为“西伯利亚的巴黎”。<br>逛130风情街、喀山大教堂。' },
+          { title: '贝加尔湖', content: '从伊尔库茨克到<b>奥利洪岛</b>（贝加尔湖最大岛）。<br>北线：看<b>萨满岩</b>、三兄弟岩、哈伯伊角。<br>南线：气泡冰（冬季）或草原+湖景。' },
+          { title: '贝加尔湖 → 环湖火车', content: '乘<b>环湖小火车</b>（Circum-Baikal Railway）。<br>19世纪铁路+隧道+桥梁，沿途风景绝美。<br>夏天在湖边野餐，冬天看蓝冰。' },
+          { title: '伊尔库茨克', content: '返回伊尔库茨克，最后一天悠闲逛吃。<br>去中央市场买松子、蜂蜜、浆果酱。<br>体验俄式桑拿（Banya）。' },
+          { title: '返程', content: '从伊尔库茨克飞回北京/哈尔滨，或继续火车到莫斯科。<br>【Tips】需提前办俄罗斯签证；火车卧铺体验独特，备好干粮和电子书；7-8月或1-2月最佳' }
+        ], tips: '俄罗斯签证需提前1-2个月办理；火车上没有充电口，带足充电宝；俄式餐车味道一般，自备零食' },
+        { icon: '🌄', title: '云南大环线 · 7天', desc: '大理 · 丽江 · 香格里拉 · 泸沽湖', routeOverview: '云南经典大环线，风花雪月+雪山+女儿国', route: [
+          { title: '大理', content: '飞抵大理，逛<b>大理古城</b>。<br>第二天<b>洱海骑行</b>（生态廊道），喜洲古镇、周城扎染。<br>宿大理或喜洲。' },
+          { title: '大理 → 丽江', content: '上午苍山感通索道/寂照庵。<br>下午前往丽江，逛<b>丽江古城</b>。<br>晚上看古城夜景，四方街打跳。' },
+          { title: '玉龙雪山', content: '早起去<b>玉龙雪山</b>，大索道到冰川公园（4680m）。<br>下午<b>蓝月谷</b>，小九寨般的湖水。<br>晚上看《丽江千古情》。' },
+          { title: '丽江 → 香格里拉', content: '前往<b>香格里拉</b>，松赞林寺、独克宗古城。<br>普达措国家公园（属都湖、碧塔海）。<br>宿香格里拉。' },
+          { title: '香格里拉 → 梅里雪山', content: '早起去<b>飞来寺</b>看<b>梅里雪山日照金山</b>。<br>下午可以去明永冰川或雨崩村。<br>宿飞来寺或雨崩。' },
+          { title: '泸沽湖', content: '从丽江前往<b>泸沽湖</b>（约4小时）。<br>环湖：里格半岛、情人滩、草海走婚桥。<br>乘猪槽船看日出。' },
+          { title: '返程', content: '从泸沽湖返回丽江/昆明。<br>【Tips】云南景点分散，建议包车或跟小团；防晒+补水；紫外线极强' }
+        ], tips: '云南海拔落差大，注意高反；紫外线极强，防晒第一；泸沽湖7-8月水性杨花最美' },
+        { icon: '🏔️', title: '西藏林芝+拉萨 · 7天', desc: '雪域江南 · 布达拉宫 · 巴松措', routeOverview: '最低海拔进藏路线，雪山桃花+圣湖古寺', route: [
+          { title: '抵达林芝', content: '飞抵<b>林芝米林机场</b>（海拔2900m，最低海拔机场）。<br>适应高原，逛<b>林芝市区</b>，吃石锅鸡。<br>宿林芝。' },
+          { title: '林芝 → 索松村', content: '沿雅鲁藏布江大峡谷前往<b>索松村</b>。<br>看<b>南迦巴瓦峰</b>（中国最美雪山，十人九不遇）。<br>3-4月桃花节，雪山桃花同框。' },
+          { title: '巴松措 → 拉萨', content: '上午<b>巴松措</b>（绿色圣湖，湖心岛有寺庙）。<br>下午沿林拉公路前往<b>拉萨</b>（海拔3650m）。<br>宿拉萨。' },
+          { title: '拉萨市区', content: '上午<b>布达拉宫</b>（需提前7天预约）。<br>下午<b>大昭寺</b>+ <b>八廓街</b>转经。<br>晚上看《文成公主》实景演出。' },
+          { title: '纳木错', content: '一天往返<b>纳木错</b>（海拔4718m）。<br>西藏三大圣湖之一，念青唐古拉山为背景。<br>注意高反，带好氧气。' },
+          { title: '羊卓雍措', content: '前往<b>羊卓雍措</b>（羊湖，海拔4441m）。<br>湖水随光线变化，蓝得不真实。<br>途经卡若拉冰川。' },
+          { title: '返程', content: '从拉萨飞回，或继续火车出藏。<br>【Tips】进藏前不要感冒；布宫需提前7天预约；3-4月桃花节最美' }
+        ], tips: '高原反应预防：提前一周吃红景天，不要剧烈运动，多喝水；布宫需提前7天小程序预约；3-4月桃花节最美' },
+        { icon: '⛰️', title: '贡嘎环线 · 7天', desc: '蜀山之王 · 冰川 · 高原海子', routeOverview: '围绕蜀山之王贡嘎的徒步环线，四川最美高原徒步', route: [
+          { title: '成都 → 康定 → 老榆林', content: '成都出发，经康定到<b>老榆林</b>。<br>适应海拔，准备徒步装备。<br>宿老榆林或康定。' },
+          { title: '老榆林 → 格西草原', content: '徒步开始，老榆林→<b>格西草原</b>。<br>约10km，海拔从3200m上升到3600m。<br>草原营地看星空。' },
+          { title: '上日乌且 → 勒多曼因', content: '翻越<b>日乌且垭口</b>（4920m），看<b>勒多曼因冰川</b>。<br>高原海子、雪山冰川，风景极致。<br>宿上日乌且营地。' },
+          { title: '莫溪沟 → 贡嘎寺', content: '沿<b>莫溪沟</b>下行，到达<b>贡嘎寺</b>。<br>老贡嘎寺是贡嘎雪山的最佳观景点之一。<br>宿贡嘎寺。' },
+          { title: '子梅垭口', content: '早起去<b>子梅垭口</b>看<b>贡嘎雪山</b>日出。<br>垭口海拔4500m，贡嘎主峰7556m直刺苍穹。<br>下午返回贡嘎寺或下子梅村。' },
+          { title: '巴王海 → 草科', content: '徒步<b>巴王海</b>（原始森林+蓝色湖泊）。<br>出草科，泡温泉解乏。<br>宿草科。' },
+          { title: '返程', content: '返回成都。<br>【Tips】贡嘎环线为高原重装徒步，需一定体力；最佳季节10月（秋色+晴天多）' }
+        ], tips: '高原重装徒步，需一定体力；最佳季节10月；建议跟专业户外团；带好高反药物' },
+        { icon: '🏔️', title: '尼泊尔EBC徒步 · 7天', desc: '珠峰大本营 · 世界之巅 · 喜马拉雅', routeOverview: '世界十大徒步路线之一，近距离接触珠峰和南池', route: [
+          { title: '加德满都 → 卢卡拉', content: '飞抵加德满都，乘小飞机到<b>卢卡拉</b>（世界最危险机场）。<br>徒步至<b>Phakding</b>，适应海拔。<br>宿Phakding。' },
+          { title: 'Namche Bazaar', content: '徒步到<b>南池市场</b>（Namche），喜马拉雅山区最大集镇。<br>海拔3440m，适应日。<br>逛集市，看雪山。' },
+          { title: 'Tengboche → Dingboche', content: '经<b>Tengboche</b>（最美珠峰观景台），到<b>Dingboche</b>。<br>看Ama Dablam峰。<br>宿Dingboche。' },
+          { title: 'Lobuche → EBC', content: '徒步至<b>Lobuche</b>，然后到<b>珠峰大本营</b>（EBC，5364m）。<br>看昆布冰川。<br>宿Gorak Shep。' },
+          { title: 'Kala Patthar → Pheriche', content: '早起登<b>Kala Patthar</b>（5550m），看珠峰日出。<br>下山经Pheriche返回。<br>宿Pheriche。' },
+          { title: '返回南池', content: '快速下撤至<b>南池</b>。<br>庆祝完成EBC，买纪念品。<br>宿南池。' },
+          { title: '卢卡拉 → 加德满都', content: '徒步返回<b>卢卡拉</b>，飞回加德满都。<br>逛泰米尔区，吃Dal Bhat。<br>返程。' }
+        ], tips: '需尼泊尔签证；3-5月/10-11月最佳；需徒步许可证和TIMS；海拔高，注意高反；建议请背夫' },
+        { icon: '🏛️', title: '埃及文明之旅 · 7天', desc: '金字塔 · 尼罗河 · 卢克索 · 红海', routeOverview: '从金字塔到红海，穿越五千年文明', route: [
+          { title: '开罗', content: '飞抵开罗，参观<b>吉萨金字塔群</b>、<b>狮身人面像</b>。<br>下午逛<b>埃及博物馆</b>，看图坦卡蒙黄金面具。<br>宿开罗。' },
+          { title: '开罗 → 阿斯旺', content: '上午飞阿斯旺，或乘夜卧火车。<br>下午参观<b>菲莱神庙</b>、<b>未完成的方尖碑</b>。<br>宿阿斯旺。' },
+          { title: '阿布辛贝 → 尼罗河游轮', content: '凌晨去<b>阿布辛贝神庙</b>（拉美西斯二世）。<br>下午登<b>尼罗河游轮</b>，开始顺流而下。<br>宿游轮。' },
+          { title: '卢克索', content: '游轮抵达<b>卢克索</b>，参观<b>卡纳克神庙</b>、<b>卢克索神庙</b>。<br>下午去<b>帝王谷</b>，看壁画和木乃伊。<br>宿游轮/卢克索。' },
+          { title: '赫尔格达', content: '从卢克索乘车到<b>赫尔格达</b>（红海）。<br>下午浮潜/深潜，看珊瑚和热带鱼。<br>宿红海度假村。' },
+          { title: '红海 → 开罗', content: '上午在红海放松，或出海看海豚。<br>下午返回开罗。<br>逛<b>汗·哈利利市场</b>，买纪念品。' },
+          { title: '返程', content: '上午参观<b>萨拉丁城堡</b>、<b>悬空教堂</b>。<br>下午从开罗飞回。<br>【Tips】埃及10-4月最佳；注意防晒和补水；女性建议结伴' }
+        ], tips: '埃及10-4月最佳；注意防晒和补水；部分景点需提前购票；英语通用；小费文化' },
+        { icon: '🐘', title: '清迈慢生活 · 7天', desc: '古城 · 大象 · 夜市 · 丛林飞跃', routeOverview: '泰北玫瑰，古城慢生活+自然冒险的完美结合', route: [
+          { title: '抵达清迈', content: '飞抵清迈，入住古城内民宿。<br>逛<b>周日夜市</b>（如果周日到达），吃芒果糯米饭。<br>宿古城。' },
+          { title: '古城 → 素贴山', content: '上午逛<b>塔佩门</b>、<b>契迪龙寺</b>。<br>下午上<b>素贴山</b>，看<b>双龙寺</b>，俯瞰清迈全景。<br>宿古城。' },
+          { title: '大象保护营', content: '参加<b>大象保护营</b>（不骑象，给大象洗澡喂食）。<br>下午去<b>丛林飞跃</b>或<b>瀑布</b>。<br>宿古城。' },
+          { title: '清莱白庙', content: '一日游去<b>清莱</b>，看<b>白庙</b>、<b>黑庙</b>、<b>蓝庙</b>。<br>往返约6h，值得。<br>宿古城。' },
+          { title: '拜县', content: '乘车去<b>拜县</b>（3h山路，762个弯）。<br>逛<b>二战桥</b>、<b>草莓园</b>、<b>大树秋千</b>。<br>宿拜县。' },
+          { title: '泰式烹饪课', content: '上午学做<b>泰式料理</b>（冬阴功、青木瓜沙拉）。<br>下午去做<b>泰式按摩</b>或逛宁曼路。<br>宿古城。' },
+          { title: '返程', content: '上午逛<b>宁曼路</b>，买伴手礼。<br>下午从清迈飞回。<br>【Tips】清迈11-2月最佳（凉季）；物价低；突突车要讲价' }
+        ], tips: '清迈11-2月最佳（凉季）；物价低；寺庙需穿长裤；突突车讲价；泰式按摩每天都可以做' },
+      ]
+    },
+    '10days': {
+      title: '10天以上远征～', subtitle: '辞职去旅行 or 超长假期',
+      items: [
+        { icon: '🚂', title: '西伯利亚铁路全程 · 10天+', desc: '北京/满洲里→莫斯科，横跨亚欧大陆', routeOverview: '9288公里世界最长铁路，穿越森林、草原、湖泊、城市', route: [
+          { title: '北京/满洲里 → 乌兰巴托', content: 'K3列车从北京出发，经二连浩特出境，进入蒙古。<br>穿越蒙古草原，抵达<b>乌兰巴托</b>。<br>体验蒙古包、喝马奶酒。' },
+          { title: '伊尔库茨克 → 贝加尔湖', content: '进入俄罗斯，抵达<b>伊尔库茨克</b>。<br>去<b>奥利洪岛</b>看贝加尔湖，环湖小火车。<br>西伯利亚的明眸，蓝得深邃。' },
+          { title: '克拉斯诺亚尔斯克 → 新西伯利亚', content: '继续西行，穿越西伯利亚森林。<br>经克拉斯诺亚尔斯克、新西伯利亚。<br>城市不大，但俄式建筑和博物馆值得一逛。' },
+          { title: '叶卡捷琳堡', content: '抵达<b>叶卡捷琳堡</b>，欧亚分界线。<br>看滴血教堂、亚欧分界线碑。<br>俄罗斯第四大城市，工业风+历史感。' },
+          { title: '喀山', content: '前往<b>喀山</b>（Kazan），鞑靼斯坦共和国首都。<br>多元文化交融：清真寺+东正教堂同框。<br>库尔·谢里夫清真寺是标志。' },
+          { title: '莫斯科', content: '抵达<b>莫斯科</b>！<br>红场、克里姆林宫、圣瓦西里大教堂、古姆百货。<br>地铁一日游（莫斯科地铁是地下宫殿）。' },
+          { title: '圣彼得堡（可选）', content: '从莫斯科乘高铁到<b>圣彼得堡</b>（4小时）。<br>冬宫、夏宫、彼得保罗要塞、涅瓦大街。<br>白夜节（6-7月）不落的太阳。' },
+          { title: '返程', content: '从莫斯科/圣彼得堡飞回。<br>【Tips】签证+车票+住宿需提前2-3个月规划；带足零食和电子书；7-8月或1-2月最佳' }
+        ], tips: '俄罗斯签证需提前1-2个月办理；火车卧铺体验独特，建议买一等铺；带足零食，俄式餐车味道一般' },
+        { icon: '🏜️', title: '新疆大环线 · 10天', desc: '伊犁+喀什+帕米尔高原', routeOverview: '南疆人文+北疆风景，一次看遍新疆所有精华', route: [
+          { title: '乌鲁木齐 → 赛里木湖 → 伊宁', content: '乌鲁木齐出发，前往<b>赛里木湖</b>环湖。<br>经果子沟大桥到伊宁，逛六星街。<br>宿伊宁。' },
+          { title: '那拉提 → 独库公路南段', content: '<b>那拉提草原</b>骑马，空中草原。<br>走<b>独库公路南段</b>，一天穿越四季。<br>宿库车。' },
+          { title: '库车 → 阿克苏 → 喀什', content: '看<b>库车大峡谷</b>（红色丹霞地貌）。<br>经阿克苏到<b>喀什</b>。<br>宿喀什古城。' },
+          { title: '喀什古城', content: '逛<b>喀什古城</b>，中国最西端的古城。<br>艾提尕尔清真寺、百年老茶馆、大巴扎。<br>看开城仪式。' },
+          { title: '帕米尔高原', content: '沿中巴公路前往<b>帕米尔高原</b>。<br>慕士塔格峰、喀拉库勒湖、白沙湖。<br>宿塔县（塔什库尔干）。' },
+          { title: '塔县 → 红其拉甫', content: '去<b>红其拉甫口岸</b>（世界海拔最高口岸）。<br>石头城、金草滩。<br>返回喀什。' },
+          { title: '喀什 → 和田 → 沙漠公路', content: '前往<b>和田</b>，玉龙喀什河捡玉。<br>走<b>塔克拉玛干沙漠公路</b>，穿越死亡之海。<br>宿阿拉尔或库车。' },
+          { title: '库尔勒 → 吐鲁番 → 乌鲁木齐', content: '经库尔勒到<b>吐鲁番</b>。<br>火焰山、葡萄沟、坎儿井。<br>返回乌鲁木齐。' },
+          { title: '返程', content: '从乌鲁木齐飞回。<br>【Tips】需办理边防证（塔县）；南疆人文+北疆风景一次看够；7-9月最佳' }
+        ], tips: '需办理边防证（塔县）；新疆车程每天4-6小时；7-9月最佳；身份证随时携带' },
+        { icon: '🌊', title: '西北青甘大环线 · 10天', desc: '青海湖 · 茶卡 · 敦煌 · 张掖', routeOverview: '西北最美环线，湖泊、盐湖、雅丹、丹霞、石窟一次看齐', route: [
+          { title: '西宁 → 青海湖', content: '抵达西宁，前往<b>青海湖</b>。<br>环湖骑行或自驾，看油菜花海（7-8月）。<br>宿青海湖边。' },
+          { title: '茶卡盐湖 → 大柴旦', content: '上午<b>茶卡盐湖</b>（天空之镜）。<br>下午<b>大柴旦翡翠湖</b>，蒂芙尼蓝的小盐湖。<br>宿大柴旦。' },
+          { title: 'U型公路 → 水上雅丹', content: '走<b>315国道U型公路</b>，中国最美公路之一。<br>下午<b>水上雅丹</b>，世界唯一的水上雅丹。<br>宿东台吉乃尔或格尔木。' },
+          { title: '敦煌', content: '前往<b>敦煌</b>，看<b>莫高窟</b>（需提前1个月预约）。<br>下午<b>鸣沙山月牙泉</b>，骑骆驼看日落。<br>宿敦煌。' },
+          { title: '敦煌深度', content: '上午<b>敦煌博物馆</b>、<b>敦煌古城</b>。<br>下午<b>阳关</b>或<b>玉门关</b>，西出阳关无故人。<br>晚上看《又见敦煌》实景演出。' },
+          { title: '嘉峪关 → 张掖', content: '前往<b>嘉峪关</b>，天下第一雄关。<br>下午到<b>张掖</b>，看<b>七彩丹霞</b>日落。<br>宿张掖。' },
+          { title: '张掖 → 祁连山', content: '上午<b>平山湖大峡谷</b>。<br>下午经<b>祁连山草原</b>，看门源油菜花（7月）。<br>宿祁连县或西宁。' },
+          { title: '返程', content: '从西宁飞回。<br>【Tips】6-8月最佳；西北干燥，注意补水和防晒；莫高窟需提前1个月预约' }
+        ], tips: '莫高窟需提前1个月官网预约；6-8月最佳；西北干燥，每天多喝水+面膜；U型公路拍照注意安全' },
+        { icon: '🏔️', title: '川藏线 · 10天', desc: '成都→拉萨 · 318国道 · 此生必驾', routeOverview: '中国最美公路，雪山、草原、湖泊、峡谷、信仰', route: [
+          { title: '成都 → 海螺沟', content: '从成都出发，经雅安到<b>海螺沟</b>。<br>看低海拔现代冰川（贡嘎东坡）。<br>泡海螺沟温泉，宿磨西镇。' },
+          { title: '海螺沟 → 新都桥', content: '翻越<b>折多山</b>（4298m），进入藏区。<br>经塔公草原看雅拉雪山。<br>到<b>新都桥</b>看光影，宿新都桥。' },
+          { title: '新都桥 → 理塘 → 巴塘', content: '经<b>高尔寺山</b>到<b>雅江</b>。<br>翻越<b>卡子拉山</b>到<b>理塘</b>（世界高城，4014m）。<br>到巴塘，宿巴塘。' },
+          { title: '巴塘 → 左贡', content: '跨过<b>金沙江大桥</b>正式进入西藏。<br>翻越<b>觉巴山</b>和<b>东达山</b>（5130m，川藏线最高垭口）。<br>宿左贡。' },
+          { title: '左贡 → 然乌湖', content: '经<b>邦达草原</b>，翻<b>业拉山</b>。<br>下山走<b>怒江72拐</b>（最壮观盘山路）。<br>到<b>然乌湖</b>，宿然乌。' },
+          { title: '然乌湖 → 波密 → 林芝', content: '上午看然乌湖倒影。<br>经<b>波密</b>看米堆冰川，走<b>通麦天险</b>（已通隧道）。<br>到<b>林芝</b>，看南迦巴瓦峰，宿林芝。' },
+          { title: '林芝 → 拉萨', content: '走<b>林拉公路</b>到拉萨。<br>途经<b>巴松措</b>（绿色圣湖）。<br>抵达<b>拉萨</b>！布达拉宫夜景。' },
+          { title: '拉萨市区', content: '上午<b>布达拉宫</b>（提前7天预约）。<br>下午<b>大昭寺</b>+ <b>八廓街</b>。<br>喝甜茶，吃藏面。' },
+          { title: '羊湖 → 返程', content: '前往<b>羊卓雍措</b>（羊湖），三大圣湖之一。<br>湖水蓝得不真实。<br>从拉萨飞回。' }
+        ], tips: '318国道5-10月最佳；沿途海拔起伏大，注意高反；建议SUV或跟车队；出发前检查车况' },
+        { icon: '🥾', title: '西班牙朝圣之路 · 10天+', desc: 'Camino de Santiago · 世界三大朝圣道', routeOverview: '法国之路精华段，穿越葡萄园、麦田与中世纪小镇', route: [
+          { title: '抵达巴黎/马德里', content: '飞抵巴黎或马德里，转机到<b>比亚里茨/潘普洛纳</b>。<br>前往<b>Saint-Jean-Pied-de-Port</b>（法国之路起点）。<br>宿起点小镇。' },
+          { title: '起点 → Roncesvalles', content: '翻越<b>比利牛斯山</b>，进入西班牙。<br>约25km，风景壮丽。<br>宿Roncesvalles。' },
+          { title: 'Pamplona → Logroño', content: '经<b>潘普洛纳</b>（奔牛节名城），进入<b>里奥哈</b>葡萄酒产区。<br>约20km，沿途酒庄和葡萄园。<br>宿Logroño。' },
+          { title: 'Logroño → Burgos', content: '穿越高原和麦田，到达<b>布尔戈斯</b>。<br>参观<b>布尔戈斯大教堂</b>（世界文化遗产）。<br>宿Burgos。' },
+          { title: 'Burgos → León', content: '漫长的梅塞塔高原段，约100km。<br>可以分段走，体验西班牙乡村。<br>宿León。' },
+          { title: 'León → Ponferrada', content: '进入<b>埃尔比耶索</b>山区，沿途<b>葡萄酒庄园</b>。<br>抵达<b>Ponferrada</b>，看<b>圣殿骑士城堡</b>。<br>宿Ponferrada。' },
+          { title: 'O Cebreiro → Sarria', content: '翻越<b>OCebreiro</b>（加利西亚入口），进入绿色山区。<br>到<b>Sarria</b>（最后100km起点，可拿证书）。<br>宿Sarria。' },
+          { title: 'Sarria → Santiago', content: '最后100km，分成4天走。<br>经过中世纪小镇、修道院、农庄。<br>抵达<b>圣地亚哥-德孔波斯特拉</b>，领朝圣证书。' },
+          { title: '圣地亚哥 → Finisterre', content: '继续走到<b>Finisterre</b>（世界尽头）。<br>看大西洋日落，烧掉一双旧鞋。<br>宿Finisterre。' },
+          { title: '返程', content: '从圣地亚哥或拉科鲁尼亚飞回。<br>【Tips】西班牙5-9月最佳；朝圣者旅馆便宜；每天走20-25km；需徒步鞋和登山杖' }
+        ], tips: '西班牙5-9月最佳；朝圣者旅馆约10-15€/晚；最后100km可拿证书；需好徒步鞋和登山杖；葡萄牙语/西班牙语' },
+      ]
+    },
+  },
+};
+
+// ========== 周边游精选推荐 ==========
+function renderTravelFeatured() {
+  const container = document.getElementById('travel-featured-track');
+  if (!container) return;
+  const featured = [
+    { ...shanghaiData.travel.riverplay.items[0], type: 'riverplay', label: '溯溪玩水', emoji: '💦' },
+    { ...shanghaiData.travel.paddleboard.items[0], type: 'paddleboard', label: '划桨板', emoji: '🏄' },
+    { ...shanghaiData.travel.camping.items[0], type: 'camping', label: '避暑露营', emoji: '🏕️' },
+    { ...shanghaiData.travel.hiking.items[0], type: 'hiking', label: '徒步登山', emoji: '⛰️' },
+    { ...shanghaiData.travel.watertown.items[0], type: 'watertown', label: '水乡古镇', emoji: '🚣' },
+    { ...shanghaiData.travel.hotspring.items[0], type: 'hotspring', label: '温泉度假', emoji: '♨️' },
+  ];
+  const cards = featured.map(item => `
+    <div class="travel-featured-card" onclick="selectTravelTypeFeatured('${item.type}', '${item.label}', this)">
+      <div class="travel-card-img">${item.icon}</div>
+      <div class="travel-card-body">
+        <div class="travel-card-title">${item.title.split(' · ')[0]}</div>
+        <div class="travel-card-desc">${item.desc.split(' · ').slice(0, 2).join(' · ')}</div>
+        <span class="travel-card-tag">${item.emoji} ${item.label}</span>
+      </div>
+    </div>
+  `).join('');
+  // 复制一份实现无缝循环
+  container.innerHTML = cards + cards;
+}
+
+function selectTravelTypeFeatured(travelType, label, el) {
+  // 直接选中该分类并跳到推荐列表
+  document.querySelectorAll('#travel-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  state.travelType = travelType;
+  state.travelTypeLabel = label;
+  state.activityLabel = '周边游 · ' + label;
+  setTimeout(() => loadRecommendations('travel'), 300);
+}
 
 // ========== Load Recommendations ==========
 function loadRecommendations(activity) {
@@ -990,29 +1576,90 @@ function loadRecommendations(activity) {
   // 移除所有选中
   document.querySelectorAll('.recommend-card').forEach(c => c.classList.remove('selected'));
 
+  // 长线旅行：显示时长筛选标签
+  const durationFilter = document.getElementById('duration-filter');
+  if (durationFilter) {
+    durationFilter.style.display = activity === 'longdistance' ? 'flex' : 'none';
+    if (activity === 'longdistance') {
+      document.querySelectorAll('.duration-tag').forEach(t => {
+        t.classList.toggle('active', t.dataset.duration === state.longDistanceType);
+      });
+    }
+  }
+
   setTimeout(() => {
     let data;
     if (activity === 'eat') {
       data = shanghaiData.eat[state.foodType];
     } else if (activity === 'travel') {
       data = shanghaiData.travel[state.travelType];
+    } else if (activity === 'longdistance') {
+      data = shanghaiData.longdistance[state.longDistanceType];
+    } else if (activity === 'cinema') {
+      data = JSON.parse(JSON.stringify(shanghaiData.cinema));
+      if (state.selectedMovie) {
+        data.title = `《${state.selectedMovie}》适合去这些影院看～`;
+      }
     } else {
-      data = shanghaiData[activity];
+      data = JSON.parse(JSON.stringify(shanghaiData[activity]));
     }
     if (!data) {
       container.innerHTML = '<p style="text-align:center;color:var(--text-medium);padding:20px;">暂无推荐，稍后补充～</p>';
       return;
     }
 
-    document.getElementById('recommend-title').textContent = data.title;
-    document.getElementById('recommend-subtitle').innerHTML = data.subtitle + '<br><span style="font-size:0.72rem;color:var(--pink-400);">📅 ' + formatDate(state.date) + ' ' + state.time + ' · 上海</span>';
+    // events 类型：按用户选择的日期智能过滤
+    if (activity === 'events' && state.date) {
+      const selectedDate = new Date(state.date + 'T00:00:00');
+      data.items = data.items.filter(item => {
+        if (!item.startDate) return true; // 无日期的活动始终显示
+        const start = new Date(item.startDate + 'T00:00:00');
+        const end = new Date((item.endDate || item.startDate) + 'T00:00:00');
+        return selectedDate >= start && selectedDate <= end;
+      });
+      // 如果过滤后为空，显示全部并提示
+      if (data.items.length === 0) {
+        data = JSON.parse(JSON.stringify(shanghaiData.events));
+        data.subtitle = '你选的日期暂无匹配活动，以下是上海近期热门活动～';
+      } else {
+        data.subtitle = '📅 ' + formatDate(state.date) + ' 当天/当周有这些活动～';
+      }
+    }
 
-    const alwaysDetail = data.alwaysDetail || false;
+    // movie 类型：按用户选择的日期智能过滤近期上映影片
+    if (activity === 'movie' && state.date) {
+      const selectedDate = new Date(state.date + 'T00:00:00');
+      const bufferBefore = 60 * 24 * 60 * 60 * 1000; // 60天前
+      const bufferAfter = 30 * 24 * 60 * 60 * 1000; // 30天后
+      const filteredItems = data.items.filter(item => {
+        if (!item.releaseDate) return true;
+        const release = new Date(item.releaseDate + 'T00:00:00');
+        const diff = release - selectedDate;
+        return diff >= -bufferBefore && diff <= bufferAfter;
+      });
+      if (filteredItems.length === 0) {
+        data = JSON.parse(JSON.stringify(shanghaiData.movie));
+        data.subtitle = '你选的时间附近暂无特别匹配的影片，以下是近期热门电影～';
+      } else {
+        data = JSON.parse(JSON.stringify(data));
+        data.items = filteredItems;
+        data.subtitle = '📅 根据你选的日期推荐的近期影片～';
+      }
+    }
+
+    document.getElementById('recommend-title').textContent = data.title;
+    const locationLabel = activity === 'longdistance' ? '短线' : '上海';
+    document.getElementById('recommend-subtitle').innerHTML = data.subtitle + '<br><span style="font-size:0.72rem;color:var(--pink-400);">📅 ' + formatDate(state.date) + ' ' + state.time + ' · ' + locationLabel + '</span>';
+
+    const alwaysDetail = (data.alwaysDetail && activity !== 'longdistance') || false;
     let html = '<div class="recommend-list">';
-    data.items.forEach(item => {
+    data.items.forEach((item, index) => {
       const extraClass = alwaysDetail ? 'always-detail' : '';
+      const cardClick = activity === 'longdistance'
+        ? `openRouteDetail(${index})`
+        : `selectSpot('${item.title.replace(/'/g, "\\'")}', this)`;
       html += `
-        <div class="recommend-card ${extraClass}" onclick="selectSpot('${item.title}', this)">
+        <div class="recommend-card ${extraClass}" onclick="${cardClick}">
           <div class="recommend-header">
             <div class="recommend-img">${item.icon}</div>
             <div class="recommend-body">
@@ -1020,15 +1667,17 @@ function loadRecommendations(activity) {
               <div class="recommend-desc">${item.desc}</div>
               <div class="recommend-meta">`;
 
-      // 外跳链接
-      if (activity === 'movie') {
-        html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 猫眼购票 →</a>`;
+      // 外跳链接（点击后新页打开，toast提示可返回）
+      if (activity === 'cinema') {
+        html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 猫眼购票 ↗</a>`;
+      } else if (activity === 'movie') {
+        html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 猫眼购票 ↗</a>`;
       } else if (activity === 'livehouse') {
-        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
+        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 大麦购票 ↗</a>`;
       } else if (activity === 'comedy') {
-        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">🎫 大麦购票 →</a>`;
+        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 大麦购票 ↗</a>`;
       } else if (item.link) {
-        html += `<a href="${item.link}" target="_blank" rel="noopener" class="link-btn" onclick="event.stopPropagation()">${item.linkText || '🔗 查看详情 →'}</a>`;
+        html += `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">${item.linkText || '🔗 查看详情 ↗'}</a>`;
       }
 
       html += `</div>
@@ -1042,14 +1691,85 @@ function loadRecommendations(activity) {
   }, 800);
 }
 
+// ========== 当前查看的路线详情 ==========
+let currentRoute = null;
+
+function selectLongDuration(duration) {
+  const labelMap = { '3days': '3天', '35days': '3-5天', '1week': '一周', '10days': '10天+' };
+  state.longDistanceType = duration;
+  state.longDistanceLabel = labelMap[duration];
+  state.activityLabel = '短线 · ' + labelMap[duration];
+  document.querySelectorAll('.duration-tag').forEach(t => {
+    t.classList.toggle('active', t.dataset.duration === duration);
+  });
+  loadRecommendations('longdistance');
+}
+
+function openRouteDetail(index) {
+  const data = shanghaiData.longdistance[state.longDistanceType];
+  if (!data || !data.items[index]) return;
+  currentRoute = data.items[index];
+  document.getElementById('route-detail-title').textContent = currentRoute.title;
+  document.getElementById('route-detail-subtitle').textContent = currentRoute.desc;
+
+  let html = '';
+  if (currentRoute.route && currentRoute.route.length > 0) {
+    html += `<div class="route-overview"><span class="route-emoji">${currentRoute.icon || '🗺️'}</span>${currentRoute.routeOverview || currentRoute.desc}</div>`;
+    currentRoute.route.forEach((day, i) => {
+      html += `
+        <div class="route-day">
+          <div class="route-day-title">Day ${i + 1}${day.title ? ' · ' + day.title : ''}</div>
+          <div class="route-day-content">${day.content}</div>
+        </div>`;
+    });
+    if (currentRoute.tips) {
+      html += `<div class="route-tips"><div class="route-tips-title">📝 Tips</div>${currentRoute.tips}</div>`;
+    }
+  } else {
+    html += `<div class="route-overview"><span class="route-emoji">${currentRoute.icon || '🗺️'}</span>${currentRoute.desc}</div>`;
+    html += `<div class="route-day"><div class="route-day-content">${currentRoute.detail || currentRoute.desc}</div></div>`;
+    if (currentRoute.tips) {
+      html += `<div class="route-tips"><div class="route-tips-title">📝 Tips</div>${currentRoute.tips}</div>`;
+    }
+  }
+  document.getElementById('route-detail-content').innerHTML = html;
+  goToStage('5b');
+}
+
+function closeRouteDetail() {
+  goToStage(5);
+}
+
+function confirmRouteFromDetail() {
+  if (!currentRoute) return;
+  state.spot = currentRoute.title;
+  showToast('已选择: ' + state.spot);
+  updateFinalPage();
+  goToStage(6);
+}
+
 // ========== Select Spot ==========
 function selectSpot(spotName, el) {
   document.querySelectorAll('.recommend-card').forEach(c => {
     c.classList.remove('selected');
   });
   el.classList.add('selected');
-  state.spot = spotName;
-  showToast('已选择: ' + spotName);
+
+  // 电影选片 → 跳转选影院
+  if (state.activity === 'movie' && !state.selectedMovie) {
+    state.selectedMovie = spotName;
+    showToast('已选影片：' + spotName + '，下一步选影院～');
+    setTimeout(() => loadRecommendations('cinema'), 400);
+    return;
+  }
+
+  // 影院选择：把电影+影院组合成最终地点
+  if (state.activity === 'movie' && state.selectedMovie) {
+    state.spot = state.selectedMovie + ' @ ' + spotName;
+  } else {
+    state.spot = spotName;
+  }
+  showToast('已选择: ' + state.spot);
 
   const btn = document.getElementById('confirm-activity-btn');
   btn.disabled = false; btn.style.opacity = '1';
@@ -1070,6 +1790,10 @@ function goBackToEdit(type) {
     goToStage(4);
     // 清除之前的activity选中，让用户重新选
     document.querySelectorAll('#activity-grid .activity-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#shanghai-grid .activity-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('#longdistance-grid .activity-card').forEach(c => c.classList.remove('selected'));
+    state.category = ''; state.activity = ''; state.activityLabel = '';
+    state.selectedMovie = ''; state.spot = '';
   } else if (type === 'spot') {
     goToStage(5);
   }
@@ -1114,6 +1838,8 @@ async function submitToFormspree() {
       btn.innerHTML = '✅ 已提交！';
       btn.style.background = 'linear-gradient(135deg, #4ECDC4, #44A8A0)';
       showToast('提交成功！TA很快就会收到～ 💌');
+      // 庆祝彩屑效果
+      createConfetti();
       setTimeout(() => {
         btn.innerHTML = '✅ 已提交';
         btn.disabled = true;
@@ -1126,36 +1852,6 @@ async function submitToFormspree() {
     btn.innerHTML = originalText;
     showToast('提交失败，请检查网络后重试');
   }
-}
-
-// ========== Share / Copy ==========
-function generateShareLink() {
-  if (!state.date || !state.time || !state.spot) {
-    showToast('先完成选择才能分享哦～'); return;
-  }
-  const params = new URLSearchParams();
-  params.set('d', state.date);
-  params.set('t', state.time);
-  params.set('a', state.activityLabel);
-  params.set('s', state.spot);
-  const shareUrl = window.location.origin + window.location.pathname + '?' + params.toString();
-  navigator.clipboard.writeText(shareUrl).then(() => {
-    showToast('分享链接已复制！发给对方就能看到了～');
-  }).catch(() => {
-    showToast('复制失败，请手动复制地址栏');
-  });
-}
-
-function copyResult() {
-  if (!state.date || !state.time || !state.spot) {
-    showToast('先完成选择才能复制哦～'); return;
-  }
-  const text = `📅 ${formatDate(state.date)} ${state.time}\n🎯 ${state.activityLabel}\n📍 ${state.spot}\n\n上海见！❤`;
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('结果已复制，直接粘贴发给对方吧～');
-  }).catch(() => {
-    showToast('复制失败，请手动截图');
-  });
 }
 
 // ========== Update Final Page ==========
@@ -1194,9 +1890,19 @@ document.addEventListener('DOMContentLoaded', () => {
     state.activityLabel = sharedActivity;
     state.spot = sharedSpot;
     updateFinalPage();
-    // 直接跳到最终页，不显示前面的流程
+    // 直接跳到最终页，切换为"被邀请者"视角
     document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
     document.getElementById('stage-6').classList.add('active');
+    // 切换文案：被邀请者看到的是"约会邀请"而非"提交"
+    const finalEmoji = document.querySelector('.final-emoji');
+    const finalH1 = document.querySelector('#stage-6 h1');
+    const finalSubtitle = document.querySelector('#stage-6 .subtitle');
+    const submitBtn = document.getElementById('submit-btn');
+    if (finalEmoji) finalEmoji.textContent = '💌';
+    if (finalH1) finalH1.innerHTML = '你收到一份约会邀请～ <span class="wink">🥰</span>';
+    if (finalSubtitle) finalSubtitle.innerHTML = '对方已经选好了时间和地点，等你确认哦～';
+    // 隐藏提交按钮
+    if (submitBtn) submitBtn.style.display = 'none';
   }
 });
 </script>
