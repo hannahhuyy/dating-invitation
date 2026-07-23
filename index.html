@@ -575,13 +575,16 @@ body {
     <button class="btn-back" onclick="goToStage(3)">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>我们玩点什么？<span class="wink">🤔</span></h2>
-    <p class="subtitle">上海本地 · 周边游 · 长线旅行 🗺️</p>
+    <p class="subtitle">上海本地 · 周边游 · 杭州 · 长线旅行 🗺️</p>
     <div class="activity-grid category-grid" id="activity-grid">
       <div class="activity-card category-card" onclick="selectCategory('shanghai', '上海', this)">
         <span class="activity-icon">🏙️</span><span class="activity-name">上海</span>
       </div>
       <div class="activity-card category-card" onclick="selectCategory('travel', '周边游', this)">
         <span class="activity-icon">🏕️</span><span class="activity-name">周边游</span>
+      </div>
+      <div class="activity-card category-card" onclick="selectCategory('hangzhou', '杭州', this)">
+        <span class="activity-icon">🌸</span><span class="activity-name">杭州</span>
       </div>
       <div class="activity-card category-card" onclick="selectCategory('longdistance', '短线', this)">
         <span class="activity-icon">✈️</span><span class="activity-name">短线</span>
@@ -688,6 +691,31 @@ body {
         <span class="activity-icon">🎬</span><span class="activity-name">电影</span>
       </div>
       <div class="activity-card" onclick="selectShanghaiActivity('other', '其他', this)">
+        <span class="activity-icon">✨</span><span class="activity-name">其他</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Stage 4f: 杭州本地玩什么 ========== -->
+  <div class="stage" id="stage-4f">
+    <button class="btn-back" onclick="goToStage(4)">‹</button>
+    <div class="flower-deco">✿ ❀ ✽</div>
+    <h2>杭州本地玩什么？<span class="wink">🌸</span></h2>
+    <p class="subtitle">挑一个活动类型～</p>
+    <div class="activity-grid" id="hangzhou-grid">
+      <div class="activity-card" onclick="selectHangzhouActivity('eat', '吃吃吃', this)">
+        <span class="activity-icon">🍽️</span><span class="activity-name">吃吃吃</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('drink', '喝喝喝', this)">
+        <span class="activity-icon">🍷</span><span class="activity-name">喝喝喝</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('play', '景点/玩乐', this)">
+        <span class="activity-icon">🏞️</span><span class="activity-name">景点/玩乐</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('book', '书店/文化', this)">
+        <span class="activity-icon">📚</span><span class="activity-name">书店/文化</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('other', '其他', this)">
         <span class="activity-icon">✨</span><span class="activity-name">其他</span>
       </div>
     </div>
@@ -857,6 +885,7 @@ function selectCategory(category, label, el) {
   state.activityLabel = label;
 
   if (category === 'shanghai') { setTimeout(() => goToStage('4e'), 400); }
+  else if (category === 'hangzhou') { setTimeout(() => goToStage('4f'), 400); }
   else if (category === 'travel') { setTimeout(() => { renderTravelFeatured(); goToStage('4d'); }, 400); }
   else if (category === 'longdistance') {
     state.activity = 'longdistance';
@@ -878,6 +907,15 @@ function selectShanghaiActivity(activity, label, el) {
   else if (activity === 'events') { setTimeout(() => loadRecommendations('events'), 400); }
   else if (activity === 'movie') { state.selectedMovie = ''; setTimeout(() => loadRecommendations('movie'), 400); }
   else { setTimeout(() => loadRecommendations(activity), 400); }
+}
+
+// ========== Stage 4f: Hangzhou Activity Selection ==========
+function selectHangzhouActivity(activity, label, el) {
+  document.querySelectorAll('#hangzhou-grid .activity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.activity = 'hz_' + activity;
+  state.activityLabel = '杭州 · ' + label;
+  setTimeout(() => loadRecommendations('hz_' + activity), 400);
 }
 
 // ========== Stage 4b: Food Type Selection ==========
@@ -1529,6 +1567,162 @@ const shanghaiData = {
   },
 };
 
+// ========== 杭州精选 ==========
+const hangzhouData = {
+  hz_eat: {
+    title: '杭州吃吃吃精选～',
+    subtitle: '杭帮菜老字号 + 私房菜 + 异域料理！🍽️',
+    alwaysDetail: true,
+    items: [
+      { icon:'🍃', title:'桂语山房（满觉陇店）', desc:'满觉陇 · 高端杭帮菜 · 私房菜馆',
+        detail:'【特色】藏在满觉陇桂花林里的私房菜馆，环境极清幽\n【招牌】龙井虾仁、东坡肉、定胜糕、宋嫂鱼羹\n【人均】¥400-600，需提前1-2天电话预约\n【地址】西湖区满觉陇路上满觉陇',
+        link:'https://uri.amap.com/search?keyword=桂语山房', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🌿', title:'龙井草堂', desc:'西湖景区 · 顶级私房菜 · 需预约',
+        detail:'【特色】杭州最顶级的私房菜之一，依山傍水的园林式餐厅\n【招牌】草堂酱鸭、龙井虾仁、笋干老鸭煲\n【人均】¥1500+，至少提前一周预约\n【地址】西湖区龙井路',
+        link:'https://uri.amap.com/search?keyword=龙井草堂', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏛️', title:'杭州酒家（庆春路店）', desc:'庆春路 · 老字号杭帮菜',
+        detail:'【特色】杭州老字号杭帮菜馆，本地人都认可的经典\n【招牌】西湖醋鱼、东坡肉、龙井虾仁、叫花鸡\n【人均】¥150-250\n【地址】上城区延安路与庆春路交叉口',
+        link:'https://uri.amap.com/search?keyword=杭州酒家', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🥘', title:'四灶儿·地道杭帮菜（西湖景区·吴山店）', desc:'吴山 · 地道杭帮菜',
+        detail:'【特色】主打地道杭帮菜，味道正宗，价格亲民\n【招牌】油焖春笋、东坡肉、片儿川\n【人均】¥80-150\n【地址】上城区吴山景区附近',
+        link:'https://uri.amap.com/search?keyword=四灶儿 杭帮菜', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏠', title:'江南驿', desc:'西湖周边 · 网红杭帮菜',
+        detail:'【特色】被本地人和游客共同认可的网红杭帮菜\n【招牌】江南驿红烧肉、油焖笋、莼菜汤\n【人均】¥120-200\n【地址】西湖周边',
+        link:'https://uri.amap.com/search?keyword=江南驿', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🌾', title:'CHIMIDO 柴米多农场餐厅（和创园店）', desc:'和创园 · 农场主题餐厅',
+        detail:'【特色】从农场到餐桌的理念，食材新鲜有机\n【招牌】农场沙拉、现烤面包、农场意面\n【人均】¥150-250\n【地址】西湖区和创园',
+        link:'https://uri.amap.com/search?keyword=CHIMIDO 柴米多', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍛', title:'查可得印度餐厅（信义坊步行街店）', desc:'信义坊 · 杭州老牌印度餐厅',
+        detail:'【特色】杭州最早一批印度餐厅之一，味道正宗\n【招牌】咖喱角、印度烤鸡、黄油馕\n【人均】¥80-150\n【地址】拱墅区信义坊步行街',
+        link:'https://uri.amap.com/search?keyword=查可得印度餐厅', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🦀', title:'泮芳春煎饺·米其林餐厅（中山南路店）', desc:'中山南路 · 米其林推荐 · 煎饺',
+        detail:'【特色】米其林必比登推荐，招牌煎饺现做现煎\n【招牌】鲜肉煎饺、牛肉煎饺、酸辣汤\n【人均】¥80-150\n【地址】上城区中山南路',
+        link:'https://uri.amap.com/search?keyword=泮芳春煎饺', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🐟', title:'江南渔哥（吴山景区店）', desc:'吴山景区 · 河鲜江鲜',
+        detail:'【特色】主打千岛湖鱼头和钱塘江鲜，食材新鲜\n【招牌】千岛湖鱼头、江南醉虾、红烧江鲜\n【人均】¥150-300\n【地址】上城区吴山景区附近',
+        link:'https://uri.amap.com/search?keyword=江南渔哥', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🌶️', title:'来胡建闽南小吃（滨江人才公寓店）', desc:'滨江 · 闽南风味',
+        detail:'【特色】正宗的闽南小吃，海鲜面线糊、五香卷\n【招牌】面线糊、海蛎煎、五香卷\n【人均】¥50-100\n【地址】滨江区人才公寓附近',
+        link:'https://uri.amap.com/search?keyword=来胡建闽南小吃', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍳', title:'田耕记·江西小炒（华星时代广场店）', desc:'华星时代广场 · 江西小炒',
+        detail:'【特色】地道江西小炒，锅气十足、香辣下饭\n【招牌】小炒肉、藜蒿炒腊肉、米粉肉\n【人均】¥60-100\n【地址】西湖区华星时代广场',
+        link:'https://uri.amap.com/search?keyword=田耕记 江西小炒', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🥟', title:'游埠豆浆（河坊街店）', desc:'河坊街 · 早餐网红店',
+        detail:'【特色】杭州早餐网红店，烧饼油条豆浆经典组合\n【招牌】咸豆浆、油条、烧饼、葱包桧\n【人均】¥30-60\n【地址】上城区河坊街',
+        link:'https://uri.amap.com/search?keyword=游埠豆浆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🥯', title:'新丰小吃（高银街分店）', desc:'高银街 · 老字号杭帮小吃',
+        detail:'【特色】杭州老字号小吃店，本地人从小吃到大\n【招牌】虾肉馄饨、牛肉粉丝、鲜肉汤包\n【人均】¥30-60\n【地址】上城区高银街',
+        link:'https://uri.amap.com/search?keyword=新丰小吃', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍜', title:'阿炳爆鳝面（清河坊历史文化特色街）', desc:'清河坊 · 鳝鱼面',
+        detail:'【特色】杭州网红面馆，爆鳝面一绝\n【招牌】爆鳝面、虾爆鳝面、片儿川\n【人均】¥50-80\n【地址】上城区清河坊历史文化特色街',
+        link:'https://uri.amap.com/search?keyword=阿炳爆鳝面', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_drink: {
+    title: '杭州喝喝喝精选～',
+    subtitle: '居酒屋 · 烧鸟 · 精酿 · 鸡尾酒！🍷',
+    alwaysDetail: true,
+    items: [
+      { icon:'🍢', title:'暮光里烧鸟·摩登居酒屋·CHIRPY BIRD', desc:'摩登居酒屋 · 烧鸟',
+        detail:'【特色】杭州知名的烧鸟居酒屋，日式氛围浓\n【招牌】烤鸡肉串、烤鸡翅、烧鸟拼盘\n【人均】¥200-400\n【地址】具体门店地址见高德',
+        link:'https://uri.amap.com/search?keyword=暮光里烧鸟', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍶', title:'大江户居酒屋（中山中路店）', desc:'中山中路 · 老牌居酒屋',
+        detail:'【特色】杭州老牌日式居酒屋，氛围温馨\n【招牌】烤鸡串、刺身拼盘、味噌汤\n【人均】¥150-300\n【地址】下城区中山中路',
+        link:'https://uri.amap.com/search?keyword=大江户居酒屋', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍻', title:'跳海酒馆（中山中路店）', desc:'中山中路 · 跳海连锁酒馆',
+        detail:'【特色】跳海连锁酒馆杭州店，精酿+鸡尾酒\n【招牌】精酿啤酒、自调鸡尾酒、佐酒小食\n【人均】¥120-250\n【地址】下城区中山中路',
+        link:'https://uri.amap.com/search?keyword=跳海酒馆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍢', title:'富贵烧鸟·餐集酒肆小馆', desc:'餐集酒肆 · 烧鸟',
+        detail:'【特色】杭州新晋热门烧鸟店，餐酒一体\n【招牌】烤鸡肉串、烤时蔬、日式小食\n【人均】¥180-350\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=富贵烧鸟', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍻', title:'友谊市场 Friendship Market', desc:'餐酒市集 · 复合空间',
+        detail:'【特色】餐酒复合空间，白天市集晚上餐酒\n【招牌】精酿、小食、独立咖啡\n【人均】¥150-300\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=友谊市场 Friendship Market', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍺', title:'nana taproom', desc:'精酿啤酒 · taproom',
+        detail:'【特色】杭州知名精酿 taproom，自酿啤酒\n【招牌】IPA、世涛、小麦啤\n【人均】¥80-150\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=nana taproom', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍸', title:'VALENTINE（瓦伦丁）酒吧', desc:'鸡尾酒 · 经典酒吧',
+        detail:'【特色】杭州经典酒吧，氛围复古\n【招牌】经典鸡尾酒、威士忌\n【人均】¥150-300\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=VALENTINE 瓦伦丁 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍺', title:'暗香·Wild Yeast', desc:'野生酵母 · 精酿酒馆',
+        detail:'【特色】主打野生酵母发酵的精酿啤酒\n【招牌】赛松、野菌艾尔、自然酒\n【人均】¥100-200\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=暗香 Wild Yeast', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_play: {
+    title: '杭州景点/玩乐精选～',
+    subtitle: '自然秘境 + 网红地标 + 沉浸式密室！🏞️',
+    alwaysDetail: true,
+    items: [
+      { icon:'🎋', title:'云栖竹径', desc:'西湖新十景 · 竹海古道',
+        detail:'【特色】西湖新十景之一，万竿竹海+千年古道\n【亮点】夏日避暑清凉，秋日红枫绝美\n【门票】免费\n【地址】西湖区梅灵南路',
+        link:'https://uri.amap.com/search?keyword=云栖竹径', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏛️', title:'良渚古城遗址公园', desc:'余杭 · 世界文化遗产',
+        detail:'【特色】2019 年列入世界文化遗产，5000年文明史\n【亮点】考古体验、鹿苑、反山王陵\n【门票】¥80，需提前预约\n【地址】余杭区瓶窑镇',
+        link:'https://uri.amap.com/search?keyword=良渚古城遗址公园', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏭', title:'大运河杭钢公园', desc:'拱墅 · 工业风遗址公园',
+        detail:'【特色】由原杭钢老厂房改造的工业风公园\n【亮点】高炉遗址、钢铁森林、文创市集\n【门票】免费\n【地址】拱墅区半山东路',
+        link:'https://uri.amap.com/search?keyword=大运河杭钢公园', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'📖', title:'杭州国家版本馆（文润阁）', desc:'余杭 · 网红建筑 · 文化地标',
+        detail:'【特色】中国国家版本馆杭州分馆，安藤忠雄设计团队参与\n【亮点】宋韵建筑+山体公园，巨型青瓷屏\n【门票】免费，需预约\n【地址】余杭区文润路',
+        link:'https://uri.amap.com/search?keyword=杭州国家版本馆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏘️', title:'BIRLAND 玉鸟集', desc:'良渚 · 文化艺术街区',
+        detail:'【特色】良渚文化村内的文艺街区，餐厅+书店+市集\n【亮点】玉鸟集菜市、独立书店、艺文活动\n【门票】免费\n【地址】余杭区良渚文化村',
+        link:'https://uri.amap.com/search?keyword=BIRLAND 玉鸟集', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'⛪', title:'美丽洲教堂', desc:'良渚 · 网红教堂',
+        detail:'【特色】良渚文化村内的网红教堂，三角形木结构\n【亮点】安静神圣，常有新人拍照\n【门票】免费\n【地址】余杭区良渚文化村',
+        link:'https://uri.amap.com/search?keyword=美丽洲教堂', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🌿', title:'杭州植物园', desc:'西湖景区 · 自然氧吧',
+        detail:'【特色】西湖边的植物王国，四季皆景\n【亮点】春日樱花+郁金香，秋日桂花\n【门票】¥10\n【地址】西湖区桃源岭',
+        link:'https://uri.amap.com/search?keyword=杭州植物园', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🔐', title:'幽瞳·实景沉浸式密室（铂澜大象城店）', desc:'密室逃脱 · 沉浸式',
+        detail:'【特色】杭州知名沉浸式密室，实景+剧情\n【亮点】多主题可选，NPC 互动\n【人均】¥150-300，需提前预约\n【地址】铂澜大象城',
+        link:'https://uri.amap.com/search?keyword=幽瞳 密室', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_book: {
+    title: '杭州书店/文化精选～',
+    subtitle: '独立书店 + 主题书店 + 文艺地标！📚',
+    alwaysDetail: true,
+    items: [
+      { icon:'📚', title:'单向空间（大谷仓店）', desc:'良渚 · 文艺地标书店',
+        detail:'【特色】单向空间杭州店，由大谷仓改造\n【亮点】咖啡+文创+活动，独立书店旗舰\n【人均】¥50-100（餐饮）\n【地址】余杭区良渚文化村',
+        link:'https://uri.amap.com/search?keyword=单向空间 大谷仓', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'📖', title:'西西弗书店（杭州嘉里中心店）', desc:'嘉里中心 · 连锁书店',
+        detail:'【特色】全国连锁书店，氛围温馨\n【亮点】矢量咖啡、阅读区、文创区\n【人均】¥40-80（餐饮）\n【地址】下城区嘉里中心',
+        link:'https://uri.amap.com/search?keyword=西西弗书店 嘉里中心', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'📕', title:'乌托邦书店（小河直街店）', desc:'小河直街 · 独立书店',
+        detail:'【特色】小河直街的独立小书店，氛围文艺\n【亮点】二手书+店主精选\n【人均】¥20-50\n【地址】拱墅区小河直街',
+        link:'https://uri.amap.com/search?keyword=乌托邦书店 小河直街', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🦪', title:'牡蛎书店', desc:'独立书店 · 小众',
+        detail:'【特色】杭州小众独立书店，文学+艺术为主\n【亮点】店主品味独特\n【人均】¥20-50\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=牡蛎书店', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🦋', title:'梦蝶书店', desc:'独立书店 · 文学',
+        detail:'【特色】杭州独立书店，文学+诗歌\n【人均】¥20-50\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=梦蝶书店', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'📓', title:'我的精神家园-王小波书店', desc:'主题书店 · 王小波',
+        detail:'【特色】以王小波为主题的书店\n【亮点】王小波作品+主题活动\n【人均】¥20-50\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=我的精神家园 王小波书店', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_other: {
+    title: '杭州其他精选～',
+    subtitle: '体育场馆 + 手工艺 + 民艺文化！✨',
+    alwaysDetail: true,
+    items: [
+      { icon:'🏟️', title:'杭州奥体博览城', desc:'滨江 · 体育场馆群',
+        detail:'【特色】2022 亚运会主场馆，建筑宏伟\n【亮点】大莲花（主体育场）、游泳馆、网球中心\n【门票】免费外围参观，馆内活动另购\n【地址】滨江区飞虹路',
+        link:'https://uri.amap.com/search?keyword=杭州奥体博览城', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🪡', title:'王的手创·钱塘', desc:'手工艺 · 体验',
+        detail:'【特色】手工艺集合空间，可体验非遗手作\n【亮点】刺绣、扎染、陶艺体验课\n【人均】¥100-300\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=王的手创 钱塘', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎨', title:'自然造物·民艺研究中心', desc:'民艺复兴 · 手作',
+        detail:'【特色】民艺复兴机构，挖掘传统手工艺\n【亮点】展览+手作体验+文创产品\n【人均】¥50-200\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=自然造物 民艺研究中心', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  }
+};
+
 // ========== 周边游精选推荐 ==========
 function renderTravelFeatured() {
   const container = document.getElementById('travel-featured-track');
@@ -1600,6 +1794,8 @@ function loadRecommendations(activity) {
       if (state.selectedMovie) {
         data.title = `《${state.selectedMovie}》适合去这些影院看～`;
       }
+    } else if (activity.indexOf('hz_') === 0) {
+      data = JSON.parse(JSON.stringify(hangzhouData[activity]));
     } else {
       data = JSON.parse(JSON.stringify(shanghaiData[activity]));
     }
