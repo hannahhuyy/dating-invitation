@@ -594,7 +594,7 @@ body {
 
   <!-- ========== Stage 4b: 菜系选择 (吃) ========== -->
   <div class="stage" id="stage-4b">
-    <button class="btn-back" onclick="goToStage('4e')">‹</button>
+    <button class="btn-back" onclick="goToStage(state.category === 'hangzhou' ? '4f' : '4e')">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>想吃什么菜系？<span class="wink">🤤</span></h2>
     <p class="subtitle">告诉我你馋什么～</p>
@@ -646,7 +646,7 @@ body {
 
   <!-- ========== Stage 4c: 其他活动输入 ========== -->
   <div class="stage" id="stage-4c">
-    <button class="btn-back" onclick="goToStage('4e')">‹</button>
+    <button class="btn-back" onclick="goToStage(state.category === 'hangzhou' ? '4f' : '4e')">‹</button>
     <div class="flower-deco">✿ ❀ ✽</div>
     <h2>你想玩什么？<span class="wink">✨</span></h2>
     <p class="subtitle">输入你想做的任何活动，我来帮你安排～</p>
@@ -703,17 +703,32 @@ body {
     <h2>杭州本地玩什么？<span class="wink">🌸</span></h2>
     <p class="subtitle">挑一个活动类型～</p>
     <div class="activity-grid" id="hangzhou-grid">
+      <div class="activity-card" onclick="selectHangzhouActivity('events', '本周活动', this)">
+        <span class="activity-icon">🎪</span><span class="activity-name">本周活动</span>
+      </div>
       <div class="activity-card" onclick="selectHangzhouActivity('eat', '吃吃吃', this)">
-        <span class="activity-icon">🍽️</span><span class="activity-name">吃吃吃</span>
+        <span class="activity-icon">🍜</span><span class="activity-name">吃吃吃</span>
       </div>
-      <div class="activity-card" onclick="selectHangzhouActivity('drink', '喝喝喝', this)">
-        <span class="activity-icon">🍷</span><span class="activity-name">喝喝喝</span>
+      <div class="activity-card" onclick="selectHangzhouActivity('karting', '卡丁车', this)">
+        <span class="activity-icon">🏎️</span><span class="activity-name">卡丁车</span>
       </div>
-      <div class="activity-card" onclick="selectHangzhouActivity('play', '景点/玩乐', this)">
-        <span class="activity-icon">🏞️</span><span class="activity-name">景点/玩乐</span>
+      <div class="activity-card" onclick="selectHangzhouActivity('livehouse', 'Livehouse', this)">
+        <span class="activity-icon">🎸</span><span class="activity-name">Livehouse</span>
       </div>
-      <div class="activity-card" onclick="selectHangzhouActivity('book', '书店/文化', this)">
-        <span class="activity-icon">📚</span><span class="activity-name">书店/文化</span>
+      <div class="activity-card" onclick="selectHangzhouActivity('comedy', '脱口秀', this)">
+        <span class="activity-icon">🎤</span><span class="activity-name">脱口秀</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('art', '展览馆', this)">
+        <span class="activity-icon">🎨</span><span class="activity-name">展览馆</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('sport', '休闲运动', this)">
+        <span class="activity-icon">🏃</span><span class="activity-name">休闲运动</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('citywalk', 'City Walk', this)">
+        <span class="activity-icon">🚶</span><span class="activity-name">City Walk</span>
+      </div>
+      <div class="activity-card" onclick="selectHangzhouActivity('movie', '电影', this)">
+        <span class="activity-icon">🎬</span><span class="activity-name">电影</span>
       </div>
       <div class="activity-card" onclick="selectHangzhouActivity('other', '其他', this)">
         <span class="activity-icon">✨</span><span class="activity-name">其他</span>
@@ -915,7 +930,9 @@ function selectHangzhouActivity(activity, label, el) {
   el.classList.add('selected');
   state.activity = 'hz_' + activity;
   state.activityLabel = '杭州 · ' + label;
-  setTimeout(() => loadRecommendations('hz_' + activity), 400);
+
+  if (activity === 'movie') { state.selectedMovie = ''; setTimeout(() => loadRecommendations('hz_movie'), 400); }
+  else { setTimeout(() => loadRecommendations('hz_' + activity), 400); }
 }
 
 // ========== Stage 4b: Food Type Selection ==========
@@ -954,7 +971,8 @@ function confirmOther() {
 
 // ========== Back from recommendations ==========
 function goBackFromRecommend() {
-  if (state.activity === 'eat') goToStage('4b');
+  if (state.activity.indexOf('hz_') === 0) goToStage('4f');
+  else if (state.activity === 'eat') goToStage('4b');
   else if (state.activity === 'travel') goToStage('4d');
   else if (state.activity === 'longdistance') goToStage(4);
   else if (state.activity === 'movie') {
@@ -1568,6 +1586,37 @@ const shanghaiData = {
 };
 
 // ========== 杭州精选 ==========
+// ========== 杭州天目里周市集清单（每周自动切换）==========
+// 维护方法：每 4 周循环一次；新增条目请保持 4 的倍数以维持轮换。
+const tianmuliWeeklyMarkets = [
+  {
+    theme: '🎨 文创手作市集',
+    content: '【本周主题】文创手作市集\n【亮点】30+ 原创设计师摊位、独立首饰、手工皮具、家居小品\n【时间】周六-周日 11:00-19:00\n【地点】天目里 NIO House 旁广场\n【免费】无需门票'
+  },
+  {
+    theme: '☕ 美食咖啡市集',
+    content: '【本周主题】美食咖啡市集\n【亮点】精品咖啡店快闪、手作甜品、限定特调、轻食小食\n【时间】周六-周日 10:30-19:30\n【地点】天目里中庭广场\n【免费】无需门票'
+  },
+  {
+    theme: '👗 Vintage 古着市集',
+    content: '【本周主题】Vintage 古着市集\n【亮点】日本/欧洲 vintage 古着、二手设计师包、复古老物件\n【时间】周末 12:00-20:00\n【地点】天目里北区市集广场\n【免费】无需门票'
+  },
+  {
+    theme: '🖌️ 插画艺术市集',
+    content: '【本周主题】插画艺术市集\n【亮点】独立插画家签售、版画印刷、绘本原作、艺术周边\n【时间】周末 11:00-19:00\n【地点】天目里 By Art Matter 艺术空间\n【免费】无需门票'
+  }
+];
+
+// 根据日期计算该用哪一周的市集主题
+function getTianmuliMarketForDate(dateStr) {
+  if (!dateStr) return tianmuliWeeklyMarkets[0];
+  const d = new Date(dateStr + 'T00:00:00');
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  const dayOfYear = Math.floor((d - yearStart) / 86400000);
+  const weekIdx = Math.floor(dayOfYear / 7) % tianmuliWeeklyMarkets.length;
+  return tianmuliWeeklyMarkets[weekIdx];
+}
+
 const hangzhouData = {
   hz_eat: {
     title: '杭州吃吃吃精选～',
@@ -1720,6 +1769,173 @@ const hangzhouData = {
         detail:'【特色】民艺复兴机构，挖掘传统手工艺\n【亮点】展览+手作体验+文创产品\n【人均】¥50-200\n【地址】见高德',
         link:'https://uri.amap.com/search?keyword=自然造物 民艺研究中心', linkText:'🗺️ 在高德地图打开 ↗' }
     ]
+  },
+  hz_events: {
+    title: '杭州近期活动 & 展览～',
+    subtitle: '根据你选的日期匹配当周活动！',
+    alwaysDetail: true,
+    items: [
+      { icon:'🌿', title:'天目里本周市集', desc:'余杭 · 天目里 · 当周主题轮换',
+        detail:'__TIANMULI_WEEKLY_MARKET__',
+        link:'https://uri.amap.com/search?keyword=天目里', linkText:'🗺️ 在高德地图打开 ↗',
+        isWeeklyMarket: true },
+      { icon:'🎵', title:'西湖音乐节', desc:'西湖景区 · 户外音乐节',
+        detail:'【活动】杭州年度大型户外音乐节，多舞台多艺人\n【亮点】摇滚/民谣/电子，覆盖各流派\n【门票】早鸟票¥280起\n【地址】西湖景区附近',
+        link:'https://uri.amap.com/search?keyword=西湖音乐节', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎬', title:'中国国际动漫节', desc:'滨江白马湖 · 年度动漫盛会',
+        detail:'【活动】杭州年度动漫节，COSPLAY+签售+周边\n【亮点】国内外漫画家签售、声优见面会\n【门票】¥60起\n【地址】滨江区白马湖',
+        link:'https://uri.amap.com/search?keyword=中国国际动漫节', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎪', title:'大运河文化节', desc:'运河沿线 · 民俗文化',
+        detail:'【活动】大运河沿线城市文化节\n【亮点】非遗展演、民俗市集、河道游船\n【门票】部分免费\n【地址】运河文化广场',
+        link:'https://uri.amap.com/search?keyword=大运河文化节 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🌸', title:'西湖荷花节', desc:'西湖 · 季节限定',
+        detail:'【活动】西湖荷花盛开季节限定活动\n【亮点】曲院风荷赏荷、荷花主题市集\n【门票】免费\n【时间】6-8月\n【地址】西湖曲院风荷',
+        link:'https://uri.amap.com/search?keyword=西湖荷花节', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎟️', title:'更多活动 · 大麦/小红书', desc:'随时更新的演出 & 展览',
+        detail:'【平台推荐】\n🎫 大麦网 — 杭州演出/展览/市集一站式\n🎫 猫眼 — 电影/演出/展览\n📱 小红书搜"杭州周末活动" — 最新市集和 pop-up\n📱 公众号：杭州文广旅游、韵味杭州',
+        link:'https://m.damai.cn/', linkText:'🎫 大麦查活动 ↗' }
+    ]
+  },
+  hz_karting: {
+    title: '杭州卡丁车推荐～',
+    subtitle: '速度与激情！🏎️',
+    alwaysDetail: true,
+    items: [
+      { icon:'🏎️', title:'MaxSpeed 卡丁车（杭州店）', desc:'专业卡丁车场 · 室内/室外',
+        detail:'【特色】连锁专业卡丁车品牌，杭州有分店\n【车型】270cc/390cc 双人/单人车\n【价格】¥100-200/节（10-15分钟）\n【地址】见高德搜索具体门店',
+        link:'https://uri.amap.com/search?keyword=MaxSpeed 卡丁车 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏁', title:'天马山赛车场', desc:'专业赛道 · 户外卡丁车',
+        detail:'【特色】杭州老牌赛车场，专业赛道规格\n【车型】270cc 竞速车，双人车\n【价格】¥120-180/节\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=天马山赛车场', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎯', title:'万驰卡丁车俱乐部', desc:'休闲卡丁车 · 适合新手',
+        detail:'【特色】主打休闲体验，新手友好\n【车型】200cc 安全车，可调速\n【价格】¥80-150/节\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=万驰卡丁车', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🚦', title:'极速卡丁车馆', desc:'室内卡丁车 · 不受天气影响',
+        detail:'【特色】全室内场馆，雨天也能玩\n【车型】室内专用电动卡丁车\n【价格】¥100-160/节\n【地址】见高德',
+        link:'https://uri.amap.com/search?keyword=极速卡丁车 杭州', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_livehouse: {
+    title: '杭州 Livehouse 推荐～',
+    subtitle: '摇滚 · 民谣 · 现场！🎸',
+    alwaysDetail: true,
+    items: [
+      { icon:'🎸', title:'Mao Livehouse 杭州', desc:'知名连锁 Livehouse · 摇滚专场',
+        detail:'【特色】全国知名 Livehouse 连锁，杭州店\n【演出】摇滚/独立/民谣为主，每月多场\n【地址】西湖区文二西路\n【人均】¥120-280（含酒水）',
+        link:'https://uri.amap.com/search?keyword=Mao Livehouse 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎤', title:'VOX Livehouse', desc:'文二路 · 独立音乐',
+        detail:'【特色】杭州老牌 Livehouse，独立音乐聚集地\n【演出】摇滚/后摇/独立\n【地址】西湖区文二路\n【人均】¥100-250',
+        link:'https://uri.amap.com/search?keyword=VOX Livehouse 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎧', title:'Loopy', desc:'中山北路 · 电子音乐为主',
+        detail:'【特色】杭州电子音乐/Techno 主场\n【演出】电子/Techno/House DJ\n【地址】下城区中山北路\n【人均】¥80-200',
+        link:'https://uri.amap.com/search?keyword=Loopy 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎶', title:'酒球会', desc:'黄龙 · 综合 Livehouse',
+        detail:'【特色】综合性 Livehouse，多元风格\n【演出】摇滚/民谣/嘻哈\n【地址】西湖区黄龙\n【人均】¥100-250',
+        link:'https://uri.amap.com/search?keyword=酒球会 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎟️', title:'近期演出 · 大麦查 Livehouse', desc:'实时演出排期',
+        detail:'【平台】\n🎫 大麦网 — 杭州 Livehouse 近期所有演出\n📱 同感 — 看演出+找搭子',
+        link:'https://m.damai.cn/damai/search/index.html?keyword=Livehouse', linkText:'🎫 大麦查演出 ↗' }
+    ]
+  },
+  hz_comedy: {
+    title: '杭州脱口秀推荐～',
+    subtitle: '单立人 · 喜剧联合国 · 开放麦！🎤',
+    alwaysDetail: true,
+    items: [
+      { icon:'🎤', title:'单立人喜剧（杭州）', desc:'知名脱口秀厂牌 · 杭州多场',
+        detail:'【特色】国内知名脱口秀厂牌，杭州有专场\n【形式】脱口秀+即兴喜剧+开放麦\n【地址】杭州多个场地，购票见详情\n【人均】¥100-280',
+        link:'https://uri.amap.com/search?keyword=单立人喜剧 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'😆', title:'喜剧联合国（杭州）', desc:'脱口秀俱乐部',
+        detail:'【特色】杭州本土脱口秀厂牌\n【形式】脱口秀专场+开放麦\n【地址】见高德\n【人均】¥80-180',
+        link:'https://uri.amap.com/search?keyword=喜剧联合国 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎭', title:'笑果工厂（杭州站）', desc:'知名厂牌 · 杭州专场',
+        detail:'【特色】笑果文化杭州站，《脱口秀大会》演员常驻\n【形式】脱口秀专场\n【地址】见高德\n【人均】¥150-380',
+        link:'https://uri.amap.com/search?keyword=笑果工厂 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🎙️', title:'杭州脱口秀开放麦', desc:'免费/低价 · 新人专场',
+        detail:'【形式】脱口秀开放麦，新人练手场\n【价格】¥9.9-39.9（惠民票）\n【时间】每周多场\n【渠道】小红书/微博搜「杭州开放麦」',
+        link:'https://www.xiaohongshu.com/search_result?keyword=杭州开放麦', linkText:'📱 小红书查开放麦 ↗' }
+    ]
+  },
+  hz_art: {
+    title: '杭州展览馆推荐～',
+    subtitle: '美术馆 + 艺术中心 + 博物馆！🎨',
+    alwaysDetail: true,
+    items: [
+      { icon:'🎨', title:'浙江美术馆', desc:'南山路 · 省级美术馆',
+        detail:'【特色】浙江省最大美术馆，免费开放\n【常设】中外美术作品展，定期大展\n【地址】西湖区南山路138号\n【门票】免费，需预约',
+        link:'https://uri.amap.com/search?keyword=浙江美术馆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🖼️', title:'中国美术学院美术馆', desc:'南山校区 · 学院派美术馆',
+        detail:'【特色】中国美院主办，前卫艺术\n【常设】学院师生作品展+特展\n【地址】西湖区南山路218号\n【门票】免费/低价，看特展',
+        link:'https://uri.amap.com/search?keyword=中国美术学院美术馆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏛️', title:'全山石艺术中心', desc:'之江路 · 油画艺术中心',
+        detail:'【特色】由油画家全山石创办的私人艺术中心\n【常设】国内外油画精品+大师作品\n【地址】西湖区之江路\n【门票】免费',
+        link:'https://uri.amap.com/search?keyword=全山石艺术中心', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏺', title:'浙江省博物馆（孤山馆区）', desc:'孤山 · 省级博物馆',
+        detail:'【特色】浙江省博物馆主馆区\n【常设】越窑青瓷、书画、玉器等\n【地址】西湖区孤山路25号\n【门票】免费',
+        link:'https://uri.amap.com/search?keyword=浙江省博物馆 孤山馆区', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏘️', title:'良渚文化艺术中心', desc:'余杭 · 安藤忠雄设计',
+        detail:'【特色】由安藤忠雄设计的文化艺术地标\n【常设】展览+书店+咖啡\n【地址】余杭区良渚文化村\n【门票】免费',
+        link:'https://uri.amap.com/search?keyword=良渚文化艺术中心', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_sport: {
+    title: '杭州休闲运动推荐～',
+    subtitle: '徒步 · 骑行 · 攀岩 · 桨板！🏃',
+    alwaysDetail: true,
+    items: [
+      { icon:'🥾', title:'九溪十八涧徒步', desc:'西湖景区 · 经典徒步路线',
+        detail:'【特色】杭州最经典的徒步路线之一\n【路线】九溪村→九溪烟树→龙井村，约5km\n【难度】⭐⭐，老少皆宜\n【交通】地铁4号线水澄桥站转公交',
+        link:'https://uri.amap.com/search?keyword=九溪十八涧', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'⛰️', title:'灵隐飞来峰徒步', desc:'西湖景区 · 文化+徒步',
+        detail:'【特色】飞来峰造像+灵隐寺文化徒步\n【路线】灵隐寺→飞来峰→北高峰\n【难度】⭐⭐\n【门票】飞来峰¥45',
+        link:'https://uri.amap.com/search?keyword=飞来峰 灵隐寺', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🚴', title:'西湖骑行', desc:'环湖 · 经典骑行路线',
+        detail:'【特色】环西湖骑行，约15km\n【路线】断桥→白堤→苏堤→雷峰塔\n【租赁】杭州公共自行车或共享单车\n【难度】⭐',
+        link:'https://uri.amap.com/search?keyword=西湖骑行', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🧗', title:'杭州室内攀岩馆', desc:'室内攀岩 · 多店可选',
+        detail:'【特色】杭州有多个室内攀岩馆\n【形式】抱石/难度攀，初学者友好\n【价格】¥80-180/次\n【地址】搜索"杭州攀岩馆"',
+        link:'https://uri.amap.com/search?keyword=杭州攀岩馆', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏄', title:'千岛湖桨板/皮划艇', desc:'千岛湖 · 水上运动',
+        detail:'【特色】千岛湖水域开阔，桨板/皮划艇体验\n【路线】无人岛+湖景\n【难度】⭐\n【交通】杭州自驾约2h',
+        link:'https://uri.amap.com/search?keyword=千岛湖 桨板', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_citywalk: {
+    title: '杭州 City Walk 路线～',
+    subtitle: '北山街 · 小河直街 · 良渚！🚶',
+    alwaysDetail: true,
+    items: [
+      { icon:'🏛️', title:'北山街·西湖边近代建筑', desc:'西湖 · 梧桐树+老建筑',
+        detail:'【特色】西湖边的梧桐大道，民国建筑林立\n【路线】断桥→北山街→岳庙，约2km\n【亮点】秋日梧桐最美\n【交通】地铁1号线龙翔桥站',
+        link:'https://uri.amap.com/search?keyword=北山街 杭州', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏘️', title:'小河直街历史文化街区', desc:'拱墅 · 运河边老街',
+        detail:'【特色】京杭大运河边的历史街区\n【路线】小河直街→大运河→桥西历史街区\n【亮点】老民居+独立咖啡馆+书店\n【交通】地铁5号线大运河站',
+        link:'https://uri.amap.com/search?keyword=小河直街', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'⛪', title:'良渚文化村 City Walk', desc:'余杭 · 文化地标巡礼',
+        detail:'【特色】良渚文化村的文艺路线\n【路线】良渚博物院→美丽洲教堂→玉鸟集→王的手创\n【亮点】安藤忠雄建筑+网红教堂\n【交通】地铁2号线良渚站',
+        link:'https://uri.amap.com/search?keyword=良渚文化村', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🍵', title:'梅家坞·龙井茶山徒步', desc:'西湖景区 · 茶山古道',
+        detail:'【特色】龙井茶原产地，茶山徒步\n【路线】梅家坞→十里琅珰→龙井村，约4km\n【亮点】春日采茶，秋日桂花\n【交通】自驾或转公交',
+        link:'https://uri.amap.com/search?keyword=梅家坞 龙井村', linkText:'🗺️ 在高德地图打开 ↗' },
+      { icon:'🏘️', title:'南宋御街·中山路', desc:'上城 · 南宋古韵',
+        detail:'【特色】南宋皇城遗址+御街市集\n【路线】南宋御街→中山路→河坊街\n【亮点】鼓楼、胡庆余堂、烧饼\n【交通】地铁1号线定安路站',
+        link:'https://uri.amap.com/search?keyword=南宋御街 中山路', linkText:'🗺️ 在高德地图打开 ↗' }
+    ]
+  },
+  hz_movie: {
+    title: '杭州近期电影～',
+    subtitle: '根据你选的日期推荐近期上映影片！🎬',
+    items: [
+      { icon:'🎬', title:'近期上映影片', desc:'近期热门电影一览',
+        detail:'【平台推荐】\n🎬 猫眼 — 杭州近期所有上映影片\n🎬 淘票票 — 购票+影院\n📱 小红书搜"杭州电影推荐" — 影评\n【购票】¥30-80/张',
+        link:'https://m.maoyan.com/', linkText:'🎬 猫眼查电影 ↗' },
+      { icon:'🍿', title:'杭州特色影院', desc:'西湖景区·滨江·市中心',
+        detail:'【推荐影院】\n🎬 杭州百老汇影城（西湖边）\n🎬 CGV 影城（多家分店）\n🎬 卢米埃影城（滨江）\n【价格】¥40-90/张',
+        link:'https://uri.amap.com/search?keyword=杭州电影院', linkText:'🗺️ 在高德地图查找 ↗' },
+      { icon:'🌙', title:'露天电影·夏夜特辑', desc:'西湖/运河 · 季节限定',
+        detail:'【特色】夏夜露天电影，氛围感拉满\n【地点】西湖周边+运河边\n【门票】免费/低价\n【时间】6-9月',
+        link:'https://www.xiaohongshu.com/search_result?keyword=杭州露天电影', linkText:'📱 小红书查露天电影 ↗' }
+    ]
   }
 };
 
@@ -1796,6 +2012,16 @@ function loadRecommendations(activity) {
       }
     } else if (activity.indexOf('hz_') === 0) {
       data = JSON.parse(JSON.stringify(hangzhouData[activity]));
+      // 天目里周市集：根据 state.date 动态替换 detail
+      if (data.items) {
+        const tm = getTianmuliMarketForDate(state.date);
+        data.items.forEach(item => {
+          if (item.isWeeklyMarket && item.detail === '__TIANMULI_WEEKLY_MARKET__') {
+            item.detail = tm.content;
+            item.desc = '本周：' + tm.theme;
+          }
+        });
+      }
     } else {
       data = JSON.parse(JSON.stringify(shanghaiData[activity]));
     }
@@ -1844,7 +2070,7 @@ function loadRecommendations(activity) {
     }
 
     document.getElementById('recommend-title').textContent = data.title;
-    const locationLabel = activity === 'longdistance' ? '短线' : '上海';
+    const locationLabel = activity === 'longdistance' ? '短线' : (activity.indexOf('hz_') === 0 ? '杭州' : '上海');
     document.getElementById('recommend-subtitle').innerHTML = data.subtitle + '<br><span style="font-size:0.72rem;color:var(--pink-400);">📅 ' + formatDate(state.date) + ' ' + state.time + ' · ' + locationLabel + '</span>';
 
     const alwaysDetail = (data.alwaysDetail && activity !== 'longdistance') || false;
@@ -1864,7 +2090,11 @@ function loadRecommendations(activity) {
               <div class="recommend-meta">`;
 
       // 外跳链接（点击后新页打开，toast提示可返回）
-      if (activity === 'cinema') {
+      if (activity === 'hz_livehouse' || activity === 'hz_comedy') {
+        html += `<a href="https://m.damai.cn/damai/search/index.html?keyword=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 大麦购票 ↗</a>`;
+      } else if (activity === 'hz_movie') {
+        html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎬 猫眼购票 ↗</a>`;
+      } else if (activity === 'cinema') {
         html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 猫眼购票 ↗</a>`;
       } else if (activity === 'movie') {
         html += `<a href="https://m.maoyan.com/" target="_blank" rel="noopener noreferrer" class="link-btn" onclick="event.stopPropagation();showToast('即将跳转新页面，返回请点浏览器返回键 ↩️')">🎫 猫眼购票 ↗</a>`;
